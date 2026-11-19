@@ -103,8 +103,27 @@ ol{padding-left:20px}
 #tfill{position:absolute;left:0;bottom:0;height:4px;background:var(--acc);width:0}#tl{flex:1;font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}
 #timer .btn{min-height:44px;padding:6px 12px}
 #nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:#0e1628;border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom)}
-#nav button{flex:1;background:none;border:0;color:var(--mut);padding:8px 2px;min-height:60px;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:2px}
-#nav button span{font-size:22px;line-height:1}#nav button.on{color:var(--acc)}
+#nav button{flex:1;background:none;border:0;color:var(--mut);padding:8px 1px;min-height:60px;font-size:10px;display:flex;flex-direction:column;align-items:center;gap:2px}
+#nav button span{font-size:20px;line-height:1}#nav button.on{color:var(--acc)}
+.rings{display:flex;justify-content:space-around;gap:8px;margin:4px 0}
+.ring{width:46%;max-width:168px;height:auto}
+.ringbg{fill:none;stroke:#24304a;stroke-width:8}
+.ringfg{fill:none;stroke-width:8;stroke-linecap:round}
+.ringv{fill:var(--txt);font-size:18px;font-weight:800}
+.ringsub{fill:var(--mut);font-size:9px}
+.ringcap{text-align:center;font-size:13px;color:var(--mut);margin-top:-4px}
+.macrobar{display:flex;align-items:center;gap:8px;margin:8px 0}.macrobar span{font-size:13px;min-width:72px}.macrobar b{font-size:13px;min-width:72px;text-align:right}
+.fswipe{position:relative;margin:8px 0;overflow:hidden;border-radius:12px}
+.fdel{position:absolute;right:0;top:0;bottom:0;width:84px;border:0;background:var(--bad);color:#fff;font-weight:800}
+.fcard{position:relative;z-index:1;background:var(--card2);border-radius:12px;padding:8px 8px 8px 12px;display:flex;gap:6px;align-items:center;touch-action:pan-y}
+.fcard .nm{flex:1;text-align:left;background:none;border:0;color:inherit;font:inherit;padding:4px 0;min-height:44px}
+.fres{display:block;width:100%;text-align:left;background:var(--card2);border:0;color:inherit;border-radius:12px;padding:10px 12px;margin:6px 0;min-height:52px}
+.fhit{display:flex;gap:6px;align-items:center}.fhit .fres{flex:1;margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.chip{border:1px solid var(--line);background:var(--card2);color:var(--txt);border-radius:999px;padding:8px 12px;min-height:40px;font-weight:700}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+#foodCam{width:100%;border-radius:12px;background:#000;max-height:280px;object-fit:cover}
+.star{background:none;border:0;color:var(--warn);font-size:22px;min-width:44px;min-height:44px}
 #toast{position:fixed;left:50%;top:calc(12px + env(safe-area-inset-top));transform:translate(-50%,-150%);background:#1f2d52;border:1px solid var(--acc);padding:12px 16px;border-radius:14px;z-index:60;max-width:92%;transition:transform .25s;font-weight:600;text-align:center}
 #toast.show{transform:translate(-50%,0)}
 .confetti{position:fixed;inset:0;pointer-events:none;z-index:70;overflow:hidden}.confetti span{position:absolute;top:-40px;animation:fall 2s linear forwards}
@@ -116,7 +135,7 @@ ol{padding-left:20px}
 <div id="app"></div>
 <div id="timer" hidden><div id="tfill"></div><span id="tl">Rest</span><button class="btn" data-act="timer-add">+15s</button><button class="btn" data-act="timer-skip">Skip</button></div>
 <div id="toast" role="status"></div>
-<nav id="nav"><button data-tab="workout"><span>🏋️</span>Workout</button><button data-tab="daily"><span>💧</span>Daily</button><button data-tab="progress"><span>📈</span>Progress</button><button data-tab="history"><span>🗓️</span>History</button><button data-tab="more"><span>⚙️</span>More</button></nav>
+<nav id="nav"><button data-tab="workout"><span>🏋️</span>Workout</button><button data-tab="food"><span>🍽️</span>Food</button><button data-tab="daily"><span>💧</span>Daily</button><button data-tab="progress"><span>📈</span>Progress</button><button data-tab="history"><span>🗓️</span>History</button><button data-tab="more"><span>⚙️</span>More</button></nav>
 <noscript>This app needs JavaScript.</noscript>
 <script>
 const PLANS={"Kevin":{"Mon":{"focus":"Push: chest, shoulders, triceps","minutes":"30–45 min","warmup":"5 min easy Peloton, then arm circles, wall slides or light face pulls, and 8–10 push-ups or a light Smith bench ramp-up. Set Smith safety spotters just below chest height before you work.","exercises":[{"id":"k-smith-bench","name":"Smith bench press","sets":4,"reps":"8–10","rest":90,"top":10,"station":"Smith bar + bench. Safety spotters just below the bottom of the press. Bar starting weight is 40 lb; log total weight including the bar.","cue":"Feet planted, slight arch, lower with control to mid-chest, don't bounce. Keep elbows about 45–70° from your torso if shoulders complain."},{"id":"k-db-ohp","name":"Dumbbell overhead press","sets":3,"reps":"10","rest":75,"top":10,"station":"Dumbbells (5–45 lb), seated on the bench with back support if you have it.","cue":"Press up, don't shrug. Stop short of pain in the shoulders. If 45s get easy, switch to a Smith standing or seated overhead press (bar goes up to about 78\")."},{"id":"k-inc-db","name":"Incline dumbbell press","sets":3,"reps":"10–12","rest":75,"top":12,"station":"Adjustable bench on a moderate incline + dumbbells, inside the rack or just in front.","cue":"Moderate incline only (not steeper than you need). Lower to the upper chest, press up without flaring elbows wide."},{"id":"k-fly-lat","name":"Cable fly or lateral raise","sets":3,"reps":"12–15","rest":60,"top":15,"station":"Fly: 2:1 functional-trainer trolleys at mid/high, D-handles. Laterals: dumbbells, or one cable at the low trolley. Log the stack pin number on cables (2:1 feels like half the pin weight).","cue":"Soft elbow, squeeze at the end, no swinging. Pick one variation and stick with it for a few weeks."},{"id":"k-pushdown","name":"Cable triceps pushdown","sets":3,"reps":"12","rest":60,"top":12,"station":"High pulley (2:1 trolley or 1:1 high tower) with the included tricep rope or aluminum tricep/curl bar.","cue":"Elbows stay by your sides. Finish with a straight arm and a controlled return."}],"finisher":"10 min Peloton HIIT (30 sec harder, 30 sec easy). Warm the first minute easy."},"Tue":{"focus":"Pull: back, biceps","minutes":"30–45 min","warmup":"5 min easy Peloton, then shoulder circles, cat-camel, and a light pulldown or row ramp-up. If doing pull-ups, do a couple of easy reps or use the assistance strap first.","exercises":[{"id":"k-pullup","name":"Pull-ups or lat pulldown","sets":4,"reps":"6–10","rest":90,"top":10,"station":"Pull-ups: multi-grip pull-up bar. Assistance: the included pull-up strap on a cable. Pulldown: 1:1 high towers (200 lb stack feels like about 230 lb) + lat seat + aluminum lat bar.","cue":"Chest up, pull elbows down toward your pockets, don't shrug into your ears. Prefer pulldowns if shoulders or elbows complain."},{"id":"k-cable-row","name":"Seated cable row","sets":3,"reps":"10–12","rest":75,"top":12,"station":"Low-row station with the included row foot plate and close-grip row attachment or D-handles. Stock low row is 2:1 (pin weight feels like half). A 1:1 low-pulley kit is optional and not assumed.","cue":"Sit tall, pull to the lower ribs, squeeze shoulder blades, then let the arms stretch forward without rounding the lower back."},{"id":"k-db-row","name":"One-arm dumbbell row","sets":3,"reps":"10/arm","rest":75,"top":10,"station":"Bench + dumbbells, one knee and hand on the bench.","cue":"Back flat, pull the bell to the hip, don't twist the torso. Log each arm."},{"id":"k-facepull","name":"Cable face pulls","sets":3,"reps":"15","rest":60,"top":15,"station":"2:1 functional trainer, high trolley, included tricep rope.","cue":"Pull to the face or upper chest, rotate the hands so the knuckles go back, and keep the neck relaxed. Great for shoulders at 55."},{"id":"k-curls","name":"Dumbbell curls","sets":3,"reps":"12","rest":60,"top":12,"station":"Dumbbells, or the aluminum curl bar on a low 2:1 trolley.","cue":"Elbows quiet at your sides, no swinging. Full lower, controlled lift."}],"finisher":"10 min easy-moderate Peloton ride."},"Wed":{"focus":"Legs and core","minutes":"30–45 min","warmup":"5 min easy Peloton, 10 bodyweight squats, 10 leg swings each side, and a few hip hinges. Set Smith safety spotters just below the bottom of your squat before you load the bar.","exercises":[{"id":"k-smith-squat","name":"Smith squat","sets":4,"reps":"8–10","rest":90,"top":10,"station":"Smith bar, safety spotters just below parallel (or your comfortable depth). Bar starting weight is 40 lb; log total weight including the bar.","cue":"Brace, sit back and down, keep heels down. Stop around parallel if knees or hips prefer it; don't bounce out of the bottom."},{"id":"k-rdl","name":"Dumbbell Romanian deadlift","sets":3,"reps":"10","rest":75,"top":10,"station":"Dumbbells. If 45s get easy, use the Smith bar for the same hinge (the bar travels down to about 11\", which is low enough for a good stretch).","cue":"Soft knees, push the hips back, keep the back flat, feel the hamstrings, then stand tall. Don't round or yank."},{"id":"k-lunge","name":"Reverse lunge or walking lunge","sets":3,"reps":"10/leg","rest":75,"top":10,"station":"Dumbbells on the floor. Reverse lunges are usually friendlier on the knees than walking lunges or Bulgarian split squats.","cue":"Long enough step that the front knee stays over the mid-foot. Drop the back knee under control. Use a bench-supported split squat if balance is off."},{"id":"k-leg-ext","name":"Leg extension","sets":3,"reps":"12–15","rest":60,"top":15,"station":"Bench leg extension/curl attachment (Blazzed's official option is the X4 bench attachment: seated extension). Not a rack-mounted station on the HD1-S.","cue":"Don't slam the top. Pause briefly, lower slowly. Reduce range if the knees complain."},{"id":"k-leg-curl","name":"Leg curl","sets":3,"reps":"12–15","rest":60,"top":15,"station":"Same bench attachment, prone (lying) curl.","cue":"Hips stay on the pad, curl heels toward the glutes, lower slowly."},{"id":"k-plank","name":"Plank","sets":3,"reps":"45 sec","rest":45,"top":45,"timed":true,"station":"Floor, mat if you have one.","cue":"Elbows under shoulders, ribs down, squeeze glutes. Drop to knees if form fades. Log seconds."},{"id":"k-crunch","name":"Cable crunch","sets":3,"reps":"15","rest":60,"top":15,"station":"High pulley with the rope, kneeling.","cue":"Round the ribs toward the hips; don't yank with the arms."}],"finisher":"Core work above is the finisher. Optional 5 min easy spin if you still feel cold or stiff."},"Thu":{"focus":"Push (variation)","minutes":"30–45 min","warmup":"5 min easy Peloton, arm circles, light band or cable face pulls, and a light Smith incline ramp-up. Set safety spotters under the bar path.","exercises":[{"id":"k-smith-inc","name":"Smith incline press","sets":4,"reps":"8–10","rest":90,"top":10,"station":"Smith bar + bench on a moderate incline, safety spotters set just below the bottom.","cue":"Same rules as flat bench: controlled lower, don't bounce, keep the neck relaxed."},{"id":"k-db-flat","name":"Dumbbell flat press","sets":3,"reps":"10","rest":75,"top":10,"station":"Flat bench + dumbbells.","cue":"Lower with control, press up without banging the bells together hard."},{"id":"k-arnold","name":"Arnold press","sets":3,"reps":"10","rest":75,"top":10,"station":"Dumbbells, seated.","cue":"Rotate as you press, stay in a comfortable range. Switch to a plain seated DB press if the rotation bothers a shoulder."},{"id":"k-laterals","name":"Lateral raises","sets":3,"reps":"15","rest":60,"top":15,"station":"Dumbbells, or a 2:1 low cable with a D-handle.","cue":"Lead with the elbows, stop around shoulder height, no swing."},{"id":"k-oh-tri","name":"Overhead dumbbell triceps extension","sets":3,"reps":"12","rest":60,"top":12,"station":"One or two dumbbells, seated, or a cable with the rope at a high or mid trolley.","cue":"Elbows point up, don't flare wide. Shorten the range if it pinches the elbows or shoulders."}],"finisher":"10 min Peloton ride, easy to moderate."},"Fri":{"focus":"Pull (variation)","minutes":"30–45 min","warmup":"5 min easy Peloton, then light pulldowns or rows and a few bodyweight hip hinges.","exercises":[{"id":"k-smith-row","name":"Smith bent-over row","sets":4,"reps":"8–10","rest":90,"top":10,"station":"Smith bar. Because the bar path is fixed, hinge and stay in a groove that doesn't round the back. Safety spotters can sit just below the stretch.","cue":"Soft knees, flat back, pull to the lower ribs, lower under control."},{"id":"k-cg-lat","name":"Close-grip lat pulldown","sets":3,"reps":"10–12","rest":75,"top":12,"station":"1:1 high towers + lat seat + close-grip row attachment or a close grip on the lat bar.","cue":"Pull to the upper chest, elbows in, no leaning way back."},{"id":"k-rear-delt","name":"Rear-delt dumbbell fly","sets":3,"reps":"15","rest":60,"top":15,"station":"Dumbbells, bent over or chest on a slightly incline bench. Cable face-pull style is a fine swap.","cue":"Soft elbows, squeeze the rear shoulders, don't yank with the lower back."},{"id":"k-hammer","name":"Hammer curls","sets":3,"reps":"12","rest":60,"top":12,"station":"Dumbbells, neutral grip.","cue":"Thumbs up, elbows still, controlled lower."},{"id":"k-shrugs","name":"Smith shrugs","sets":3,"reps":"12","rest":60,"top":12,"station":"Smith bar, standing, walk-under height is 73.25\".","cue":"Straight up and down, pause at the top, don't roll the shoulders."}],"finisher":"10 min Peloton HIIT (30 sec harder, 30 sec easy)."},"Sat":{"focus":"Legs and conditioning","minutes":"30–45 min","warmup":"5 min easy Peloton, 10 bodyweight squats, 10 leg swings each side, and a couple of bodyweight hip thrusts or glute bridges.","exercises":[{"id":"k-split-squat","name":"Smith split squat","sets":3,"reps":"10/leg","rest":75,"top":10,"station":"Smith bar, safety spotters set just below the bottom. Back foot can rest lightly on the floor, or on the bench if you like a Bulgarian stance and your hips allow it.","cue":"Front heel down, drop the back knee, stay tall. Reverse lunges with dumbbells are the swap if the Smith stance feels awkward."},{"id":"k-hip-thrust","name":"Smith hip thrust","sets":3,"reps":"10–12","rest":75,"top":12,"station":"Smith bar (low starting height is about 11\", which is what this movement needs) + bench for upper-back support. Pad the bar if you have a pad or towel.","cue":"Chin tucked, ribs down, drive through the heels, squeeze at the top without over-arching the lower back."},{"id":"k-goblet","name":"Goblet squat","sets":3,"reps":"12","rest":60,"top":12,"station":"One dumbbell held at the chest. If 45 lb is easy, use a lighter Smith squat or slower tempo.","cue":"Elbows inside the knees if you can, heels down, controlled depth."},{"id":"k-calf","name":"Smith calf raise","sets":3,"reps":"15","rest":45,"top":15,"station":"Smith bar, standing. A sturdy plate or small step under the balls of the feet helps if you have one; otherwise use the floor.","cue":"Pause at the top, lower slowly through a comfortable stretch. Don't bounce."}],"finisher":"20 min Peloton endurance or climb ride, conversational pace — this is conditioning, not an all-out race."},"Sun":{"focus":"Rest day","minutes":"Easy movement only","warmup":"None required. A walk or an easy Peloton spin is fine if you want to move.","exercises":[],"finisher":"Sleep, protein, and a walk if you feel like it."}},"Sasha":{"Mon":{"focus":"Upper push: strength and bone loading","minutes":"30–45 min","warmup":"5 min easy Peloton, arm circles, wall slides or light face pulls, and a very light Smith or dumbbell press ramp-up. Set Smith safety spotters before you start.","exercises":[{"id":"s-smith-bench","name":"Smith bench press","sets":3,"reps":"8–12","rest":75,"top":12,"station":"Smith bar + bench, safety spotters just below chest height. Bar starts at 40 lb; that's a good first work weight until the movement feels smooth. Log total weight including the bar.","cue":"Lower with control, press up without bouncing. Leave 2–3 reps in reserve. The guided bar is there so you can learn pressing safely."},{"id":"s-db-press","name":"Seated dumbbell press","sets":3,"reps":"8–12","rest":75,"top":12,"station":"Dumbbells, seated on the bench.","cue":"Press up, don't shrug. Use a range that doesn't pinch the shoulders."},{"id":"s-cable-fly","name":"Cable chest fly","sets":2,"reps":"12–15","rest":60,"top":15,"station":"2:1 functional-trainer trolleys at mid height, D-handles. Log the stack pin number.","cue":"Soft elbows, hug in, slow return. Light is fine."},{"id":"s-laterals","name":"Lateral raises","sets":2,"reps":"12–15","rest":45,"top":15,"station":"Light dumbbells or a low 2:1 cable.","cue":"Stop around shoulder height, no swinging."},{"id":"s-pushdown","name":"Cable triceps pushdown","sets":2,"reps":"12–15","rest":45,"top":15,"station":"High pulley with the tricep rope or tricep/curl bar.","cue":"Elbows by your sides, squeeze at the bottom."}],"finisher":"8–10 min easy to moderate Peloton ride, not all-out."},"Tue":{"focus":"Upper pull and posture","minutes":"30–45 min","warmup":"5 min easy Peloton, shoulder circles, and a light pulldown ramp-up.","exercises":[{"id":"s-pulldown","name":"Lat pulldown or assisted pull-up","sets":3,"reps":"8–12","rest":75,"top":12,"station":"Preferred: 1:1 high towers + lat seat + lat bar (heavier, straight overhead). Or use the included pull-up strap for assisted pull-ups on the multi-grip bar.","cue":"Chest up, pull elbows down, don't shrug. Pulldowns are the default if pull-ups are new."},{"id":"s-row","name":"Seated cable row","sets":3,"reps":"10–12","rest":75,"top":12,"station":"Low-row station, row foot plate, close-grip attachment or D-handles. Stock low row is 2:1.","cue":"Sit tall, pull to the lower ribs, pause, then stretch forward without rounding."},{"id":"s-facepull","name":"Cable face pulls","sets":3,"reps":"12–15","rest":45,"top":15,"station":"2:1 high trolley + rope.","cue":"Pull to the face, open the hands back, keep the neck relaxed. Excellent for shoulders and posture."},{"id":"s-curls","name":"Dumbbell or cable curls","sets":2,"reps":"12–15","rest":45,"top":15,"station":"Dumbbells, or the curl bar on a low trolley.","cue":"No swinging. Slow lower."}],"finisher":"8–10 min easy to moderate Peloton ride."},"Wed":{"focus":"Lower body, bone health, and core","minutes":"30–45 min","warmup":"5 min easy Peloton, 10 sit-to-stands or bodyweight squats, 10 leg swings each side, and a few hip hinges. Set Smith safety spotters before you squat.","exercises":[{"id":"s-squat","name":"Smith squat or goblet squat","sets":3,"reps":"8–12","rest":75,"top":12,"station":"Start with a goblet squat (one dumbbell) if the Smith is new, then move to the Smith bar with safety spotters just below your depth. Bar starts at 40 lb.","cue":"Heels down, sit back and down to a comfortable depth (around parallel is plenty). Brace, don't bounce. Squats are a main bone-loading lift."},{"id":"s-rdl","name":"Dumbbell Romanian deadlift","sets":3,"reps":"8–12","rest":75,"top":12,"station":"Dumbbells. Smith RDL is the swap if you want a guided hinge.","cue":"Soft knees, hips back, back flat, stand tall. This hip hinge is also a bone-loading lift."},{"id":"s-leg-ext","name":"Leg extension","sets":2,"reps":"12–15","rest":45,"top":15,"station":"Bench leg extension/curl attachment, seated.","cue":"Controlled, no slam at the top. Shorten the range if knees complain."},{"id":"s-leg-curl","name":"Leg curl","sets":2,"reps":"12–15","rest":45,"top":15,"station":"Same attachment, prone curl.","cue":"Hips on the pad, slow lower."},{"id":"s-calf","name":"Calf raise","sets":2,"reps":"12–15","rest":45,"top":15,"station":"Smith bar or bodyweight on the floor.","cue":"Pause at the top, lower slowly."},{"id":"s-core","name":"Side plank or Pallof press","sets":3,"reps":"20–30 sec or 8–10/side","rest":45,"top":8,"station":"Floor for side planks, or a 2:1 mid pulley with a D-handle for a standing Pallof press (anti-rotation).","cue":"Stay tall, don't hold your breath. Log seconds or reps."}],"finisher":"Optional 5 min easy spin. No hard intervals today."},"Thu":{"focus":"Push variation: shoulders and chest","minutes":"30–45 min","warmup":"5 min easy Peloton, arm circles, and a light incline press ramp-up. Set safety spotters if you use the Smith.","exercises":[{"id":"s-incline","name":"Incline Smith or incline dumbbell press","sets":3,"reps":"8–12","rest":75,"top":12,"station":"Moderate-incline bench in the Smith, or dumbbells on the incline bench.","cue":"Controlled lower, comfortable shoulder angle, leave 2–3 reps in reserve."},{"id":"s-fly2","name":"Cable or dumbbell fly","sets":2,"reps":"12–15","rest":45,"top":15,"station":"2:1 mid pulleys with D-handles, or light dumbbells on the bench.","cue":"Soft elbows, no hard stretch if the shoulder complains."},{"id":"s-arnold","name":"Seated dumbbell press or Arnold press","sets":2,"reps":"10–12","rest":60,"top":12,"station":"Dumbbells, seated. Use a plain press if the rotation feels awkward.","cue":"Smooth press, no shrug."},{"id":"s-rear","name":"Face pulls or rear-delt fly","sets":2,"reps":"12–15","rest":45,"top":15,"station":"High 2:1 rope, or light dumbbells.","cue":"Squeeze the rear shoulders, neck relaxed."},{"id":"s-oh-tri","name":"Cable or dumbbell overhead triceps extension","sets":2,"reps":"12–15","rest":45,"top":15,"station":"Rope on a mid/high trolley, or one light dumbbell.","cue":"Shorten the range if it pinches."}],"finisher":"10 min Peloton endurance ride, conversational pace."},"Fri":{"focus":"Pull variation and posture","minutes":"30–45 min","warmup":"5 min easy Peloton and a light row or pulldown ramp-up.","exercises":[{"id":"s-row2","name":"Seated cable row (neutral or wide)","sets":3,"reps":"10–12","rest":75,"top":12,"station":"Low-row station; switch to D-handles or the lat bar for a slightly different angle than Tuesday.","cue":"Same tall-chest row as Tuesday. Quality over load."},{"id":"s-cg-lat","name":"Close-grip lat pulldown","sets":3,"reps":"10–12","rest":75,"top":12,"station":"1:1 high towers + lat seat + close-grip attachment.","cue":"Pull to the upper chest, don't lean way back."},{"id":"s-rear2","name":"Rear-delt fly","sets":2,"reps":"12–15","rest":45,"top":15,"station":"Light dumbbells or cables.","cue":"Soft elbows, squeeze, no swing."},{"id":"s-hammer","name":"Hammer curls","sets":2,"reps":"10–12","rest":45,"top":12,"station":"Dumbbells, neutral grip.","cue":"Thumbs up, controlled."},{"id":"s-carry","name":"Suitcase hold or light shrug","sets":2,"reps":"20–30 sec/side or 10–12","rest":45,"top":10,"station":"One or two dumbbells at the side. No landmine is assumed (that attachment is optional and not confirmed).","cue":"Stand tall, don't lean. This is a simple bone- and grip-friendly hold."}],"finisher":"10 min moderate Peloton ride. Intervals only if you feel fresh (20 sec a little harder, 40 sec easy)."},"Sat":{"focus":"Lower body and conditioning","minutes":"30–45 min","warmup":"5 min easy Peloton, 10 bodyweight squats, 10 leg swings each side, and a few bodyweight glute bridges.","exercises":[{"id":"s-thrust","name":"Smith hip thrust or glute bridge","sets":3,"reps":"10–12","rest":75,"top":12,"station":"Smith bar with the bench for upper-back support (bar can start around 11\"). Or bodyweight/dumbbell glute bridges on the floor if the setup feels like a lot at first.","cue":"Ribs down, drive through the heels, squeeze at the top without cranking the lower back."},{"id":"s-split","name":"Goblet squat or supported split squat","sets":3,"reps":"8–10/leg or 10–12 goblet","rest":75,"top":10,"station":"One dumbbell, or a Smith split squat with safety spotters. Hold the bench for balance if needed.","cue":"Front heel down, comfortable depth. Choose the variation you can do smoothly."},{"id":"s-stepup","name":"Step-up or glute-focused cable kickback","sets":2,"reps":"8–10/leg","rest":45,"top":10,"station":"Step-ups: bench + optional light dumbbells, only if the bench is stable and the step isn't too high. Kickbacks: low 2:1 trolley with an ankle strap or D-handle around the foot if you have one.","cue":"Control the lowering. Skip step-ups if the height feels aggressive on the knees."},{"id":"s-calf2","name":"Calf raise","sets":2,"reps":"12–15","rest":45,"top":15,"station":"Smith or bodyweight.","cue":"Pause, then slow lower."}],"finisher":"15–20 min Peloton endurance or a gentle climb, conversational pace."},"Sun":{"focus":"Rest day","minutes":"Easy movement only","warmup":"None required. A walk or an easy Peloton spin is fine.","exercises":[],"finisher":"Rest, a walk if you like, and no guilt for taking the day."}}};
@@ -324,7 +343,7 @@ function blank(){return {v:1,lastPerson:'Kevin',
   weighIns:{Kevin:[],Sasha:[]},measures:{Kevin:[],Sasha:[]},
   daily:{},sessions:{},drafts:{},
   settings:{plates:[45,35,25,10,5,2.5],bar:40,waterGoal:8,showDetails:true},lastBackup:null,
-  extraPeople:[],planFor:{}};}
+  extraPeople:[],planFor:{},foodDays:{},foodLib:{},foodTargets:{}};}
 function collectExtra(p){
   const names=[],add=n=>{
     if(typeof n!=='string')return;
@@ -424,7 +443,7 @@ function profilesWithData(){return allPeople().filter(hasProfileData);}
 
 /* ---------- ui state ---------- */
 const today0=nowDenver();
-const ui={person:getDevice()||store.lastPerson,tab:'workout',day:today0.dow,swapOpen:null,weekOff:0,saved:null,photoView:null,gate:null,adding:false,planChoice:'Sasha',pendingProfile:null};
+const ui={person:getDevice()||store.lastPerson,tab:'workout',day:today0.dow,swapOpen:null,weekOff:0,saved:null,photoView:null,gate:null,adding:false,planChoice:'Sasha',pendingProfile:null,foodDate:null,foodMode:'day',foodMeal:null,foodQ:'',foodPick:null,foodQty:1,foodUnit:'',foodEdit:null,foodSpan:7,qaFull:false};
 
 /* ---------- sessions helpers ---------- */
 const sessionsOf=p=>Object.values(store.sessions).filter(s=>s&&s.person===p).sort((a,b)=>(a.date+(a.finishedAt||''))<(b.date+(b.finishedAt||''))?1:-1);
@@ -442,6 +461,7 @@ function hasProfileData(p){
   const pre=p+'|';
   if(Object.keys(store.daily||{}).some(k=>k.indexOf(pre)===0&&store.daily[k]&&Object.keys(store.daily[k]).some(f=>store.daily[k][f]!=null&&store.daily[k][f]!==''&&store.daily[k][f]!==0)))return true;
   if(Object.keys(store.drafts||{}).some(k=>k.indexOf(pre)===0&&draftTouched(store.drafts[k])))return true;
+  if(Object.keys(store.foodDays||{}).some(k=>k.indexOf(pre)===0&&dayHasFood(store.foodDays[k])))return true;
   const g=store.goals[p]||{},def=(blank().goals[p])||{start:'',goal:''};
   if((g.start||'')!==(def.start||'')||(g.goal||'')!==(def.goal||''))return true;
   return false;
@@ -542,6 +562,611 @@ function tick(){
 let wl=null;async function wake(){try{if(navigator.wakeLock&&!wl){wl=await navigator.wakeLock.request('screen');wl.addEventListener('release',()=>{wl=null;});}}catch(e){}}
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){tick();if(ui.tab==='workout')wake();}});
 
+/* ---------- food log ---------- */
+const MEALS=[['breakfast','Breakfast'],['lunch','Lunch'],['dinner','Dinner'],['snacks','Snacks']];
+const ZXING_URL='https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js';
+const BAR_KEY='hd1s-barcode-cache';
+const FOOD_BY_ID={};
+const LOCAL_FOODS=[];
+function slugFood(s){return String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function makeLocal(name,kcal,p,c,f,unit,grams,label){
+  const servings=[{unit:'g',grams:1,label:'g'},{unit:'oz',grams:28.3495,label:'oz'}];
+  if(unit&&grams){
+    servings.push({unit:unit,grams:grams,label:label||unit});
+    if(unit!=='serving')servings.push({unit:'serving',grams:grams,label:label||'serving'});
+  }
+  const food={id:'local:'+slugFood(name),name:name,brand:'',barcode:'',source:'local',per100:{kcal:kcal,p:p,c:c,f:f},servings:servings};
+  LOCAL_FOODS.push(food);FOOD_BY_ID[food.id]=food;return food;
+}
+[
+['Chicken breast, cooked',165,31,0,3.6,'piece',174,'breast'],
+['Chicken thigh, cooked',177,24,0,8.5,'piece',116,'thigh'],
+['Rotisserie chicken',190,27,0,8.5,'piece',140,'piece'],
+['Turkey breast, cooked',135,30,0,1,'piece',140,'piece'],
+['Ground turkey, 93% cooked',176,27,0,8,'serving',112,'serving'],
+['Lean ground beef, cooked',217,27,0,12,'serving',112,'serving'],
+['Ground beef, 80% cooked',254,25,0,16,'serving',112,'serving'],
+['Sirloin steak, cooked',183,30,0,6.5,'piece',170,'steak'],
+['Ribeye steak, cooked',291,24,0,21,'piece',170,'steak'],
+['Pork chop, cooked',196,27,0,9,'piece',145,'chop'],
+['Bacon, cooked',541,37,1.4,42,'piece',8,'slice'],
+['Ham, sliced',145,21,1.5,6,'piece',28,'slice'],
+['Deli turkey',104,17,2,2,'piece',28,'slice'],
+['Salmon, cooked',206,22,0,12,'fillet',154,'fillet'],
+['Tuna, canned in water',116,26,0,1,'serving',85,'can'],
+['Cod, cooked',105,23,0,1,'fillet',150,'fillet'],
+['Shrimp, cooked',99,24,0.2,0.3,'serving',85,'serving'],
+['Tilapia, cooked',128,26,0,2.7,'fillet',140,'fillet'],
+['Sardines, canned',208,25,0,11,'serving',92,'can'],
+['Egg, whole',143,13,1.1,9.5,'piece',50,'egg'],
+['Egg whites',52,11,0.7,0.2,'piece',33,'white'],
+['Greek yogurt, nonfat',59,10.3,3.6,0.4,'cup',170,'cup'],
+['Greek yogurt, 2%',73,9.9,3.9,1.9,'cup',170,'cup'],
+['Cottage cheese, low-fat',81,11,3.4,2.3,'cup',226,'cup'],
+['Skyr, plain',63,11,4,0.2,'cup',170,'cup'],
+['Protein powder, whey',400,80,8,5,'scoop',30,'scoop'],
+['Protein shake, ready',60,8,3,1.5,'serving',330,'bottle'],
+['Tofu, firm',76,8,1.9,4.8,'piece',85,'piece'],
+['Tempeh',192,20,8,11,'piece',85,'piece'],
+['Edamame, shelled',122,12,9,5,'cup',155,'cup'],
+['Lentils, cooked',116,9,20,0.4,'cup',198,'cup'],
+['Black beans, cooked',132,8.9,24,0.5,'cup',172,'cup'],
+['Chickpeas, cooked',164,8.9,27,2.6,'cup',164,'cup'],
+['White rice, cooked',130,2.7,28,0.3,'cup',158,'cup'],
+['Brown rice, cooked',123,2.7,26,1,'cup',195,'cup'],
+['Jasmine rice, cooked',129,2.7,28,0.2,'cup',158,'cup'],
+['Quinoa, cooked',120,4.4,21,1.9,'cup',185,'cup'],
+['Oats, dry',389,16.9,66,6.9,'serving',40,'1/2 cup'],
+['Oatmeal, cooked',71,2.5,12,1.5,'cup',234,'cup'],
+['Pasta, cooked',131,5,25,1.1,'cup',140,'cup'],
+['Bread, whole wheat',247,13,41,3.4,'piece',32,'slice'],
+['Bread, white',265,9,49,3.2,'piece',28,'slice'],
+['Sourdough bread',259,10,49,1.8,'piece',38,'slice'],
+['Bagel',257,10,50,1.6,'piece',98,'bagel'],
+['English muffin',227,8,44,1.8,'piece',57,'muffin'],
+['Flour tortilla',306,8,51,8,'piece',49,'tortilla'],
+['Corn tortilla',218,5.7,45,2.8,'piece',24,'tortilla'],
+['Pita bread',275,9,55,1.2,'piece',60,'pita'],
+['Potato, baked',93,2.5,21,0.1,'piece',173,'potato'],
+['Sweet potato, baked',90,2,21,0.2,'piece',130,'potato'],
+['Banana',89,1.1,23,0.3,'piece',118,'banana'],
+['Apple',52,0.3,14,0.2,'piece',182,'apple'],
+['Orange',47,0.9,12,0.1,'piece',131,'orange'],
+['Strawberries',32,0.7,7.7,0.3,'cup',152,'cup'],
+['Blueberries',57,0.7,14,0.3,'cup',148,'cup'],
+['Grapes',69,0.7,18,0.2,'cup',151,'cup'],
+['Watermelon',30,0.6,7.6,0.2,'cup',152,'cup'],
+['Pineapple',50,0.5,13,0.1,'cup',165,'cup'],
+['Mango',60,0.8,15,0.4,'piece',200,'mango'],
+['Pear',57,0.4,15,0.1,'piece',178,'pear'],
+['Peach',39,0.9,10,0.3,'piece',150,'peach'],
+['Kiwi',61,1.1,15,0.5,'piece',75,'kiwi'],
+['Raisins',299,3.1,79,0.5,'serving',28,'handful'],
+['Dates',277,1.8,75,0.2,'piece',24,'date'],
+['Peanut butter',588,25,20,50,'tbsp',16,'tbsp'],
+['Almond butter',614,21,19,55,'tbsp',16,'tbsp'],
+['Almonds',579,21,22,50,'serving',28,'handful'],
+['Walnuts',654,15,14,65,'serving',28,'handful'],
+['Avocado',160,2,8.5,15,'piece',100,'half'],
+['Olive oil',884,0,0,100,'tbsp',14,'tbsp'],
+['Butter',717,0.9,0.1,81,'tbsp',14,'tbsp'],
+['Cheddar cheese',403,23,3.1,33,'piece',28,'slice'],
+['Mozzarella',280,28,3.1,17,'piece',28,'stick'],
+['Feta cheese',264,14,4,21,'serving',28,'serving'],
+['Parmesan, grated',431,38,4,29,'tbsp',5,'tbsp'],
+['Milk, 2%',50,3.3,4.8,2,'cup',244,'cup'],
+['Milk, skim',34,3.4,5,0.1,'cup',245,'cup'],
+['Fairlife milk',54,5.4,2.5,2.4,'cup',240,'cup'],
+['Soy milk, unsweetened',33,2.9,1.7,1.6,'cup',240,'cup'],
+['Almond milk, unsweetened',15,0.6,0.6,1.2,'cup',240,'cup'],
+['Oat milk',48,1,7,1.5,'cup',240,'cup'],
+['String cheese',286,25,2,21,'piece',24,'stick'],
+['Hummus',166,8,14,9.6,'serving',30,'2 tbsp'],
+['Guacamole',150,1.8,8,13,'serving',30,'2 tbsp'],
+['Salsa',36,1.5,7,0.2,'serving',30,'2 tbsp'],
+['Ranch dressing',430,1,6,44,'tbsp',15,'tbsp'],
+['Broccoli, cooked',35,2.4,7,0.4,'cup',156,'cup'],
+['Spinach, raw',23,2.9,3.6,0.4,'cup',30,'cup'],
+['Kale, raw',35,2.9,4.4,1.5,'cup',21,'cup'],
+['Mixed salad greens',17,1.5,3,0.2,'cup',36,'cup'],
+['Tomato',18,0.9,3.9,0.2,'piece',123,'tomato'],
+['Cucumber',15,0.7,3.6,0.1,'piece',200,'cucumber'],
+['Carrot',41,0.9,10,0.2,'piece',61,'carrot'],
+['Bell pepper',26,1,6,0.3,'piece',119,'pepper'],
+['Onion',40,1.1,9,0.1,'piece',110,'onion'],
+['Zucchini',17,1.2,3.1,0.3,'cup',124,'cup'],
+['Green beans, cooked',35,1.9,8,0.3,'cup',125,'cup'],
+['Asparagus, cooked',22,2.4,4.1,0.2,'cup',180,'cup'],
+['Cauliflower, cooked',23,1.8,4.1,0.5,'cup',124,'cup'],
+['Mushrooms',22,3.1,3.3,0.3,'cup',70,'cup'],
+['Corn, cooked',96,3.4,21,1.5,'cup',154,'cup'],
+['Green peas, cooked',84,5.4,16,0.2,'cup',160,'cup'],
+['Brussels sprouts, cooked',36,2.6,7,0.5,'cup',156,'cup'],
+['Cabbage, raw',25,1.3,6,0.1,'cup',89,'cup'],
+['Celery',14,0.7,3,0.2,'piece',40,'stalk'],
+['Protein bar',400,30,40,12,'piece',60,'bar'],
+['Granola',471,10,64,20,'serving',55,'1/2 cup'],
+['Rice cakes',387,8,81,2.8,'piece',9,'cake'],
+['Popcorn, air-popped',387,13,78,4.5,'cup',8,'cup'],
+['Crackers, whole grain',430,8,70,12,'piece',15,'cracker'],
+['Tortilla chips',489,7,64,23,'serving',28,'handful'],
+['Potato chips',536,7,53,35,'serving',28,'handful'],
+['Trail mix',462,13,45,29,'serving',28,'handful'],
+['Honey',304,0.3,82,0,'tbsp',21,'tbsp'],
+['Jam',250,0.4,65,0.1,'tbsp',20,'tbsp'],
+['Maple syrup',260,0,67,0.1,'tbsp',20,'tbsp'],
+['Dark chocolate',598,7.8,46,43,'piece',20,'square'],
+['Pizza, cheese',266,11,33,10,'piece',107,'slice'],
+['Hamburger',240,17,20,10,'piece',150,'burger'],
+['French fries',312,3.4,41,15,'serving',117,'medium'],
+['Burrito, bean',163,7,28,3.5,'piece',200,'burrito'],
+['Chicken nuggets',260,15,15,15,'piece',16,'nugget'],
+['Sushi roll, tuna',140,7,22,2,'piece',30,'piece'],
+['Omelette, 2 eggs',154,11,0.6,12,'piece',122,'omelette'],
+['Pancake',227,6,28,9,'piece',38,'pancake'],
+['Waffle',291,7,33,14,'piece',75,'waffle'],
+['Orange juice',45,0.7,10,0.2,'cup',248,'cup'],
+['Coffee, black',1,0.1,0,0,'cup',240,'cup'],
+['Latte, 2%',56,3,5,2.2,'cup',240,'cup'],
+['Cola',42,0,10.6,0,'serving',355,'can'],
+['Diet cola',0,0,0,0,'serving',355,'can'],
+['Beer',43,0.5,3.6,0,'serving',355,'bottle'],
+['Wine, red',85,0.1,2.6,0,'serving',147,'glass'],
+['Ketchup',112,1.7,26,0.3,'tbsp',17,'tbsp'],
+['Mustard',66,4,6,3,'tbsp',15,'tbsp'],
+['Mayonnaise',680,1,0.6,75,'tbsp',14,'tbsp'],
+['Cream cheese',342,6,4,34,'tbsp',15,'tbsp'],
+['Ricotta, part-skim',138,11,5,8,'cup',246,'cup'],
+['Chia seeds',486,17,42,31,'tbsp',12,'tbsp'],
+['Ground flaxseed',534,18,29,42,'tbsp',7,'tbsp'],
+['Beef jerky',410,33,11,26,'serving',28,'serving'],
+['Meatballs, cooked',240,16,6,16,'piece',30,'meatball'],
+['Sausage, cooked',300,15,2,26,'piece',75,'link'],
+['Hot dog',290,10,2,26,'piece',50,'hot dog'],
+['Veggie burger',180,15,14,6,'piece',90,'patty'],
+['Seitan',370,75,14,2,'serving',85,'serving'],
+['Kefir, plain',64,3.5,4.5,3.5,'cup',243,'cup'],
+['Cottage cheese, full-fat',98,11,3.4,4.3,'cup',226,'cup'],
+['Grits, cooked',62,1.4,14,0.4,'cup',233,'cup'],
+['Couscous, cooked',112,3.8,23,0.2,'cup',157,'cup'],
+['Ramen, cooked',96,2.5,14,3.5,'serving',227,'pack'],
+['Bagel thin',210,9,42,1.5,'piece',46,'bagel'],
+['Croissant',406,8,46,21,'piece',67,'croissant'],
+['Ice cream, vanilla',207,3.5,24,11,'cup',132,'cup'],
+['Yogurt, flavored',95,4,15,2.5,'cup',170,'cup'],
+['Protein pudding',90,12,6,2,'serving',150,'cup'],
+['Chicken salad',180,14,4,12,'serving',100,'serving'],
+['Tuna salad',190,16,6,11,'serving',100,'serving'],
+['Mixed nuts',607,20,21,54,'serving',28,'handful'],
+['Peanuts, roasted',585,24,21,49,'serving',28,'handful'],
+['Cashews',553,18,30,44,'serving',28,'handful'],
+['Pistachios',560,20,28,45,'serving',28,'handful'],
+['Sunflower seeds',584,21,20,51,'serving',28,'handful'],
+['Olives',115,0.8,6,11,'piece',4,'olive'],
+['Pickle',11,0.3,2.3,0.2,'piece',35,'spear'],
+['Applesauce, unsweetened',42,0.2,11,0.1,'cup',244,'cup'],
+['Cantaloupe',34,0.8,8,0.2,'cup',160,'cup'],
+['Raspberries',52,1.2,12,0.7,'cup',123,'cup'],
+['Grapefruit',42,0.8,11,0.1,'piece',123,'half'],
+['Plum',46,0.7,11,0.3,'piece',66,'plum'],
+['Cherries',63,1.1,16,0.2,'cup',138,'cup'],
+['Fig, fresh',74,0.8,19,0.3,'piece',50,'fig'],
+['Coconut water',19,0.7,3.7,0.2,'cup',240,'cup'],
+['Sports drink',26,0,6.4,0,'cup',240,'cup'],
+['Orange, mandarin',53,0.8,13,0.3,'piece',88,'mandarin'],
+['Beef stew',95,8,6,4,'cup',245,'cup'],
+['Chili with beans',120,8,14,3.5,'cup',250,'cup'],
+['Chicken soup',36,2.5,4,1.2,'cup',245,'cup'],
+['Mashed potatoes',106,2,16,4,'cup',210,'cup'],
+['Macaroni and cheese',164,6,20,6,'cup',200,'cup'],
+['Spaghetti with sauce',130,5,22,2,'cup',250,'cup'],
+['Fried rice',163,4,26,5,'cup',198,'cup'],
+['Oat bar',420,10,60,16,'piece',60,'bar']
+].forEach(row=>makeLocal.apply(null,row));
+function blankFoodDay(){return {breakfast:[],lunch:[],dinner:[],snacks:[]};}
+function migrateFood(o){
+  let changed=false;
+  if(!o.foodDays||typeof o.foodDays!=='object'){o.foodDays={};changed=true;}
+  if(!o.foodLib||typeof o.foodLib!=='object'){o.foodLib={};changed=true;}
+  if(!o.foodTargets||typeof o.foodTargets!=='object'){o.foodTargets={};changed=true;}
+  Object.keys(o.daily||{}).forEach(k=>{
+    const d=o.daily[k];if(!d||typeof d!=='object')return;
+    const hasCal=d.cal!=null&&d.cal!=='',hasPro=d.protein!=null&&d.protein!=='';
+    if(!hasCal&&!hasPro)return;
+    if(!o.foodDays[k]||typeof o.foodDays[k]!=='object')o.foodDays[k]=blankFoodDay();
+    MEALS.forEach(m=>{if(!Array.isArray(o.foodDays[k][m[0]]))o.foodDays[k][m[0]]=[];});
+    const items=MEALS.reduce((a,m)=>a.concat(o.foodDays[k][m[0]]),[]);
+    if(!items.some(it=>it&&(it.migrated||it.id==='mig-'+k))){
+      const cal=num(d.cal),prot=num(d.protein);
+      o.foodDays[k].snacks.push({id:'mig-'+k,migrated:true,foodId:'quick:earlier',name:'Earlier log',brand:'',barcode:'',meal:'snacks',qty:1,unit:'serving',kcal:isNaN(cal)?0:cal,p:isNaN(prot)?0:prot,c:0,f:0,per100:null,perUnit:{kcal:isNaN(cal)?0:cal,p:isNaN(prot)?0:prot,c:0,f:0},servings:[{unit:'serving',grams:null,label:'serving'}],source:'quick'});
+      changed=true;
+    }
+    delete d.cal;delete d.protein;changed=true;
+  });
+  return changed;
+}
+if(migrateFood(store))save();
+function foodLib(p){
+  if(!store.foodLib||typeof store.foodLib!=='object')store.foodLib={};
+  if(!store.foodLib[p]||typeof store.foodLib[p]!=='object')store.foodLib[p]={fav:[],custom:[],recent:[]};
+  const L=store.foodLib[p];['fav','custom','recent'].forEach(k=>{if(!Array.isArray(L[k]))L[k]=[];});
+  return L;
+}
+function targetsFor(p){
+  const d=p==='Kevin'?{kcal:2400,p:180,c:220,f:70}:p==='Sasha'?{kcal:1800,p:110,c:180,f:60}:{kcal:2000,p:120,c:200,f:65};
+  const t=(store.foodTargets&&store.foodTargets[p])||{};
+  return {kcal:Number(t.kcal)>0?Number(t.kcal):d.kcal,p:Number(t.p)>0?Number(t.p):d.p,c:Number(t.c)>0?Number(t.c):d.c,f:Number(t.f)>0?Number(t.f):d.f};
+}
+function foodDate(){return ui.foodDate||nowDenver().date;}
+function ensureDay(p,iso){
+  const k=dk(p,iso);
+  if(!store.foodDays||typeof store.foodDays!=='object')store.foodDays={};
+  if(!store.foodDays[k]||typeof store.foodDays[k]!=='object')store.foodDays[k]=blankFoodDay();
+  MEALS.forEach(m=>{if(!Array.isArray(store.foodDays[k][m[0]]))store.foodDays[k][m[0]]=[];});
+  return store.foodDays[k];
+}
+function foodDay(p,iso){
+  const k=dk(p,iso),d=store.foodDays&&store.foodDays[k];
+  if(!d)return blankFoodDay();
+  MEALS.forEach(m=>{if(!Array.isArray(d[m[0]]))d[m[0]]=[];});
+  return d;
+}
+function dayHasFood(d){return !!d&&MEALS.some(m=>(d[m[0]]||[]).length);}
+function foodTotals(p,iso){
+  const d=foodDay(p,iso),t={kcal:0,p:0,c:0,f:0,n:0};
+  MEALS.forEach(m=>(d[m[0]]||[]).forEach(it=>{t.kcal+=Number(it.kcal)||0;t.p+=Number(it.p)||0;t.c+=Number(it.c)||0;t.f+=Number(it.f)||0;t.n++;}));
+  return t;
+}
+function nid(){return 'fd'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+function defaultUnit(food){
+  const pref=['serving','piece','cup','tbsp','scoop','fillet'];
+  const have=(food.servings||[]).map(s=>s.unit);
+  for(const u of pref)if(have.indexOf(u)>=0)return u;
+  return have[0]||'g';
+}
+function unitLabel(food,unit){
+  const s=(food.servings||[]).find(x=>x.unit===unit);
+  return s&&s.label?s.label:unit;
+}
+function computeMacros(food,qty,unit){
+  const q=Number(qty)||0;
+  const serv=(food.servings||[]).find(s=>s.unit===unit)||(food.servings||[])[0];
+  if(food.per100&&serv&&serv.grams){
+    const g=q*serv.grams,k=g/100,b=food.per100;
+    return {kcal:(b.kcal||0)*k,p:(b.p||0)*k,c:(b.c||0)*k,f:(b.f||0)*k};
+  }
+  const u=food.perUnit||{kcal:0,p:0,c:0,f:0};
+  return {kcal:(u.kcal||0)*q,p:(u.p||0)*q,c:(u.c||0)*q,f:(u.f||0)*q};
+}
+function roundFood(n){return Math.round(n*10)/10;}
+function entryFrom(food,qty,unit,meal){
+  const m=computeMacros(food,qty,unit);
+  return {id:nid(),foodId:food.id,name:food.name,brand:food.brand||'',barcode:food.barcode||'',meal:meal,qty:Number(qty)||0,unit:unit,kcal:roundFood(m.kcal),p:roundFood(m.p),c:roundFood(m.c),f:roundFood(m.f),per100:food.per100||null,perUnit:food.perUnit||null,servings:food.servings||[],source:food.source||'local'};
+}
+function foodFromEntry(it){
+  return {id:it.foodId||it.id,name:it.name,brand:it.brand||'',barcode:it.barcode||'',per100:it.per100||null,perUnit:it.perUnit||null,servings:it.servings&&it.servings.length?it.servings:[{unit:'serving',grams:null,label:'serving'}],source:it.source||'log'};
+}
+function rememberFood(p,food){
+  if(!food||!food.id)return;
+  FOOD_BY_ID[food.id]=food;
+  const L=foodLib(p);
+  L.recent=L.recent.filter(f=>f&&f.id!==food.id);
+  L.recent.unshift(JSON.parse(JSON.stringify(food)));
+  L.recent=L.recent.slice(0,20);
+}
+function isFav(p,id){return foodLib(p).fav.some(f=>f&&f.id===id);}
+function toggleFav(p,food){
+  if(!food||!food.id)return;
+  const L=foodLib(p);
+  if(isFav(p,food.id))L.fav=L.fav.filter(f=>f.id!==food.id);
+  else L.fav.unshift(JSON.parse(JSON.stringify(food)));
+  save();
+}
+function searchLocal(q){
+  const query=String(q||'').trim().toLowerCase();
+  const pool=LOCAL_FOODS.concat(foodLib(ui.person).custom||[]);
+  if(!query)return [];
+  const words=query.split(/\s+/).filter(Boolean);
+  return pool.filter(f=>words.every(w=>(f.name+' '+(f.brand||'')).toLowerCase().indexOf(w)>=0)).slice(0,20);
+}
+function offToFood(p){
+  if(!p)return null;
+  const n=p.nutriments||{};
+  const name=(p.product_name||p.product_name_en||p.generic_name||'').trim();
+  if(!name)return null;
+  const kcal=num(n['energy-kcal_100g']),prot=num(n.proteins_100g),carbs=num(n.carbohydrates_100g),fat=num(n.fat_100g);
+  const has100=[kcal,prot,carbs,fat].some(x=>!isNaN(x));
+  const food={id:'off:'+(p.code||slugFood(name)),name:name,brand:String(p.brands||'').split(',')[0].trim(),barcode:p.code?String(p.code):'',source:'off',per100:has100?{kcal:isNaN(kcal)?0:kcal,p:isNaN(prot)?0:prot,c:isNaN(carbs)?0:carbs,f:isNaN(fat)?0:fat}:null,perUnit:null,servings:[]};
+  if(food.per100){
+    food.servings.push({unit:'g',grams:1,label:'g'},{unit:'oz',grams:28.3495,label:'oz'});
+    const sq=num(p.serving_quantity);
+    if(!isNaN(sq)&&sq>0)food.servings.push({unit:'serving',grams:sq,label:p.serving_size||'serving'});
+    else food.servings.push({unit:'serving',grams:100,label:'100 g'});
+  }else{
+    const sk=num(n['energy-kcal_serving']);
+    food.perUnit={kcal:isNaN(sk)?0:sk,p:isNaN(num(n.proteins_serving))?0:num(n.proteins_serving),c:isNaN(num(n.carbohydrates_serving))?0:num(n.carbohydrates_serving),f:isNaN(num(n.fat_serving))?0:num(n.fat_serving)};
+    food.servings.push({unit:'serving',grams:null,label:p.serving_size||'serving'});
+  }
+  FOOD_BY_ID[food.id]=food;
+  return food;
+}
+function macroLine(m){return Math.round(m.kcal)+' cal · '+roundFood(m.p)+'g protein';}
+function ringSVG(value,target,color,kind){
+  const r=36,circ=2*Math.PI*r,pct=target>0?Math.max(0,Math.min(1,value/target)):0,dash=(pct*circ).toFixed(2);
+  const main=kind==='kcal'?Math.round(value):roundFood(value);
+  return '<svg class="ring" viewBox="0 0 100 100" role="img" aria-label="'+main+' of '+target+'"><circle cx="50" cy="50" r="36" class="ringbg"/><circle cx="50" cy="50" r="36" class="ringfg" stroke="'+color+'" stroke-dasharray="'+dash+' '+circ.toFixed(2)+'" transform="rotate(-90 50 50)"/><text x="50" y="46" text-anchor="middle" class="ringv">'+main+'</text><text x="50" y="62" text-anchor="middle" class="ringsub">/ '+target+'</text></svg>';
+}
+function leftText(value,target,unit){
+  const d=target-value;
+  if(d>=0)return Math.round(d)+unit+' left';
+  return Math.round(-d)+unit+' over';
+}
+function barRow(label,value,target,unit){
+  const pct=target>0?Math.max(0,Math.min(100,100*value/target)):0;
+  return '<div class="macrobar"><span>'+label+'</span><div class="bar"><div style="width:'+pct+'%"></div></div><b>'+roundFood(value)+'/'+target+unit+'</b></div>';
+}
+function totalsBlock(p,iso){
+  const t=foodTotals(p,iso),g=targetsFor(p);
+  return '<div id="foodTotals" data-kcal="'+roundFood(t.kcal)+'" data-protein="'+roundFood(t.p)+'" data-carbs="'+roundFood(t.c)+'" data-fat="'+roundFood(t.f)+'">'+
+    '<div class="rings">'+ringSVG(t.kcal,g.kcal,'#3b82f6','kcal')+ringSVG(t.p,g.p,'#22c55e','p')+'</div>'+
+    '<div class="rings"><div class="ringcap">'+leftText(t.kcal,g.kcal,' cal')+'</div><div class="ringcap">'+leftText(t.p,g.p,'g protein')+'</div></div>'+
+    barRow('Carbs',t.c,g.c,'g')+barRow('Fat',t.f,g.f,'g')+'</div>';
+}
+function foodDashCard(){
+  const t=foodTotals(ui.person,nowDenver().date),g=targetsFor(ui.person);
+  return '<section class="card"><div class="wk"><h2>Today\u2019s food</h2><button class="btn mini" data-act="tab" data-tab="food">Food log</button></div>'+
+    '<p data-dash-kcal="'+Math.round(t.kcal)+'" data-dash-protein="'+roundFood(t.p)+'"><b>'+Math.round(t.kcal)+'</b> / '+g.kcal+' cal · <b>'+roundFood(t.p)+'</b> / '+g.p+' g protein</p>'+
+    '<p class="tiny muted">'+leftText(t.kcal,g.kcal,' cal')+' · '+leftText(t.p,g.p,'g protein')+'</p></section>';
+}
+function mealNow(){
+  let h=12;try{h=parseInt(new Intl.DateTimeFormat('en-US',{timeZone:TZ,hour:'numeric',hourCycle:'h23'}).format(new Date()),10);}catch(e){}
+  if(window.__NOW&&window.__NOW.hour!=null)h=window.__NOW.hour;
+  if(h<11)return 'breakfast';if(h<15)return 'lunch';if(h<21)return 'dinner';return 'snacks';
+}
+function foodSeries(p,days){
+  const end=nowDenver().date,out=[];
+  for(let i=days-1;i>=0;i--){const date=addDays(end,-i),t=foodTotals(p,date);out.push({date:date,kcal:t.kcal,p:t.p,n:t.n});}
+  return out;
+}
+function intakeChart(series,key,target,label){
+  const W=340,H=150,L=8,R=8,T=16,B=22,mx=Math.max(target,...series.map(s=>s[key]),1)*1.15;
+  const n=series.length,X=i=>n<=1?L:L+(W-L-R)*i/(n-1),Y=v=>T+(H-T-B)*(1-Math.max(0,v)/mx);
+  const yT=Y(target);
+  let s='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+label+' chart">';
+  s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+yT+'" y2="'+yT+'" class="goal"/>';
+  s+='<text x="'+(W-R)+'" y="'+(Math.max(12,yT-3))+'" text-anchor="end" class="gl">Target '+target+'</text>';
+  s+='<polyline class="ln" fill="none" points="'+series.map((d,i)=>X(i).toFixed(1)+','+Y(d[key]).toFixed(1)).join(' ')+'"/>';
+  series.forEach((d,i)=>{if(n<=14||i%5===0)s+='<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(d[key]).toFixed(1)+'" r="2.5" class="pt"/>';});
+  s+='<text x="'+L+'" y="'+(H-4)+'" class="ax">'+fmtShort(series[0].date)+'</text><text x="'+(W-R)+'" y="'+(H-4)+'" text-anchor="end" class="ax">'+fmtShort(series[series.length-1].date)+'</text></svg>';
+  const avg=series.reduce((a,d)=>a+d[key],0)/series.length;
+  const logged=series.filter(d=>d.n>0);
+  const avgLog=logged.length?logged.reduce((a,d)=>a+d[key],0)/logged.length:NaN;
+  const fmt=key==='kcal'?v=>Math.round(v):v=>roundFood(v);
+  return '<h3>'+label+'</h3>'+s+'<p class="tiny muted">Average '+fmt(avg)+' / day'+(logged.length&&logged.length<series.length?' · '+fmt(avgLog)+' on days you logged':'')+'</p>';
+}
+function foodHistoryCharts(p){
+  const span=ui.foodSpan===30?30:7,series=foodSeries(p,span),g=targetsFor(p);
+  return '<section class="card"><div class="wk"><h2>History</h2><div class="chips"><button class="chip'+(span===7?' on':'')+'" data-act="foodspan" data-n="7">7 days</button><button class="chip'+(span===30?' on':'')+'" data-act="foodspan" data-n="30">30 days</button></div></div>'+
+    intakeChart(series,'kcal',g.kcal,'Calories vs target')+intakeChart(series,'p',g.p,'Protein vs target')+'</section>';
+}
+function hitButton(f){
+  const unit=defaultUnit(f),m=computeMacros(f,unit==='g'?100:1,unit==='g'?'g':unit);
+  const star=isFav(ui.person,f.id)?'★':'☆';
+  return '<div class="fhit"><button class="fres" data-act="foodpick" data-id="'+esc(f.id)+'"><b>'+esc(f.name)+'</b>'+(f.brand?' <span class="tiny muted">'+esc(f.brand)+'</span>':'')+'<br><span class="tiny muted">'+esc(macroLine(m))+(unit==='g'?' / 100 g':' / '+(unitLabel(f,unit)))+'</span></button><button class="star" data-act="foodstar" data-id="'+esc(f.id)+'" aria-label="Favorite">'+star+'</button></div>';
+}
+function renderHits(local,off,status){
+  let h='';
+  if(local.length)h+='<p class="tiny muted">On this phone</p>'+local.map(hitButton).join('');
+  if(off.length)h+='<p class="tiny muted">Open Food Facts</p>'+off.map(hitButton).join('');
+  if(!local.length&&!off.length)h+='<p class="muted">No matches yet.</p>';
+  if(status==='offline')h+='<p class="note">Couldn\u2019t reach Open Food Facts. Foods saved on this phone and quick add still work.</p>';
+  else if(status==='searching'&&ui.foodQ&&ui.foodQ.trim().length>=2)h+='<p class="tiny muted">Searching packaged foods…</p>';
+  return h;
+}
+let foodTimer=null,foodAbort=null;
+function scheduleFoodSearch(){clearTimeout(foodTimer);foodTimer=setTimeout(()=>runFoodSearch(ui.foodQ||''),250);}
+async function runFoodSearch(q){
+  const box=$('#foodResults');if(!box)return;
+  const local=searchLocal(q);
+  local.forEach(f=>{FOOD_BY_ID[f.id]=f;});
+  if(!String(q||'').trim()){
+    const L=foodLib(ui.person);
+    box.innerHTML=(L.fav.length?'<p class="tiny muted">Favorites</p>'+L.fav.slice(0,12).map(f=>{FOOD_BY_ID[f.id]=f;return hitButton(f);}).join(''):'')+
+      (L.recent.length?'<p class="tiny muted">Recent</p>'+L.recent.slice(0,12).map(f=>{FOOD_BY_ID[f.id]=f;return hitButton(f);}).join(''):'')+
+      (!L.fav.length&&!L.recent.length?'<p class="muted">Search a food, scan a barcode, or quick add.</p>':'');
+    return;
+  }
+  box.innerHTML=renderHits(local,[],'searching');
+  if(foodAbort)foodAbort.abort();
+  if(String(q).trim().length<2){box.innerHTML=renderHits(local,[], '');return;}
+  const ac=new AbortController();foodAbort=ac;
+  try{
+    const url='https://world.openfoodfacts.org/cgi/search.pl?search_terms='+encodeURIComponent(String(q).trim())+'&search_simple=1&action=process&json=1&page_size=20&fields=code,product_name,brands,nutriments,serving_size,serving_quantity,generic_name';
+    const res=await fetch(url,{signal:ac.signal});
+    if(!res.ok)throw new Error('off');
+    const data=await res.json();
+    if(ui.foodQ!==q||!$('#foodResults'))return;
+    const off=(data.products||[]).map(offToFood).filter(Boolean).filter(f=>!local.some(l=>l.id===f.id)).slice(0,20);
+    $('#foodResults').innerHTML=renderHits(local,off,'');
+  }catch(e){
+    if(e&&e.name==='AbortError')return;
+    if($('#foodResults')&&ui.foodQ===q)$('#foodResults').innerHTML=renderHits(local,[],'offline');
+  }
+}
+function foodPreviewHTML(){
+  if(!ui.foodPick)return '';
+  const m=computeMacros(ui.foodPick,ui.foodQty,ui.foodUnit);
+  return '<b>'+Math.round(m.kcal)+'</b> cal · <b>'+roundFood(m.p)+'</b> g protein · '+roundFood(m.c)+' g carbs · '+roundFood(m.f)+' g fat';
+}
+function viewFood(){
+  if(ui.foodMode==='add')return viewFoodAdd();
+  if(ui.foodMode==='pick')return viewFoodPick();
+  if(ui.foodMode==='scan')return viewFoodScan();
+  if(ui.foodMode==='quick')return viewFoodQuick();
+  if(ui.foodMode==='manual')return viewFoodManual();
+  if(ui.foodMode==='targets')return viewFoodTargets();
+  const p=ui.person,iso=foodDate(),today=nowDenver().date,day=ensureDay(p,iso);
+  const atToday=iso===today;
+  let h='<div class="dayhead"><h1>Food</h1><p class="muted">'+esc(p)+'</p></div>';
+  h+='<div class="wk"><button class="btn mini" data-act="foodday" data-n="-1" aria-label="Previous day">‹</button><div style="text-align:center"><b>'+(atToday?'Today':fmtDate(iso))+'</b><br><span class="tiny muted">'+fmtDate(iso)+'</span></div><button class="btn mini" data-act="foodday" data-n="1" '+(atToday?'disabled':'')+' aria-label="Next day">›</button></div>';
+  if(!atToday)h+='<p style="text-align:center"><button class="btn mini" data-act="foodtoday">Jump to today</button></p>';
+  h+='<section class="card">'+totalsBlock(p,iso)+'<button class="btn mini" data-act="foodtargets">Edit targets</button></section>';
+  MEALS.forEach(m=>{
+    const items=day[m[0]]||[];
+    h+='<div class="wk"><h2 class="sec">'+m[1]+'</h2><div class="acts"><button class="btn mini" data-act="foodcopy" data-meal="'+m[0]+'">Copy yesterday</button><button class="btn mini primary" data-act="foodadd" data-meal="'+m[0]+'">Add</button></div></div>';
+    if(!items.length)h+='<p class="muted pad">Nothing logged.</p>';
+    items.forEach(it=>{
+      const star=isFav(p,it.foodId)?'★':'☆';
+      h+='<div class="fswipe"><button class="fdel" data-act="fooddel" data-id="'+esc(it.id)+'">Delete</button><div class="fcard" data-id="'+esc(it.id)+'"><button class="nm" data-act="foodedit" data-id="'+esc(it.id)+'"><b>'+esc(it.name)+'</b><br><span class="tiny muted">'+esc(String(it.qty))+' '+esc(unitLabel(foodFromEntry(it),it.unit))+' · '+Math.round(it.kcal)+' cal · '+roundFood(it.p)+'g protein</span></button><button class="star" data-act="foodstar" data-id="'+esc(it.foodId||it.id)+'" data-entry="'+esc(it.id)+'" aria-label="Favorite">'+star+'</button><button class="btn mini" data-act="foodmenu" data-id="'+esc(it.id)+'">Edit</button></div></div>';
+    });
+  });
+  h+='<button class="btn primary big" data-act="foodadd">Add food</button>';
+  h+=foodHistoryCharts(p);
+  return h;
+}
+function viewFoodAdd(){
+  return '<div class="dayhead"><h1>Add food</h1><p class="muted">'+esc((MEALS.find(m=>m[0]===(ui.foodMeal||mealNow()))||MEALS[0])[1])+' · '+fmtDate(foodDate())+'</p></div>'+
+    '<button class="btn mini" data-act="foodback">Back</button>'+
+    '<label>Search<input id="foodQ" autocomplete="off" placeholder="Chicken, oats, yogurt…" value="'+esc(ui.foodQ||'')+'"></label>'+
+    '<div class="acts"><button class="btn" data-act="foodscan">Scan barcode</button><button class="btn" data-act="foodquick">Quick add</button><button class="btn" data-act="foodmanual">Custom food</button></div>'+
+    '<div id="foodResults"></div>';
+}
+function viewFoodPick(){
+  const f=ui.foodPick;if(!f)return viewFoodAdd();
+  const units=f.servings||[];
+  return '<div class="dayhead"><h1>'+(ui.foodEdit?'Edit food':'Add')+'</h1><p class="muted">'+esc(f.name)+(f.brand?' · '+esc(f.brand):'')+'</p></div>'+
+    '<button class="btn mini" data-act="foodback">Back</button>'+
+    '<section class="card"><label>Quantity<input id="foodQty" inputmode="decimal" value="'+esc(ui.foodQty)+'"></label>'+
+    '<p class="tiny muted">Unit</p><div class="chips">'+units.map(s=>'<button class="chip'+(s.unit===ui.foodUnit?' on':'')+'" data-act="foodunit" data-unit="'+esc(s.unit)+'">'+esc(s.label||s.unit)+'</button>').join('')+'</div>'+
+    '<p id="foodPrev">'+foodPreviewHTML()+'</p>'+
+    '<p class="tiny muted">Meal</p><div class="chips">'+MEALS.map(m=>'<button class="chip'+(m[0]===ui.foodMeal?' on':'')+'" data-act="foodmeal" data-meal="'+m[0]+'">'+m[1]+'</button>').join('')+'</div>'+
+    '<button class="btn primary big" data-act="foodsave">'+(ui.foodEdit?'Save':'Add to '+esc((MEALS.find(m=>m[0]===ui.foodMeal)||MEALS[3])[1].toLowerCase()))+'</button>'+(ui.foodEdit?'<button class="btn danger" data-act="fooddel" data-id="'+esc(ui.foodEdit)+'">Delete</button>':'')+'</section>';
+}
+function viewFoodScan(){
+  return '<div class="dayhead"><h1>Scan barcode</h1><p class="muted">Point the camera at a package. iPhone will ask for camera access.</p></div>'+
+    '<button class="btn mini" data-act="foodback">Back</button>'+
+    '<video id="foodCam" playsinline autoplay muted></video><p id="camMsg" class="tiny muted">Starting camera…</p>'+
+    '<section class="card"><h2>Type the barcode</h2><label>Digits<input id="barcode" inputmode="numeric" autocomplete="off" placeholder="049000028911"></label><button class="btn primary" data-act="foodcode">Look up</button>'+
+    '<p class="tiny muted">If the camera is blocked, use the keypad. A code Open Food Facts doesn\u2019t know can be saved as your own food.</p></section>';
+}
+function viewFoodQuick(){
+  return '<div class="dayhead"><h1>Quick add</h1><p class="muted">Calories and protein are enough.</p></div><button class="btn mini" data-act="foodback">Back</button>'+
+    '<section class="card"><label>Name (optional)<input id="qaName" placeholder="Snack" value="'+esc(ui.qaName||'')+'"></label>'+
+    '<div class="two"><label>Calories<input id="qaCal" inputmode="decimal" value="'+esc(ui.qaCal||'')+'"></label><label>Protein (g)<input id="qaP" inputmode="decimal" value="'+esc(ui.qaP||'')+'"></label></div>'+
+    (ui.qaFull?'<div class="two"><label>Carbs (g)<input id="qaC" inputmode="decimal" value="'+esc(ui.qaC||'')+'"></label><label>Fat (g)<input id="qaF" inputmode="decimal" value="'+esc(ui.qaF||'')+'"></label></div>':'<p><button class="btn mini" data-act="qafull">Add carbs and fat</button></p>')+
+    '<p class="tiny muted">Meal</p><div class="chips">'+MEALS.map(m=>'<button class="chip'+(m[0]===ui.foodMeal?' on':'')+'" data-act="foodmeal" data-meal="'+m[0]+'">'+m[1]+'</button>').join('')+'</div>'+
+    '<button class="btn primary big" data-act="qasave">Add</button></section>';
+}
+function viewFoodManual(){
+  return '<div class="dayhead"><h1>Custom food</h1><p class="muted">Saved on this phone for '+esc(ui.person)+'.</p></div><button class="btn mini" data-act="foodback">Back</button>'+
+    '<section class="card"><label>Name<input id="manName" value="'+esc(ui.manName||'')+'"></label><label>Barcode (optional)<input id="manCode" inputmode="numeric" value="'+esc(ui.manCode||'')+'"></label>'+
+    '<div class="two"><label>Calories<input id="manCal" inputmode="decimal" value="'+esc(ui.manCal||'')+'"></label><label>Protein (g)<input id="manP" inputmode="decimal" value="'+esc(ui.manP||'')+'"></label></div>'+
+    '<div class="two"><label>Carbs (g)<input id="manC" inputmode="decimal" value="'+esc(ui.manC||'')+'"></label><label>Fat (g)<input id="manF" inputmode="decimal" value="'+esc(ui.manF||'')+'"></label></div>'+
+    '<p class="tiny muted">These numbers are for</p><div class="chips"><button class="chip'+((ui.manBasis||'100g')==='100g'?' on':'')+'" data-act="manbasis" data-v="100g">100 g</button><button class="chip'+(ui.manBasis==='serving'?' on':'')+'" data-act="manbasis" data-v="serving">1 serving</button></div>'+
+    '<label>Serving size in grams (optional)<input id="manGrams" inputmode="decimal" placeholder="e.g. 50" value="'+esc(ui.manGrams||'')+'"></label>'+
+    '<button class="btn primary big" data-act="mansave">Save and add</button></section>';
+}
+function viewFoodTargets(){
+  const g=targetsFor(ui.person);
+  return '<div class="dayhead"><h1>Daily targets</h1><p class="muted">'+esc(ui.person)+'</p></div><button class="btn mini" data-act="foodback">Back</button>'+
+    '<section class="card"><div class="two"><label>Calories<input id="tgCal" inputmode="decimal" value="'+g.kcal+'"></label><label>Protein (g)<input id="tgP" inputmode="decimal" value="'+g.p+'"></label></div>'+
+    '<div class="two"><label>Carbs (g)<input id="tgC" inputmode="decimal" value="'+g.c+'"></label><label>Fat (g)<input id="tgF" inputmode="decimal" value="'+g.f+'"></label></div>'+
+    '<button class="btn primary" data-act="tgsave">Save targets</button></section>';
+}
+function openPick(food,entry){
+  ui.foodPick=food;ui.foodMode='pick';
+  if(entry){ui.foodEdit=entry.id;ui.foodQty=entry.qty;ui.foodUnit=entry.unit;ui.foodMeal=entry.meal;}
+  else{ui.foodEdit=null;ui.foodUnit=defaultUnit(food);ui.foodQty=ui.foodUnit==='g'?100:1;if(!ui.foodMeal)ui.foodMeal=mealNow();}
+  render(true);
+}
+function openManual(code){ui.foodMode='manual';ui.manCode=code||'';ui.manBasis=ui.manBasis||'100g';stopScan();render(true);}
+function removeEntry(p,iso,id){
+  const day=foodDay(p,iso);let found=null;
+  MEALS.forEach(m=>{const i=(day[m[0]]||[]).findIndex(it=>it.id===id);if(i>=0)found=day[m[0]].splice(i,1)[0];});
+  return found;
+}
+function barCache(){try{const o=JSON.parse(localStorage.getItem(BAR_KEY)||'{}');return o&&typeof o==='object'?o:{};}catch(e){return {};}}
+function saveBar(code,food){try{const o=barCache();o[String(code)]=food;const keys=Object.keys(o);while(keys.length>200)delete o[keys.shift()];localStorage.setItem(BAR_KEY,JSON.stringify(o));}catch(e){}}
+function foodByBarcode(code){
+  const L=foodLib(ui.person);
+  const hit=[].concat(L.custom,L.fav,L.recent).find(f=>f&&String(f.barcode||'')===String(code));
+  if(hit)return hit;
+  return barCache()[String(code)]||null;
+}
+async function lookupBarcode(code){
+  code=String(code||'').replace(/\D/g,'');
+  if(code.length<8||code.length>14){toast('Enter 8 to 14 barcode digits');return;}
+  const local=foodByBarcode(code);
+  if(local){toast('Found on this phone');openPick(local);return;}
+  toast('Looking up '+code+'…');
+  try{
+    const res=await fetch('https://world.openfoodfacts.org/api/v2/product/'+code+'.json?fields=code,product_name,product_name_en,generic_name,brands,nutriments,serving_size,serving_quantity');
+    const data=await res.json();
+    if(!data||data.status!==1||!data.product){toast('Not in Open Food Facts. Add it yourself.');openManual(code);return;}
+    const food=offToFood(data.product);
+    if(!food){openManual(code);return;}
+    saveBar(code,food);openPick(food);
+  }catch(e){toast('Offline. You can still add it manually.');openManual(code);}
+}
+let scanOn=false;
+function stopScan(){
+  scanOn=false;
+  try{if(ui.zxingReader&&ui.zxingReader.reset)ui.zxingReader.reset();}catch(e){}
+  try{if(ui.scanStream)ui.scanStream.getTracks().forEach(t=>t.stop());}catch(e){}
+  ui.scanStream=null;
+}
+function loadZXing(){
+  if(window.ZXing&&window.ZXing.BrowserMultiFormatReader)return Promise.resolve();
+  return new Promise((res,rej)=>{const s=document.createElement('script');s.src=ZXING_URL;s.async=true;s.onload=()=>res();s.onerror=()=>rej(new Error('zxing'));document.head.appendChild(s);});
+}
+async function startScan(){
+  if(scanOn||ui.foodMode!=='scan')return;
+  const video=$('#foodCam'),msg=$('#camMsg');if(!video)return;
+  scanOn=true;
+  const onCode=text=>{if(!scanOn)return;scanOn=false;stopScan();lookupBarcode(text);};
+  try{
+    if(window.BarcodeDetector){
+      const det=new BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e','code_128','code_39','qr_code']});
+      const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});
+      ui.scanStream=stream;video.srcObject=stream;await video.play();
+      if(msg)msg.textContent='Looking for a barcode…';
+      const tick=async()=>{if(!scanOn)return;try{const codes=await det.detect(video);if(codes&&codes[0]){onCode(codes[0].rawValue);return;}}catch(e){}
+        if(scanOn)requestAnimationFrame(()=>tick());};
+      tick();return;
+    }
+  }catch(e){/* fall through to ZXing or the typed code */}
+  try{
+    await loadZXing();
+    const Reader=window.ZXing&&window.ZXing.BrowserMultiFormatReader;
+    if(!Reader)throw new Error('no reader');
+    const reader=new Reader();ui.zxingReader=reader;
+    if(msg)msg.textContent='Looking for a barcode…';
+    await reader.decodeFromConstraints({video:{facingMode:{ideal:'environment'},audio:false}},video,(result)=>{if(result&&scanOn)onCode(result.getText());});
+  }catch(e){
+    scanOn=false;
+    if(msg)msg.textContent='Camera isn\u2019t available. Allow camera access if your iPhone asks, or type the barcode below. The scanner also needs the decoder saved on this phone (it downloads once).';
+  }
+}
+let ignoreFoodClick=false;
+document.addEventListener('pointerdown',e=>{
+  const row=e.target.closest&&e.target.closest('.fcard');
+  if(!row)return;
+  ui._swipe={row:row,x:e.clientX,y:e.clientY,dx:0};
+});
+document.addEventListener('pointermove',e=>{
+  const s=ui._swipe;if(!s)return;
+  const dx=e.clientX-s.x,dy=Math.abs(e.clientY-s.y);
+  if(dy>18&&Math.abs(dx)<12){ui._swipe=null;return;}
+  s.dx=Math.min(0,dx);
+  s.row.style.transform='translateX('+s.dx+'px)';
+});
+document.addEventListener('pointerup',e=>{
+  const s=ui._swipe;if(!s)return;
+  ui._swipe=null;
+  if(s.dx<-64){s.row.style.transform='translateX(-84px)';ignoreFoodClick=true;setTimeout(()=>{ignoreFoodClick=false;},350);}
+  else s.row.style.transform='';
+});
+
 /* ---------- views ---------- */
 function render(keepScroll){
   const y=window.scrollY;
@@ -550,15 +1175,18 @@ function render(keepScroll){
   const showGate=ui.gate==='lock'||(ui.gate==='switch'&&!!locked);
   document.body.classList.toggle('picking',!locked||showGate);
   if(nav)nav.hidden=!locked||showGate;
+  if(!(locked&&ui.tab==='food'&&ui.foodMode==='scan'))stopScan();
   if(showGate){$('#app').innerHTML=viewPin();return;}
   if(!locked){$('#app').innerHTML=viewWho();return;}
   ensurePerson(locked);
   ui.person=locked;
-  $('#app').innerHTML=viewHeader()+({workout:viewWorkout,daily:viewDaily,progress:viewProgress,history:viewHistory,more:viewMore}[ui.tab]||viewWorkout)();
+  $('#app').innerHTML=viewHeader()+({workout:viewWorkout,food:viewFood,daily:viewDaily,progress:viewProgress,history:viewHistory,more:viewMore}[ui.tab]||viewWorkout)();
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===ui.tab));
   if(keepScroll)window.scrollTo(0,y);else window.scrollTo(0,0);
   if(ui.tab==='progress')loadPhotos();
   if(ui.tab==='workout')document.querySelectorAll('.plate-hint').forEach(el=>{const inp=document.querySelector('.set[data-key="'+el.dataset.key+'"] input[data-f="w"]');if(inp)updateHint(inp);});
+  if(ui.tab==='food'&&ui.foodMode==='add')runFoodSearch(ui.foodQ||'');
+  if(ui.tab==='food'&&ui.foodMode==='scan')startScan().catch(()=>{});
 }
 function memWarn(){return memoryOnly?'<div class="warn">Your browser is blocking storage (private mode?). Nothing will be saved. Open the app in normal Safari.</div>':'';}
 function viewHeader(){
@@ -599,6 +1227,7 @@ function viewWorkout(){
   const mineCount=sessionsOf(person).length;
   const stale=!store.lastBackup&&mineCount>=3||(store.lastBackup&&(Date.parse(now.date)-Date.parse(store.lastBackup.slice(0,10)))/864e5>21&&mineCount>0);
   if(stale)h+='<div class="note">Tip: make a backup (More tab) so a lost phone doesn\u2019t lose your history.</div>';
+  h+=foodDashCard();
   const kind=DAY_KIND[day];
   if(!plan.exercises.length){
     h+='<section class="card rest"><h2>😴 Rest day</h2><p>'+esc(plan.warmup)+'</p><p>'+esc(plan.finisher)+'</p></section>';
@@ -675,7 +1304,7 @@ function viewDaily(){
    '<section class="card"><h2>Water</h2><div class="water"><button class="btn big" data-act="water" data-n="-1">−</button><div class="wnum"><b>'+w+'</b> / '+goal+'<br><span class="tiny muted">glasses (8 oz)</span></div><button class="btn primary big" data-act="water" data-n="1">+</button></div><div class="drops">'+drops+'</div></section>'+
    '<section class="card"><h2>Sleep last night</h2>'+scale('sleep',['Awful','Poor','OK','Good','Great'])+'</section>'+
    '<section class="card"><h2>Energy today</h2>'+scale('energy',['Drained','Low','OK','Good','Great'])+'</section>'+
-   '<section class="card"><h2>Food (optional)</h2><div class="two"><label>Calories<input inputmode="numeric" data-f="cal" data-daily="1" value="'+esc(dd.cal||'')+'" placeholder="e.g. 2100"></label><label>Protein (g)<input inputmode="numeric" data-f="protein" data-daily="1" value="'+esc(dd.protein||'')+'" placeholder="e.g. 180"></label></div><p class="tiny muted">Used for your weekly average on the History tab.</p></section>';
+   '<section class="card"><h2>Food</h2><p class="muted">Meals, barcodes, and protein are on the Food tab. Water stays here.</p><button class="btn" data-act="tab" data-tab="food">Open food log</button></section>';
 }
 
 /* ---- progress ---- */
@@ -730,10 +1359,13 @@ function weekStats(p,ws){
   const vol=ss.reduce((a,s)=>a+(s.volume||0),0),sets=ss.reduce((a,s)=>a+(s.setCount||0),0),rp=ss.filter(s=>s.rpe).map(s=>s.rpe);
   const days=[];for(let i=0;i<7;i++){const d=store.daily[dk(p,addDays(ws,i))];if(d)days.push(d);}
   const avg=f=>{const v=days.map(d=>num(d[f])).filter(x=>!isNaN(x)&&x>0);return v.length?v.reduce((a,b)=>a+b,0)/v.length:NaN;};
+  const cals=[],prots=[];
+  for(let i=0;i<7;i++){const ft=foodTotals(p,addDays(ws,i));if(ft.n){cals.push(ft.kcal);prots.push(ft.p);}}
+  const mean=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:NaN;
   const wi=store.weighIns[p].slice().sort((a,b)=>a.date<b.date?-1:1);
   const inWk=wi.filter(x=>x.date>=ws&&x.date<=we),before=wi.filter(x=>x.date<ws);
   let wc=NaN;if(inWk.length&&(before.length||inWk.length>1)){const ref=before.length?before[before.length-1].lbs:inWk[0].lbs;wc=inWk[inWk.length-1].lbs-ref;}
-  return {n:ss.length,vol,sets,rpe:rp.length?rp.reduce((a,b)=>a+b,0)/rp.length:NaN,cal:avg('cal'),protein:avg('protein'),water:avg('water'),sleep:avg('sleep'),energy:avg('energy'),wc,prs:ss.reduce((a,s)=>a+((s.prs||[]).length),0)};
+  return {n:ss.length,vol,sets,rpe:rp.length?rp.reduce((a,b)=>a+b,0)/rp.length:NaN,cal:mean(cals),protein:mean(prots),water:avg('water'),sleep:avg('sleep'),energy:avg('energy'),wc,prs:ss.reduce((a,s)=>a+((s.prs||[]).length),0)};
 }
 function viewHistory(){
   const p=ui.person,now=nowDenver().date,ws=addDays(weekStart(now),ui.weekOff*7),st=weekStats(p,ws);
@@ -741,8 +1373,8 @@ function viewHistory(){
   let h='<div class="dayhead"><h1>History</h1><p class="muted">'+p+'</p></div>';
   h+='<section class="card"><div class="wk"><button class="btn mini" data-act="wk" data-n="-1">‹</button><b>'+(ui.weekOff===0?'This week':'Week of '+fmtShort(ws))+'</b><button class="btn mini" data-act="wk" data-n="1"'+(ui.weekOff>=0?' disabled':'')+'>›</button></div>'+
    '<p class="tiny muted">'+fmtShort(ws)+' – '+fmtShort(addDays(ws,6))+'</p><div class="stats big"><div><b>'+st.n+'/6</b><span>Workouts</span></div><div><b>'+Math.round(st.vol).toLocaleString()+'</b><span>Volume (lb)</span></div><div><b>'+st.sets+'</b><span>Sets</span></div><div><b>'+f(st.rpe)+'</b><span>Avg effort</span></div>'+
-   '<div><b>'+(isNaN(st.wc)?'—':(st.wc>0?'+':'')+round1(st.wc))+'</b><span>Weight change</span></div><div><b>'+f(st.cal,0)+'</b><span>Avg calories</span></div><div><b>'+f(st.water)+'</b><span>Avg water</span></div><div><b>'+f(st.sleep)+' / '+f(st.energy)+'</b><span>Sleep / energy</span></div></div>'+
-   (st.prs?'<p>🏆 '+st.prs+' new record'+(st.prs>1?'s':'')+' this week</p>':'')+'</section>';
+   '<div><b>'+(isNaN(st.wc)?'—':(st.wc>0?'+':'')+round1(st.wc))+'</b><span>Weight change</span></div><div><b>'+f(st.cal,0)+'</b><span>Avg calories</span></div><div><b>'+f(st.protein)+'</b><span>Avg protein (g)</span></div><div><b>'+f(st.water)+'</b><span>Avg water</span></div><div><b>'+f(st.sleep)+' / '+f(st.energy)+'</b><span>Sleep / energy</span></div></div>'+
+   (st.prs?'<p>🏆 '+st.prs+' new record'+(st.prs>1?'s':'')+' this week</p>':'')+'</section>'+foodHistoryCharts(p);
   const ss=sessionsOf(p);
   h+='<h2 class="sec">Workouts ('+ss.length+')</h2>';
   if(!ss.length)h+='<p class="muted pad">No finished workouts yet. Log your sets and tap Finish workout.</p>';
@@ -793,6 +1425,7 @@ function shrink(file){return new Promise((res,rej)=>{const url=URL.createObjectU
 
 /* ---------- events ---------- */
 document.addEventListener('click',e=>{
+  if(ignoreFoodClick){ignoreFoodClick=false;e.preventDefault();e.stopPropagation();return;}
   const b=e.target.closest('[data-act]');if(!b||b.tagName==='INPUT'&&b.type==='checkbox')return;
   const a=b.dataset.act;if(b.tagName==='A')e.preventDefault();
   act(a,b,e);
@@ -808,6 +1441,20 @@ document.addEventListener('change',e=>{
 });
 document.addEventListener('input',e=>{
   const t=e.target,d=t.dataset||{};
+  if(t.id==='foodQ'){ui.foodQ=t.value;scheduleFoodSearch();return;}
+  if(t.id==='foodQty'){ui.foodQty=t.value;const prev=$('#foodPrev');if(prev)prev.innerHTML=foodPreviewHTML();return;}
+  if(t.id==='qaName')ui.qaName=t.value;
+  else if(t.id==='qaCal')ui.qaCal=t.value;
+  else if(t.id==='qaP')ui.qaP=t.value;
+  else if(t.id==='qaC')ui.qaC=t.value;
+  else if(t.id==='qaF')ui.qaF=t.value;
+  else if(t.id==='manName')ui.manName=t.value;
+  else if(t.id==='manCode')ui.manCode=t.value;
+  else if(t.id==='manCal')ui.manCal=t.value;
+  else if(t.id==='manP')ui.manP=t.value;
+  else if(t.id==='manC')ui.manC=t.value;
+  else if(t.id==='manF')ui.manF=t.value;
+  else if(t.id==='manGrams')ui.manGrams=t.value;
   if(d.f&&t.closest('.set')){
     const row=t.closest('.set'),dr=getDraft(ui.person,ui.day),arr=dr.sets[row.dataset.key];if(!arr)return;
     arr[+row.dataset.i][d.f]=t.value;save();if(d.f==='w')updateHint(t);
@@ -873,6 +1520,78 @@ function act(a,b){
       }).catch(()=>toast('Could not check that PIN'));
       break;}
     case 'cancelpin':ui.gate=null;ui.pendingProfile=null;render();break;
+    case 'foodday':{const next=addDays(foodDate(),+b.dataset.n);if(next>nowDenver().date)break;ui.foodDate=next===nowDenver().date?null:next;ui.foodMode='day';render();break;}
+    case 'foodtoday':ui.foodDate=null;ui.foodMode='day';render();break;
+    case 'foodadd':ui.foodMeal=b.dataset.meal||ui.foodMeal||mealNow();ui.foodMode='add';ui.foodQ='';ui.foodEdit=null;render();break;
+    case 'foodback':ui.foodMode=ui.foodMode==='pick'&&!ui.foodEdit?'add':'day';if(ui.foodMode==='day')ui.foodPick=null;stopScan();render(true);break;
+    case 'foodpick':{const f=FOOD_BY_ID[b.dataset.id];if(f)openPick(f);break;}
+    case 'foodunit':ui.foodUnit=b.dataset.unit;render(true);break;
+    case 'foodmeal':ui.foodMeal=b.dataset.meal;render(true);break;
+    case 'foodsave':{
+      const f=ui.foodPick;if(!f)break;
+      const qty=num(ui.foodQty);if(isNaN(qty)||qty<=0){toast('Enter a quantity');break;}
+      const meal=ui.foodMeal||mealNow();
+      const entry=entryFrom(f,qty,ui.foodUnit||defaultUnit(f),meal);
+      if(ui.foodEdit){entry.id=ui.foodEdit;removeEntry(P,foodDate(),ui.foodEdit);}
+      ensureDay(P,foodDate())[meal].push(entry);
+      rememberFood(P,f);ui.foodMode='day';ui.foodPick=null;ui.foodEdit=null;save();render();toast('Added '+f.name);break;}
+    case 'foodedit':case 'foodmenu':{const it=MEALS.reduce((a,m)=>a.concat(foodDay(P,foodDate())[m[0]]),[]).find(x=>x.id===b.dataset.id);if(!it)break;openPick(foodFromEntry(it),it);break;}
+    case 'fooddel':if(confirm('Remove this food?')){removeEntry(P,foodDate(),b.dataset.id);ui.foodMode='day';ui.foodEdit=null;ui.foodPick=null;save();render(true);}break;
+    case 'foodstar':{
+      const id=b.dataset.id;let food=FOOD_BY_ID[id];
+      if(!food&&b.dataset.entry){const it=MEALS.reduce((a,m)=>a.concat(foodDay(P,foodDate())[m[0]]),[]).find(x=>x.id===b.dataset.entry);if(it)food=foodFromEntry(it);}
+      if(!food){const L=foodLib(P);food=[].concat(L.fav,L.recent,L.custom).find(f=>f&&f.id===id);}
+      if(food){toggleFav(P,food);render(true);}break;}
+    case 'foodcopy':{
+      const meal=b.dataset.meal,src=foodDay(P,addDays(foodDate(),-1))[meal]||[];
+      if(!src.length){toast('Nothing in that meal yesterday');break;}
+      const dst=ensureDay(P,foodDate());
+      src.forEach(it=>{const copy=JSON.parse(JSON.stringify(it));copy.id=nid();dst[meal].push(copy);});
+      save();render(true);toast('Copied yesterday\u2019s '+meal);break;}
+    case 'foodscan':ui.foodMode='scan';render();break;
+    case 'foodquick':ui.foodMode='quick';ui.qaFull=false;render();break;
+    case 'qafull':ui.qaFull=true;render(true);break;
+    case 'qasave':{
+      const cal=num($('#qaCal')?$('#qaCal').value:ui.qaCal),prot=num($('#qaP')?$('#qaP').value:ui.qaP);
+      const carbs=ui.qaFull?num($('#qaC')?$('#qaC').value:ui.qaC):0,fat=ui.qaFull?num($('#qaF')?$('#qaF').value:ui.qaF):0;
+      if((isNaN(cal)||cal<0)&&(isNaN(prot)||prot<0)){toast('Enter calories or protein');break;}
+      const per={kcal:isNaN(cal)?0:cal,p:isNaN(prot)?0:prot,c:isNaN(carbs)?0:carbs,f:isNaN(fat)?0:fat};
+      const name=($('#qaName')&&$('#qaName').value||ui.qaName||'Quick add').trim()||'Quick add';
+      const food={id:'quick:'+nid(),name:name,brand:'',barcode:'',source:'quick',per100:null,perUnit:per,servings:[{unit:'serving',grams:null,label:'serving'}]};
+      const meal=ui.foodMeal||mealNow();
+      ensureDay(P,foodDate())[meal].push(entryFrom(food,1,'serving',meal));
+      rememberFood(P,food);ui.foodMode='day';ui.qaCal=ui.qaP=ui.qaC=ui.qaF=ui.qaName='';save();render();toast('Added');break;}
+    case 'foodmanual':ui.foodMode='manual';ui.manBasis=ui.manBasis||'100g';render();break;
+    case 'manbasis':ui.manBasis=b.dataset.v;render(true);break;
+    case 'mansave':{
+      const name=($('#manName')&&$('#manName').value||ui.manName||'').trim();
+      if(!name){toast('Enter a name');break;}
+      const cal=num($('#manCal')?$('#manCal').value:ui.manCal),prot=num($('#manP')?$('#manP').value:ui.manP),carbs=num($('#manC')?$('#manC').value:ui.manC),fat=num($('#manF')?$('#manF').value:ui.manF);
+      const per={kcal:isNaN(cal)?0:cal,p:isNaN(prot)?0:prot,c:isNaN(carbs)?0:carbs,f:isNaN(fat)?0:fat};
+      const grams=num($('#manGrams')?$('#manGrams').value:ui.manGrams);
+      const basis=ui.manBasis||'100g';
+      const code=String($('#manCode')?$('#manCode').value:(ui.manCode||'')).replace(/\D/g,'');
+      const food={id:'custom:'+nid(),name:name,brand:'',barcode:code,source:'custom',per100:null,perUnit:null,servings:[]};
+      if(basis==='100g'||(!isNaN(grams)&&grams>0)){
+        const base=basis==='100g'?per:{kcal:per.kcal*100/grams,p:per.p*100/grams,c:per.c*100/grams,f:per.f*100/grams};
+        food.per100=base;
+        food.servings.push({unit:'g',grams:1,label:'g'},{unit:'oz',grams:28.3495,label:'oz'});
+        food.servings.push({unit:'serving',grams:!isNaN(grams)&&grams>0?grams:100,label:!isNaN(grams)&&grams>0?grams+' g':'100 g'});
+      }else{food.perUnit=per;food.servings.push({unit:'serving',grams:null,label:'serving'});}
+      const L=foodLib(P);L.custom=L.custom.filter(f=>!(code&&f.barcode===code));L.custom.unshift(food);
+      if(code)saveBar(code,food);
+      const meal=ui.foodMeal||mealNow();
+      const unit=defaultUnit(food),qty=unit==='g'?100:1;
+      ensureDay(P,foodDate())[meal].push(entryFrom(food,qty,unit,meal));
+      rememberFood(P,food);ui.foodMode='day';ui.manName=ui.manCal=ui.manP=ui.manC=ui.manF=ui.manGrams=ui.manCode='';save();render();toast('Saved '+name);break;}
+    case 'foodcode':lookupBarcode($('#barcode')?$('#barcode').value:'');break;
+    case 'foodtargets':ui.foodMode='targets';render();break;
+    case 'tgsave':{
+      const kcal=num($('#tgCal').value),p=num($('#tgP').value),c=num($('#tgC').value),f=num($('#tgF').value);
+      if([kcal,p,c,f].some(x=>isNaN(x)||x<=0)){toast('Enter targets above zero');break;}
+      if(!store.foodTargets||typeof store.foodTargets!=='object')store.foodTargets={};
+      store.foodTargets[P]={kcal:kcal,p:p,c:c,f:f};ui.foodMode='day';save();render();toast('Targets saved');break;}
+    case 'foodspan':ui.foodSpan=+b.dataset.n===30?30:7;render(true);break;
     case 'day':ui.day=b.dataset.d;ui.swapOpen=null;render();break;
     case 'tab':ui.tab=b.dataset.tab;render();break;
     case 'tog':{
@@ -953,13 +1672,16 @@ function exportObj(){
   const o={v:store.v||1,app:'hd1s-workout-tracker',exportedAt:new Date().toISOString(),lastPerson:p,
     goals:{},weighIns:{},measures:{},daily:{},sessions:{},drafts:{},
     settings:JSON.parse(JSON.stringify(store.settings||blank().settings)),lastBackup:store.lastBackup||null,
-    extraPeople:[],planFor:{}};
+    extraPeople:[],planFor:{},foodDays:{},foodLib:{},foodTargets:{}};
   o.goals[p]=JSON.parse(JSON.stringify(store.goals[p]||{start:'',goal:''}));
   o.weighIns[p]=JSON.parse(JSON.stringify(store.weighIns[p]||[]));
   o.measures[p]=JSON.parse(JSON.stringify(store.measures[p]||[]));
   Object.keys(store.sessions||{}).forEach(k=>{const s=store.sessions[k];if(s&&s.person===p)o.sessions[k]=JSON.parse(JSON.stringify(s));});
   Object.keys(store.daily||{}).forEach(k=>{if(k.indexOf(p+'|')===0)o.daily[k]=JSON.parse(JSON.stringify(store.daily[k]));});
   Object.keys(store.drafts||{}).forEach(k=>{if(k.indexOf(p+'|')===0)o.drafts[k]=JSON.parse(JSON.stringify(store.drafts[k]));});
+  Object.keys(store.foodDays||{}).forEach(k=>{if(k.indexOf(p+'|')===0)o.foodDays[k]=JSON.parse(JSON.stringify(store.foodDays[k]));});
+  if(store.foodLib&&store.foodLib[p])o.foodLib[p]=JSON.parse(JSON.stringify(store.foodLib[p]));
+  if(store.foodTargets&&store.foodTargets[p])o.foodTargets[p]=JSON.parse(JSON.stringify(store.foodTargets[p]));
   if((store.extraPeople||[]).indexOf(p)>=0){o.extraPeople=[p];if(store.planFor&&store.planFor[p])o.planFor[p]=store.planFor[p];}
   return o;
 }
@@ -974,6 +1696,7 @@ function peopleIn(inc){
     if((g.start||'')!==(def.start||'')||(g.goal||'')!==(def.goal||''))add(n);
   });
   Object.keys(inc.drafts||{}).forEach(k=>{const n=String(k).split('|')[0];if(n&&draftTouched(inc.drafts[k]))add(n);});
+  Object.keys(inc.foodDays||{}).forEach(k=>{const n=String(k).split('|')[0];if(n&&dayHasFood(inc.foodDays[k]))add(n);});
   return set;
 }
 function clearPerson(p){
@@ -981,6 +1704,9 @@ function clearPerson(p){
   Object.keys(store.daily||{}).forEach(k=>{if(k.indexOf(p+'|')===0)delete store.daily[k];});
   Object.keys(store.drafts||{}).forEach(k=>{if(k.indexOf(p+'|')===0)delete store.drafts[k];});
   store.weighIns[p]=[];store.measures[p]=[];store.goals[p]={start:'',goal:''};
+  Object.keys(store.foodDays||{}).forEach(k=>{if(k.indexOf(p+'|')===0)delete store.foodDays[k];});
+  if(store.foodLib)delete store.foodLib[p];
+  if(store.foodTargets)delete store.foodTargets[p];
 }
 function remapPerson(inc,from,to){
   const sessions={},daily={},drafts={};
@@ -992,7 +1718,9 @@ function remapPerson(inc,from,to){
   });
   Object.keys(inc.daily||{}).forEach(k=>{if(k.indexOf(from+'|')===0)daily[to+'|'+k.slice(from.length+1)]=JSON.parse(JSON.stringify(inc.daily[k]));});
   Object.keys(inc.drafts||{}).forEach(k=>{if(k.indexOf(from+'|')===0)drafts[to+'|'+k.slice(from.length+1)]=JSON.parse(JSON.stringify(inc.drafts[k]));});
-  return {sessions,daily,drafts,
+  const foodDays={};
+  Object.keys(inc.foodDays||{}).forEach(k=>{if(k.indexOf(from+'|')===0)foodDays[to+'|'+k.slice(from.length+1)]=JSON.parse(JSON.stringify(inc.foodDays[k]));});
+  return {sessions,daily,drafts,foodDays,foodLib:inc.foodLib&&inc.foodLib[from]?{[to]:JSON.parse(JSON.stringify(inc.foodLib[from]))}:{},foodTargets:inc.foodTargets&&inc.foodTargets[from]?{[to]:JSON.parse(JSON.stringify(inc.foodTargets[from]))}:{},
     goals:JSON.parse(JSON.stringify(inc.goals[from]||{start:'',goal:''})),
     weighIns:JSON.parse(JSON.stringify(inc.weighIns[from]||[])),
     measures:JSON.parse(JSON.stringify(inc.measures[from]||[]))};
@@ -1010,6 +1738,21 @@ function mergePerson(p,data){
   ['start','goal'].forEach(f=>{if(!store.goals[p][f]&&g[f])store.goals[p][f]=g[f];});
   Object.keys(data.daily||{}).forEach(k=>{if(k.indexOf(p+'|')===0)store.daily[k]=Object.assign({},data.daily[k],store.daily[k]||{});});
   Object.keys(data.drafts||{}).forEach(k=>{if(k.indexOf(p+'|')===0&&!store.drafts[k])store.drafts[k]=data.drafts[k];});
+  if(!store.foodDays||typeof store.foodDays!=='object')store.foodDays={};
+  Object.keys(data.foodDays||{}).forEach(k=>{
+    if(k.indexOf(p+'|')!==0)return;
+    if(!store.foodDays[k])store.foodDays[k]=blankFoodDay();
+    MEALS.forEach(m=>{
+      if(!Array.isArray(store.foodDays[k][m[0]]))store.foodDays[k][m[0]]=[];
+      const have={};store.foodDays[k][m[0]].forEach(it=>{if(it&&it.id)have[it.id]=1;});
+      ((data.foodDays[k]&&data.foodDays[k][m[0]])||[]).forEach(it=>{if(it&&!have[it.id])store.foodDays[k][m[0]].push(it);});
+    });
+  });
+  if(data.foodLib&&data.foodLib[p]){
+    const L=foodLib(p),inc=data.foodLib[p];
+    ['fav','custom','recent'].forEach(key=>{(inc[key]||[]).forEach(f=>{if(f&&f.id&&!L[key].some(x=>x.id===f.id))L[key].push(f);});});
+  }
+  if(data.foodTargets&&data.foodTargets[p])store.foodTargets[p]=Object.assign({},store.foodTargets[p]||{},data.foodTargets[p]);
 }
 async function doExport(){
   const txt=JSON.stringify(exportObj(),null,1),name='gym-backup-'+String(currentPerson()).replace(/\s+/g,'-')+'-'+nowDenver().date+'.json';
@@ -1024,15 +1767,19 @@ function doImport(txt,replace){
   let o;try{o=JSON.parse(txt);}catch(e){toast('That doesn\u2019t look like a backup file');return;}
   if(!o||typeof o!=='object'||(!o.sessions&&!o.weighIns&&!o.daily)){toast('That doesn\u2019t look like a backup file');return;}
   const inc=normalize(o);
+  migrateFood(inc);
   const me=currentPerson();
   ensurePerson(me);
   const incoming=peopleIn(inc);
   let data;
   if(incoming.indexOf(me)>=0){
-    data={sessions:{},daily:{},drafts:{},goals:inc.goals[me]||{start:'',goal:''},weighIns:inc.weighIns[me]||[],measures:inc.measures[me]||[]};
+    data={sessions:{},daily:{},drafts:{},foodDays:{},foodLib:{},foodTargets:{},goals:inc.goals[me]||{start:'',goal:''},weighIns:inc.weighIns[me]||[],measures:inc.measures[me]||[]};
     Object.keys(inc.sessions||{}).forEach(k=>{const s=inc.sessions[k];if(s&&s.person===me)data.sessions[k]=s;});
     Object.keys(inc.daily||{}).forEach(k=>{if(k.indexOf(me+'|')===0)data.daily[k]=inc.daily[k];});
     Object.keys(inc.drafts||{}).forEach(k=>{if(k.indexOf(me+'|')===0)data.drafts[k]=inc.drafts[k];});
+    Object.keys(inc.foodDays||{}).forEach(k=>{if(k.indexOf(me+'|')===0)data.foodDays[k]=inc.foodDays[k];});
+    if(inc.foodLib&&inc.foodLib[me])data.foodLib[me]=inc.foodLib[me];
+    if(inc.foodTargets&&inc.foodTargets[me])data.foodTargets[me]=inc.foodTargets[me];
   }else if(incoming.length===1){
     const from=incoming[0];
     if(!confirm('This backup is for '+from+', not '+me+'. Import it into '+me+' on this phone?'))return;
@@ -1053,7 +1800,7 @@ function doImport(txt,replace){
 
 /* ---------- boot ---------- */
 $('#nav').addEventListener('click',e=>{const b=e.target.closest('button[data-tab]');if(b){ui.tab=b.dataset.tab;render();}});
-window.__app={get store(){return store;},ui,render,act,doImport,exportObj,finish,weekStats,plateHint,SWAP_CAT,SWAP_LIB,getDevice,allPeople,peopleIn};
+window.__app={get store(){return store;},ui,render,act,doImport,exportObj,finish,weekStats,plateHint,SWAP_CAT,SWAP_LIB,getDevice,allPeople,peopleIn,LOCAL_FOODS,foodTotals,searchLocal};
 render();
 if('serviceWorker' in navigator&&location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
 })();

@@ -83,6 +83,8 @@ label input{margin-top:4px}
 .chart{width:100%;height:auto;margin:6px 0}.chart .grid{stroke:var(--line);stroke-width:1}.chart .ax{fill:var(--mut);font-size:10px}
 .chart .goal{stroke:var(--ok);stroke-dasharray:5 4;stroke-width:1.5}.chart .gl{fill:var(--ok);font-size:10px}.chart .startl{stroke:var(--mut);stroke-dasharray:2 4}
 .chart .ln{stroke:var(--acc);stroke-width:2.5}.chart .pt{fill:var(--acc)}
+.chart .roll{stroke:var(--warn);stroke-width:2;fill:none}
+#reportCard{background:#10192c}
 .list .li,.li{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
 .good{color:var(--ok)}.bad{color:var(--warn)}
 .x{background:none;border:0;color:var(--mut);font-size:18px;min-width:44px;min-height:44px}
@@ -798,7 +800,7 @@ function foodLib(p){
   return L;
 }
 function targetsFor(p){
-  const d=p==='Kevin'?{kcal:2400,p:180,c:220,f:70}:p==='Sasha'?{kcal:1800,p:110,c:180,f:60}:{kcal:2000,p:120,c:200,f:65};
+  const d=p==='Kevin'?{kcal:2100,p:180,c:200,f:65}:p==='Sasha'?{kcal:1800,p:110,c:180,f:60}:{kcal:2000,p:120,c:200,f:65};
   const t=(store.foodTargets&&store.foodTargets[p])||{};
   return {kcal:Number(t.kcal)>0?Number(t.kcal):d.kcal,p:Number(t.p)>0?Number(t.p):d.p,c:Number(t.c)>0?Number(t.c):d.c,f:Number(t.f)>0?Number(t.f):d.f};
 }
@@ -1486,6 +1488,187 @@ function applyHealth(){
 }
 stashHealth();
 
+/* ---------- projection, progression, readiness, report ---------- */
+function trainingFor(p){
+  if(!store.training||typeof store.training!=='object')store.training={};
+  if(!store.training[p]||typeof store.training[p]!=='object')store.training[p]={deloadWeek:'',deload:''};
+  return store.training[p];
+}
+function remindersFor(p){
+  if(!store.reminders||typeof store.reminders!=='object')store.reminders={};
+  if(!store.reminders[p]||typeof store.reminders[p]!=='object')store.reminders[p]={on:false,hour:18,last:''};
+  return store.reminders[p];
+}
+function readyKey(p,iso){return p+'|'+(iso||nowDenver().date);}
+function readinessFor(p,iso){
+  if(!store.readiness||typeof store.readiness!=='object')store.readiness={};
+  return store.readiness[readyKey(p,iso)]||null;
+}
+function setsHitTop(sets,ex){
+  const done=doneSets(sets);
+  if(!ex.top||done.length<ex.sets)return false;
+  return done.slice(0,ex.sets).every(s=>num(s.r)>=ex.top);
+}
+function topWeight(sets){
+  const ws=doneSets(sets).map(s=>num(s.w)).filter(w=>!isNaN(w)&&w>0);
+  return ws.length?Math.max.apply(null,ws):NaN;
+}
+function liftHist(person,key,n){
+  const out=[];
+  for(const s of sessionsOf(person)){
+    const e=(s.exercises||[]).find(x=>x.key===key);
+    if(e&&doneSets(e.sets).length)out.push(e);
+    if(out.length>=(n||3))break;
+  }
+  return out;
+}
+function progressionHint(person,ex,key){
+  if(ex.timed){
+    const last=lastFor(person,key);
+    if(last&&ex.top&&last.length>=ex.sets&&last.slice(0,ex.sets).every(s=>num(s.r)>=ex.top))return {text:'You hit '+ex.top+' sec on every set. Next time add 5-10 seconds.'};
+    return null;
+  }
+  const hist=liftHist(person,key,3);
+  if(hist.length>=2&&setsHitTop(hist[0].sets,ex)&&setsHitTop(hist[1].sets,ex)){
+    const w=topWeight(hist[0].sets);
+    if(!isNaN(w)&&w>0)return {text:'Top of the range two sessions in a row at '+w+' lb. Next weight: '+(w+5)+' lb.',add:5};
+  }
+  if(hist.length>=3){
+    const ws=hist.map(h=>topWeight(h.sets));
+    if(ws.every(w=>!isNaN(w)&&Math.abs(w-ws[0])<1)&&!setsHitTop(hist[0].sets,ex)){
+      const drop=Math.max(5,Math.round((ws[0]*0.1)/5)*5);
+      return {text:'Stalled 3 sessions at '+ws[0]+' lb. Try '+(ws[0]-drop)+' lb, or swap to an easier version.',add:-drop};
+    }
+  }
+  return null;
+}
+function deloadDue(p){
+  const ss=sessionsOf(p);if(!ss.length)return false;
+  const first=ss[ss.length-1].date;
+  const weeks=Math.round((dUTC(weekStart(nowDenver().date))-dUTC(weekStart(first)))/86400000/7);
+  return weeks>0&&weeks%6===5;
+}
+function deloadOn(p){
+  const t=trainingFor(p);
+  return t.deload==='on'&&t.deloadWeek===weekStart(nowDenver().date);
+}
+function scaleOpenSets(person,day,factor){
+  const d=getDraft(person,day);
+  Object.keys(d.sets||{}).forEach(k=>(d.sets[k]||[]).forEach(s=>{
+    if(s.d)return;
+    const w=num(s.w);
+    if(!isNaN(w)&&w>0)s.w=String(Math.round((w*factor)/2.5)*2.5);
+  }));
+  save();
+}
+function weightOutlook(wi,goal){
+  const sorted=(wi||[]).slice().sort((a,b)=>a.date<b.date?-1:1);
+  if(sorted.length<2)return {flag:'none',rate:NaN,date:'',text:'Add another weigh-in to see a trend.'};
+  const last=sorted[sorted.length-1];
+  const prev=sorted.filter(x=>x.date<=addDays(last.date,-7));
+  if(!prev.length)return {flag:'none',rate:NaN,date:'',text:'Weigh in again about a week later to see a weekly rate.'};
+  const then=prev[prev.length-1];
+  const days=Math.max(1,Math.round((dUTC(last.date)-dUTC(then.date))/86400000));
+  const rate=(Number(then.lbs)-Number(last.lbs))/days*7;
+  const cur=Number(last.lbs);
+  if(rate>2)return {flag:'fast',rate:rate,date:'',text:'Losing about '+round1(rate)+' lb a week. Faster than 2 lb a week raises the chance of losing muscle. Aim closer to 0.5–1 lb a week.'};
+  if(days>=14&&(Number(then.lbs)-cur)<0.5&&(isNaN(goal)||cur>goal))return {flag:'stall',rate:rate,date:'',text:'Weight is stalled. It has barely dropped for '+days+' days (2 weeks or more).'};
+  if(!isNaN(goal)&&cur<=goal)return {flag:'ok',rate:rate,date:'',text:'At or under the goal weight. Rate is about '+round1(rate)+' lb a week.'};
+  if(rate>0.05&&!isNaN(goal)&&cur>goal){
+    const when=addDays(last.date,Math.round((cur-goal)/(rate/7)));
+    return {flag:'ok',rate:rate,date:when,text:'About '+round1(rate)+' lb a week. At this pace, '+goal+' lb is around '+fmtDate(when)+'.'};
+  }
+  return {flag:days>=14?'stall':'ok',rate:rate,date:'',text:days>=14?'Not losing over the last '+days+' days. No date to project until the trend turns down.':'About '+round1(rate)+' lb a week so far. Another week of weigh-ins will firm this up.'};
+}
+function projectionCard(wi,goal){
+  const o=weightOutlook(wi,goal);
+  const flag=o.flag==='fast'?'<div class="warn" id="lossFlag">Muscle-loss risk: this is faster than 2 lb a week.</div>':o.flag==='stall'?'<div class="note" id="lossFlag">Stalled for 2 weeks or more.</div>':'';
+  return '<div id="projection" data-flag="'+o.flag+'" data-rate="'+(isNaN(o.rate)?'':round1(o.rate))+'" data-date="'+esc(o.date)+'"><p>'+esc(o.text)+'</p>'+flag+'</div>';
+}
+const MOBILITY=[
+{name:'90/90 hip switches',area:'Hips',cue:'Sit tall and switch knees slowly. Stay where you can still breathe.',id:'qnOZdnj_pEA'},
+{name:'Half-kneeling hip flexor stretch',area:'Hips',cue:'Tuck the pelvis and shift forward gently. 45 seconds each side.',id:'YQmpO9VT2X4'},
+{name:'Hip stretch series',area:'Hips',cue:'Use the figure-4 and the easy hip stretches in this short series.',id:'7I4cKIK29O4'},
+{name:'Open-book thoracic rotation',area:'Thoracic spine',cue:'Knees stacked, open the top arm, and let the mid-back turn. 8 slow reps each side.',id:'peeW19ofFUg'},
+{name:'Shoulder stretch series',area:'Shoulders',cue:'Move slowly. Stop before a pinch. About 2 minutes.',id:'6jHsraw2NIk'},
+{name:'Seated hamstring stretch',area:'Hamstrings',cue:'Hinge from the hips with a soft knee. 45 seconds each side.',id:'FDwpEdxZ4H4'},
+{name:'Cat-cow',area:'Spine',cue:'10 slow breaths. Round and arch only as far as feels easy.',id:'kqnua4rHVVA'}
+];
+function mobilityCard(p){
+  const iso=nowDenver().date;
+  if(!store.mobility||typeof store.mobility!=='object')store.mobility={};
+  const saved=store.mobility[dk(p,iso)]||{};
+  let h='<section class="card" id="mobility"><h2>Sunday mobility, about 10 minutes</h2><p class="muted">Optional. Hips, shoulders, mid-back, and hamstrings. Never push into sharp pain.</p>';
+  MOBILITY.forEach((m,i)=>{
+    h+='<div class="li"><div><b>'+esc(m.name)+'</b><br><span class="tiny muted">'+esc(m.area)+' · '+esc(m.cue)+'</span></div><a class="btn mini" data-demo="1" href="'+esc('https://www.youtube.com/watch?v='+m.id)+'" target="_blank" rel="noopener">Watch demo</a></div>';
+  });
+  h+='<p class="tiny muted">About one minute each. Check them off if you want a record.</p>';
+  MOBILITY.forEach((m,i)=>{h+='<label class="chkrow sm"><input type="checkbox" data-act="mob" data-i="'+i+'"'+(saved[i]?' checked':'')+'><span>'+esc(m.name)+'</span></label>';});
+  return h+'</section>';
+}
+function readinessCard(p){
+  const r=readinessFor(p)||{};
+  const row=(key,label,opts)=>'<p><b>'+label+'</b></p><div class="chips">'+opts.map(o=>'<button class="chip'+((r[key]===o[0])?' on':'')+'" data-act="ready" data-k="'+key+'" data-v="'+o[0]+'">'+o[1]+'</button>').join('')+'</div>';
+  let h='<section class="card" id="readiness"><h2>How do you feel?</h2><p class="tiny muted">Three taps before you start.</p>';
+  h+=row('sleep','Sleep',[['good','Good'],['ok','OK'],['low','Low']]);
+  h+=row('sore','Soreness',[['easy','Easy'],['some','Some'],['high','A lot']]);
+  h+=row('joint','Joint pain',[['none','None'],['some','Some'],['high','It hurts']]);
+  if(r.sleep==='low'||r.sore==='high')h+='<div class="note" id="lighterNote">Today looks like a lighter day. Use about 60% of your usual weight, or swap to an easier option.</div><button class="btn" data-act="apply60">Use lighter weights</button>';
+  if(r.joint==='some'||r.joint==='high')h+='<div class="warn" id="jointNote">Ease off anything that hurts. If joint pain keeps showing up, check with a doctor before you push that area.</div>';
+  return h+'</section>';
+}
+function deloadCard(p){
+  if(!deloadDue(p))return '';
+  const ws=weekStart(nowDenver().date),t=trainingFor(p);
+  if(t.deloadWeek===ws&&t.deload==='off')return '';
+  if(t.deloadWeek===ws&&t.deload==='on')return '<section class="card" id="deload"><h2>Deload week</h2><p>Optional easier week, about 60% of your usual load. Stop a couple of reps early. This is here so recovery keeps up at 50 and 55.</p><button class="btn" data-act="apply60">Apply 60% to today</button></section>';
+  return '<section class="card" id="deloadAsk"><h2>Every 6th week: easier week?</h2><p>You have trained for 6 weeks. An optional deload uses about 60% of the usual weight so joints and muscles can catch up.</p><div class="acts"><button class="btn primary" data-act="deloadon">Make this an easier week</button><button class="btn" data-act="deloadoff">Keep normal weights</button></div></section>';
+}
+function reportText(p,ws){
+  const st=weekStats(p,ws);
+  const numOr=v=>isNaN(v)?'—':String(Math.round(v));
+  const wc=isNaN(st.wc)?'—':((st.wc>0?'+':'')+round1(st.wc)+' lb');
+  return ['K-Dogs GYM App','Week of '+fmtShort(ws)+' · '+p,'Workouts: '+st.n+'/6','Avg calories: '+numOr(st.cal),'Avg protein: '+(isNaN(st.protein)?'—':round1(st.protein))+' g','Weight change: '+wc,'PRs: '+st.prs,'Workout streak: '+streakEnding(p,'workout'),'Protein streak: '+streakEnding(p,'protein'),'Logging streak: '+streakEnding(p,'any')].join('\n');
+}
+function reportCard(p,ws){
+  const text=reportText(p,ws);
+  return '<section class="card" id="reportCard"><h2>Week for the coach</h2><pre id="reportText" style="white-space:pre-wrap;font:inherit;margin:0">'+esc(text)+'</pre><button class="btn primary" data-act="copyreport">Copy summary as text</button></section>';
+}
+function backupDue(p){
+  const ss=sessionsOf(p);if(!ss.length)return false;
+  if(!store.lastBackup)return (Date.parse(nowDenver().date)-Date.parse(ss[ss.length-1].date))/864e5>=7;
+  return (Date.parse(nowDenver().date)-Date.parse(String(store.lastBackup).slice(0,10)))/864e5>=7;
+}
+function backupNudge(p){
+  if(!backupDue(p))return '';
+  return '<section class="card" id="backupNudge"><h2>Time for a backup</h2><p>Export a file about every 7 days so a lost phone does not lose the log.</p><button class="btn primary" data-act="export">Export backup</button></section>';
+}
+function dataCard(){
+  let all=0;
+  try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);all+=(k||'').length+(localStorage.getItem(k)||'').length;}}catch(e){}
+  let profile=0;
+  try{profile=JSON.stringify(exportObj()).length;}catch(e){}
+  const kb=n=>n<1024?n+' characters':round1(n/1024)+' KB';
+  return '<section class="card" id="dataScreen"><h2>Data</h2><p>This profile\u2019s backup is about '+kb(profile)+'.</p><p>Saved on this phone for the app: about '+kb(all)+'.</p><p id="quota" class="tiny muted"></p><p>Last backup: '+(store.lastBackup?esc(String(store.lastBackup).slice(0,10)):'never')+'</p><button class="btn primary" data-act="export">Export backup</button></section>';
+}
+function notifyNote(){
+  const ok=typeof Notification!=='undefined';
+  return ok?'Reminders can appear when this app is installed on the Home Screen (iPhone 16.4 or later) and notifications are allowed. A closed browser tab cannot wake the phone by itself.':'This browser cannot show reminders. On iPhone, add K-Dogs GYM to the Home Screen and use iOS 16.4 or later.';
+}
+function maybeRemind(p){
+  const r=remindersFor(p);
+  if(!r.on||typeof Notification==='undefined'||Notification.permission!=='granted')return;
+  const today=nowDenver().date;
+  if(r.last===today||dowOf(today)==='Sun')return;
+  if(sessionsOf(p).some(s=>s.date===today))return;
+  let hour=12;
+  try{hour=parseInt(new Intl.DateTimeFormat('en-US',{timeZone:TZ,hour:'numeric',hourCycle:'h23'}).format(new Date()),10);}catch(e){}
+  if(window.__NOW&&window.__NOW.hour!=null)hour=window.__NOW.hour;
+  if(hour<(r.hour||18))return;
+  r.last=today;save();
+  try{new Notification('K-Dogs GYM App',{body:'A workout is still open today. A short session counts.'});}catch(e){}
+}
+
 /* ---------- views ---------- */
 function render(keepScroll){
   const y=window.scrollY;
@@ -1507,6 +1690,8 @@ function render(keepScroll){
   if(ui.tab==='workout')document.querySelectorAll('.plate-hint').forEach(el=>{const inp=document.querySelector('.set[data-key="'+el.dataset.key+'"] input[data-f="w"]');if(inp)updateHint(inp);});
   if(ui.tab==='food'&&ui.foodMode==='add')runFoodSearch(ui.foodQ||'');
   if(ui.tab==='food'&&ui.foodMode==='scan')startScan().catch(()=>{});
+  if(locked)maybeRemind(locked);
+  if(ui.tab==='more'&&navigator.storage&&navigator.storage.estimate)navigator.storage.estimate().then(e=>{const el=$('#quota');if(el&&e&&e.usage!=null)el.textContent='Browser storage in use: about '+Math.round(e.usage/1024)+' KB'+(e.quota?' of '+Math.round(e.quota/1024/1024)+' MB':'')+'.';}).catch(()=>{});
 }
 function memWarn(){return memoryOnly?'<div class="warn">Your browser is blocking storage (private mode?). Nothing will be saved. Open the app in normal Safari.</div>':'';}
 function viewHeader(){
@@ -1544,17 +1729,18 @@ function viewWorkout(){
   h+='<div class="dayhead"><h1>'+DAYNAMES[day]+(day===now.dow?' · Today':'')+'</h1><p class="focus">'+esc(plan.focus)+'</p><p class="muted">'+esc(plan.minutes)+'</p></div>';
   if(day!==now.dow&&plan.exercises.length)h+='<div class="note">You are viewing '+DAYNAMES[day]+'. Anything you log saves under today\u2019s date ('+fmtShort(now.date)+').</div>';
   if(ui.saved&&ui.saved.person===person)h+=savedCard(ui.saved);
-  const mineCount=sessionsOf(person).length;
-  const stale=!store.lastBackup&&mineCount>=3||(store.lastBackup&&(Date.parse(now.date)-Date.parse(store.lastBackup.slice(0,10)))/864e5>21&&mineCount>0);
-  if(stale)h+='<div class="note">Tip: make a backup (More tab) so a lost phone doesn\u2019t lose your history.</div>';
+  h+=backupNudge(person);
   h+=foodDashCard();
   h+=streakCard(person);
   const kind=DAY_KIND[day];
   if(!plan.exercises.length){
     h+='<section class="card rest"><h2>😴 Rest day</h2><p>'+esc(plan.warmup)+'</p><p>'+esc(plan.finisher)+'</p></section>';
+    if(day==='Sun')h+=mobilityCard(person);
     h+=coolCard(null,kind,'Optional 5-minute mobility flow');
     return h;
   }
+  h+=deloadCard(person);
+  h+=readinessCard(person);
   const d=getDraft(person,day);save();
   let tot=0,dn=0;plan.exercises.forEach(ex=>{const x=exData(ex,d);const a=d.sets[x.key]||[];tot+=a.length;dn+=a.filter(s=>s.d).length;});
   h+='<div class="prog"><div class="bar"><div id="pfill" style="width:'+(tot?100*dn/tot:0)+'%"></div></div><span id="ptxt">'+dn+' / '+tot+' sets</span></div>';
@@ -1575,8 +1761,8 @@ function exCard(person,ex,d){
   h+='<div class="meta"><b>'+ex.sets+' × '+esc(ex.reps)+'</b> · rest '+ex.rest+' sec'+(ex.timed?' · timed hold':'')+'</div>';
   if(last){
     const s=last.slice(0,ex.sets);h+='<div class="tiny muted">Last time: '+esc(fmtSets(s))+'</div>';
-    const hint=overload(ex,last);
-    if(hint&&!d.applied[x.key])h+='<div class="hint">📈 '+esc(hint.text)+(hint.w?' <button class="btn mini" data-act="apply" data-key="'+esc(x.key)+'" data-ex="'+ex.id+'">Use +5 lb</button>':'')+'</div>';
+    const hint=progressionHint(person,ex,x.key);
+    if(hint&&!d.applied[x.key])h+='<div class="hint" id="progHint">'+esc(hint.text)+(hint.add?' <button class="btn mini" data-act="apply" data-key="'+esc(x.key)+'" data-add="'+hint.add+'">'+(hint.add>0?'Use next weight':'Use the lighter weight')+'</button>':'')+'</div>';
   }
   h+='<div class="sets"><div class="set hdr"><span></span><span>Weight (lb)</span><span>'+(ex.timed?'Seconds':'Reps')+'</span><span>Done</span></div>';
   sets.forEach((s,i)=>{h+='<div class="set'+(s.d?' done':'')+'" data-key="'+esc(x.key)+'" data-ex="'+ex.id+'" data-i="'+i+'"><span class="n">'+(i+1)+'</span>'+
@@ -1640,7 +1826,7 @@ function viewProgress(){
   h+='<section class="card"><h2>Body weight</h2><div class="two"><label>Start (lb)<input inputmode="decimal" data-f="start" data-goal="1" value="'+esc(g.start)+'"></label><label>Goal (lb)<input inputmode="decimal" data-f="goal" data-goal="1" value="'+esc(g.goal)+'"></label></div>'+
    '<div class="two"><label>Weigh-in (lb)<input id="wi-lbs" inputmode="decimal" placeholder="e.g. 217.4"></label><label>Date<input id="wi-date" type="date" value="'+now+'"></label></div><button class="btn primary" data-act="addweight">Save weigh-in</button>'+
    '<div class="stats"><div><b>'+(isNaN(cur)?'—':cur)+'</b><span>Latest lb</span></div><div><b>'+(isNaN(toGo)?'—':round1(toGo))+'</b><span>To goal</span></div><div><b>'+(isNaN(lost)?'—':round1(lost))+'</b><span>Lost</span></div><div><b>'+(isNaN(pct)?'—':Math.round(pct)+'%')+'</b><span>Progress</span></div></div>'+
-   weightChart(wi,start,goal)+
+   weightChart(wi,start,goal)+projectionCard(wi,goal)+
    (wi.length?'<div class="list">'+wi.slice().reverse().slice(0,12).map((x,i,arr)=>{const nx=arr[i+1];const dl=nx?round1(x.lbs-nx.lbs):null;return '<div class="li"><span>'+fmtDate(x.date)+'</span><b>'+x.lbs+' lb</b><span class="'+(dl==null?'':(dl<=0?'good':'bad'))+'">'+(dl==null?'':(dl>0?'+':'')+dl)+'</span><button class="x" data-act="delweight" data-date="'+x.date+'" aria-label="Delete">✕</button></div>';}).join('')+'</div>':'<p class="muted">No weigh-ins yet.</p>')+'</section>';
   // measurements
   const ms=store.measures[p].slice().sort((a,b)=>a.date<b.date?-1:1);
@@ -1670,6 +1856,7 @@ function weightChart(wi,start,goal){
   if(!isNaN(goal))s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(goal)+'" y2="'+Y(goal)+'" class="goal"/><text x="'+(W-R)+'" y="'+(Y(goal)-4)+'" text-anchor="end" class="gl">Goal '+goal+'</text>';
   if(!isNaN(start)&&start!==goal)s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(start)+'" y2="'+Y(start)+'" class="startl"/><text x="'+L+'" y="'+(Y(start)-4)+'" class="ax">Start '+start+'</text>';
   s+='<polyline class="ln" fill="none" points="'+wi.map(x=>X(x.date).toFixed(1)+','+Y(x.lbs).toFixed(1)).join(' ')+'"/>';
+  if(wi.length>1){const rolls=wi.map((x,i)=>{const from=addDays(x.date,-6),pts=wi.filter(w=>w.date>=from&&w.date<=x.date),avg=pts.reduce((a,w)=>a+Number(w.lbs),0)/pts.length;return X(x.date).toFixed(1)+','+Y(avg).toFixed(1);});s+='<polyline class="roll" points="'+rolls.join(' ')+'"/>';}
   wi.forEach(x=>{s+='<circle cx="'+X(x.date).toFixed(1)+'" cy="'+Y(x.lbs).toFixed(1)+'" r="4" class="pt"/>';});
   s+='<text x="'+L+'" y="'+(H-6)+'" class="ax">'+fmtShort(wi[0].date)+'</text><text x="'+(W-R)+'" y="'+(H-6)+'" text-anchor="end" class="ax">'+fmtShort(wi[wi.length-1].date)+'</text></svg>';
   return s;
@@ -1696,7 +1883,7 @@ function viewHistory(){
   h+='<section class="card"><div class="wk"><button class="btn mini" data-act="wk" data-n="-1">‹</button><b>'+(ui.weekOff===0?'This week':'Week of '+fmtShort(ws))+'</b><button class="btn mini" data-act="wk" data-n="1"'+(ui.weekOff>=0?' disabled':'')+'>›</button></div>'+
    '<p class="tiny muted">'+fmtShort(ws)+' – '+fmtShort(addDays(ws,6))+'</p><div class="stats big"><div><b>'+st.n+'/6</b><span>Workouts</span></div><div><b>'+Math.round(st.vol).toLocaleString()+'</b><span>Volume (lb)</span></div><div><b>'+st.sets+'</b><span>Sets</span></div><div><b>'+f(st.rpe)+'</b><span>Avg effort</span></div>'+
    '<div><b>'+(isNaN(st.wc)?'—':(st.wc>0?'+':'')+round1(st.wc))+'</b><span>Weight change</span></div><div><b>'+f(st.cal,0)+'</b><span>Avg calories</span></div><div><b>'+f(st.protein)+'</b><span>Avg protein (g)</span></div><div><b>'+(isNaN(st.steps)?'—':Math.round(st.steps).toLocaleString())+'</b><span>Avg steps</span></div><div><b>'+f(st.water)+'</b><span>Avg water</span></div><div><b>'+f(st.sleep)+' / '+f(st.energy)+'</b><span>Sleep / energy</span></div></div>'+
-   (st.prs?'<p>🏆 '+st.prs+' new record'+(st.prs>1?'s':'')+' this week</p>':'')+'</section>'+streakCard(p)+badgeCard(p)+challengeCard(p)+foodHistoryCharts(p);
+   (st.prs?'<p>🏆 '+st.prs+' new record'+(st.prs>1?'s':'')+' this week</p>':'')+'</section>'+reportCard(p,ws)+streakCard(p)+badgeCard(p)+challengeCard(p)+foodHistoryCharts(p);
   const ss=sessionsOf(p);
   h+='<h2 class="sec">Workouts ('+ss.length+')</h2>';
   if(!ss.length)h+='<p class="muted pad">No finished workouts yet. Log your sets and tap Finish workout.</p>';
@@ -1722,11 +1909,12 @@ function viewMore(){
    '<div class="acts"><button class="btn primary" data-act="savepin">Save PIN</button>'+(pin?'<button class="btn" data-act="clearpin">Remove PIN</button>':'')+'</div>'+
    '<p class="tiny muted">'+(pin?'A PIN is set for '+esc(p)+'. You will need it to switch profiles.':'No PIN set. Switching asks you to confirm.')+' This only slows down switching on a shared phone. It is not real security.</p>'+
    '<button class="btn" data-act="switchprofile">Switch profile on this phone</button>'+
+   '<label class="chkrow sm"><input type="checkbox" data-act="remind" '+(remindersFor(p).on?'checked':'')+'><span>Remind me on workout days</span></label><p class="tiny muted">'+esc(notifyNote())+'</p>'+
    '<label class="chkrow sm"><input type="checkbox" data-act="details" '+(s.showDetails?'checked':'')+'><span>Show station and form tips on exercises</span></label>'+
    '<div class="two"><label>Water goal (glasses)<input inputmode="numeric" data-set="waterGoal" value="'+esc(s.waterGoal)+'"></label><label>Smith bar weight (lb)<input inputmode="decimal" data-set="bar" value="'+esc(s.bar)+'"></label></div>'+
    '<label>Plates you own (lb, comma separated)<input data-set="plates" value="'+esc(s.plates.join(', '))+'"></label><p class="tiny muted">Used for the Smith plate hints. Edit to match your plates.</p></section>'+
   '<section class="card"><h2>Add to Home Screen (iPhone)</h2><ol><li>Open this page in <b>Safari</b>.</li><li>Tap the Share button (square with an arrow).</li><li>Tap <b>Add to Home Screen</b>, then <b>Add</b>.</li><li>From now on, open the app from your Home Screen icon only. Data saved in Safari is separate from the Home Screen app, so start fresh there (or import a backup).</li></ol><p class="tiny muted">The icon label is K-Dogs GYM. An icon added before this rename keeps the old name until you remove it and add it again.</p></section>'+
-  healthGuideCard()+
+  healthGuideCard()+dataCard()+
   '<section class="card"><h2>Your gym: Blazzed HD1-S</h2>'+GYM_TIPS.map(t=>'<p>'+esc(t)+'</p>').join('')+GYM_SPECS.map(x=>'<div class="spec"><b>'+esc(x[0])+'</b><br><span class="muted">'+esc(x[1])+'</span></div>').join('')+
    '<div class="note">Sharp pain is a stop sign. Swap to an easier variation or skip the lift. If you have joint, heart, or other medical issues, check with your doctor before ramping up.</div></section>'+
   '<section class="card"><h2>Videos and links</h2>'+VIDEOS.map(v=>'<a class="link" href="'+esc(v.u)+'" target="_blank" rel="noopener"><b>'+esc(v.t)+'</b><br><span class="tiny muted">'+esc(v.s)+'</span></a>').join('')+'</section>';
@@ -1758,6 +1946,8 @@ document.addEventListener('change',e=>{
   if(t.dataset&&t.dataset.act==='warm'){const d=getDraft(ui.person,ui.day);d.warm=t.checked;save();}
   else if(t.dataset&&t.dataset.act==='cool'){const d=getDraft(ui.person,ui.day);d.cool[t.dataset.i]=t.checked;save();}
   else if(t.dataset&&t.dataset.act==='details'){store.settings.showDetails=t.checked;save();}
+  else if(t.dataset&&t.dataset.act==='mob'){if(!store.mobility||typeof store.mobility!=='object')store.mobility={};const k=dk(ui.person,nowDenver().date);store.mobility[k]=store.mobility[k]||{};store.mobility[k][t.dataset.i]=t.checked;save();}
+  else if(t.dataset&&t.dataset.act==='remind'){const r=remindersFor(ui.person);if(!t.checked){r.on=false;save();return;}if(typeof Notification==='undefined'){t.checked=false;toast('Reminders are not available in this browser');return;}Notification.requestPermission().then(perm=>{r.on=perm==='granted';save();render(true);if(perm!=='granted')toast('Notifications stay off until the phone allows them');}).catch(()=>{t.checked=false;toast('Could not ask for notifications');});}
   else if(t.id==='photoIn'&&t.files[0]){const f=t.files[0];shrink(f).then(data=>idbPut({id:'p'+Date.now(),person:ui.person,date:nowDenver().date,data})).then(()=>{toast('Photo saved');loadPhotos();}).catch(()=>toast('Could not save that photo'));t.value='';}
   else if(t.id==='impIn'&&t.files[0]){const f=t.files[0];f.text().then(txt=>doImport(txt,false));t.value='';}
   else if(t.id==='impReplaceIn'&&t.files[0]){const f=t.files[0];f.text().then(txt=>doImport(txt,true));t.value='';}
@@ -1962,7 +2152,18 @@ function act(a,b){
     case 'rmset':{const d=getDraft(P,ui.day),arr=d.sets[b.dataset.key];if(arr.length>1){arr.pop();save();render(true);}break;}
     case 'swap':ui.swapOpen=ui.swapOpen===b.dataset.ex?null:b.dataset.ex;render(true);break;
     case 'pick':{const d=getDraft(P,ui.day),i=+b.dataset.i;if(i<0)delete d.swaps[b.dataset.ex];else d.swaps[b.dataset.ex]=i;ui.swapOpen=null;save();render(true);break;}
-    case 'apply':{const d=getDraft(P,ui.day),arr=d.sets[b.dataset.key];arr.forEach(s=>{if(!s.d){const w=num(s.w);if(!isNaN(w))s.w=String(w+5);}});d.applied[b.dataset.key]=true;save();render(true);toast('Added 5 lb to the sets you haven\u2019t done yet');break;}
+    case 'apply':{const d=getDraft(P,ui.day),arr=d.sets[b.dataset.key],add=b.dataset.add?num(b.dataset.add):5;arr.forEach(s=>{if(!s.d){const w=num(s.w);if(!isNaN(w))s.w=String(round1(w+add));}});d.applied[b.dataset.key]=true;save();render(true);toast(add>0?'Updated to the next weight':'Lightened the sets you have not done yet');break;}
+    case 'apply60':scaleOpenSets(P,ui.day,0.6);render(true);toast('Set today\u2019s open weights to about 60%');break;
+    case 'ready':{if(!store.readiness||typeof store.readiness!=='object')store.readiness={};const k=readyKey(P);store.readiness[k]=Object.assign({},store.readiness[k]||{});store.readiness[k][b.dataset.k]=b.dataset.v;save();render(true);break;}
+    case 'deloadon':{const t=trainingFor(P);t.deloadWeek=weekStart(nowDenver().date);t.deload='on';save();render(true);toast('Easier week is on. About 60% of your usual weight.');break;}
+    case 'deloadoff':{const t=trainingFor(P);t.deloadWeek=weekStart(nowDenver().date);t.deload='off';save();render();break;}
+    case 'copyreport':{const text=reportText(P,addDays(weekStart(nowDenver().date),ui.weekOff*7));const done=()=>toast('Summary copied');if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text).then(done).catch(()=>{const el=$('#reportText');if(el){const r=document.createRange();r.selectNodeContents(el);const sel=getSelection();sel.removeAllRanges();sel.addRange(r);}toast('Select the summary and copy it');});else done();break;}
+    case 'remind':{
+      const r=remindersFor(P);
+      if(typeof Notification==='undefined'){r.on=false;save();toast('Reminders are not available here');render(true);break;}
+      if(r.on){r.on=false;save();render(true);break;}
+      Notification.requestPermission().then(perm=>{r.on=perm==='granted';save();render(true);if(perm!=='granted')toast('Notifications stay off until iPhone allows them');}).catch(()=>{toast('Could not ask for notifications');});
+      break;}
     case 'rpe':{const d=getDraft(P,ui.day);d.rpe=+b.dataset.n===d.rpe?null:+b.dataset.n;save();render(true);break;}
     case 'finish':finish();break;
     case 'reset':if(confirm('Clear everything you entered for this day?')){delete store.drafts[dk(P,ui.day)];save();render(true);}break;
@@ -2024,7 +2225,7 @@ function exportObj(){
   const o={v:store.v||1,app:'hd1s-workout-tracker',exportedAt:new Date().toISOString(),lastPerson:p,
     goals:{},weighIns:{},measures:{},daily:{},sessions:{},drafts:{},
     settings:JSON.parse(JSON.stringify(store.settings||blank().settings)),lastBackup:store.lastBackup||null,
-    extraPeople:[],planFor:{},foodDays:{},foodLib:{},foodTargets:{},partnerScores:{}};
+    extraPeople:[],planFor:{},foodDays:{},foodLib:{},foodTargets:{},partnerScores:{},readiness:{},mobility:{},reminders:{},training:{}};
   o.goals[p]=JSON.parse(JSON.stringify(store.goals[p]||{start:'',goal:''}));
   o.weighIns[p]=JSON.parse(JSON.stringify(store.weighIns[p]||[]));
   o.measures[p]=JSON.parse(JSON.stringify(store.measures[p]||[]));
@@ -2035,6 +2236,10 @@ function exportObj(){
   if(store.foodLib&&store.foodLib[p])o.foodLib[p]=JSON.parse(JSON.stringify(store.foodLib[p]));
   if(store.foodTargets&&store.foodTargets[p])o.foodTargets[p]=JSON.parse(JSON.stringify(store.foodTargets[p]));
   if(store.partnerScores&&store.partnerScores[p])o.partnerScores[p]=JSON.parse(JSON.stringify(store.partnerScores[p]));
+  Object.keys(store.readiness||{}).forEach(k=>{if(k.indexOf(p+'|')===0)o.readiness[k]=JSON.parse(JSON.stringify(store.readiness[k]));});
+  Object.keys(store.mobility||{}).forEach(k=>{if(k.indexOf(p+'|')===0)o.mobility[k]=JSON.parse(JSON.stringify(store.mobility[k]));});
+  if(store.reminders&&store.reminders[p])o.reminders[p]=JSON.parse(JSON.stringify(store.reminders[p]));
+  if(store.training&&store.training[p])o.training[p]=JSON.parse(JSON.stringify(store.training[p]));
   if((store.extraPeople||[]).indexOf(p)>=0){o.extraPeople=[p];if(store.planFor&&store.planFor[p])o.planFor[p]=store.planFor[p];}
   return o;
 }
@@ -2061,6 +2266,10 @@ function clearPerson(p){
   if(store.foodLib)delete store.foodLib[p];
   if(store.foodTargets)delete store.foodTargets[p];
   if(store.partnerScores)delete store.partnerScores[p];
+  Object.keys(store.readiness||{}).forEach(k=>{if(k.indexOf(p+'|')===0)delete store.readiness[k];});
+  Object.keys(store.mobility||{}).forEach(k=>{if(k.indexOf(p+'|')===0)delete store.mobility[k];});
+  if(store.reminders)delete store.reminders[p];
+  if(store.training)delete store.training[p];
 }
 function remapPerson(inc,from,to){
   const sessions={},daily={},drafts={};
@@ -2074,7 +2283,10 @@ function remapPerson(inc,from,to){
   Object.keys(inc.drafts||{}).forEach(k=>{if(k.indexOf(from+'|')===0)drafts[to+'|'+k.slice(from.length+1)]=JSON.parse(JSON.stringify(inc.drafts[k]));});
   const foodDays={};
   Object.keys(inc.foodDays||{}).forEach(k=>{if(k.indexOf(from+'|')===0)foodDays[to+'|'+k.slice(from.length+1)]=JSON.parse(JSON.stringify(inc.foodDays[k]));});
-  return {sessions,daily,drafts,foodDays,foodLib:inc.foodLib&&inc.foodLib[from]?{[to]:JSON.parse(JSON.stringify(inc.foodLib[from]))}:{},foodTargets:inc.foodTargets&&inc.foodTargets[from]?{[to]:JSON.parse(JSON.stringify(inc.foodTargets[from]))}:{},partnerScores:inc.partnerScores&&inc.partnerScores[from]?{[to]:JSON.parse(JSON.stringify(inc.partnerScores[from]))}:{},
+  const readiness={},mobility={};
+  Object.keys(inc.readiness||{}).forEach(k=>{if(k.indexOf(from+'|')===0)readiness[to+'|'+k.slice(from.length+1)]=JSON.parse(JSON.stringify(inc.readiness[k]));});
+  Object.keys(inc.mobility||{}).forEach(k=>{if(k.indexOf(from+'|')===0)mobility[to+'|'+k.slice(from.length+1)]=JSON.parse(JSON.stringify(inc.mobility[k]));});
+  return {sessions,daily,drafts,foodDays,readiness,mobility,foodLib:inc.foodLib&&inc.foodLib[from]?{[to]:JSON.parse(JSON.stringify(inc.foodLib[from]))}:{},foodTargets:inc.foodTargets&&inc.foodTargets[from]?{[to]:JSON.parse(JSON.stringify(inc.foodTargets[from]))}:{},partnerScores:inc.partnerScores&&inc.partnerScores[from]?{[to]:JSON.parse(JSON.stringify(inc.partnerScores[from]))}:{},reminders:inc.reminders&&inc.reminders[from]?{[to]:JSON.parse(JSON.stringify(inc.reminders[from]))}:{},training:inc.training&&inc.training[from]?{[to]:JSON.parse(JSON.stringify(inc.training[from]))}:{},
     goals:JSON.parse(JSON.stringify(inc.goals[from]||{start:'',goal:''})),
     weighIns:JSON.parse(JSON.stringify(inc.weighIns[from]||[])),
     measures:JSON.parse(JSON.stringify(inc.measures[from]||[]))};
@@ -2107,7 +2319,13 @@ function mergePerson(p,data){
     ['fav','custom','recent'].forEach(key=>{(inc[key]||[]).forEach(f=>{if(f&&f.id&&!L[key].some(x=>x.id===f.id))L[key].push(f);});});
   }
   if(data.foodTargets&&data.foodTargets[p])store.foodTargets[p]=Object.assign({},store.foodTargets[p]||{},data.foodTargets[p]);
-  if(data.partnerScores&&data.partnerScores[p])partnerBag(p)&&Object.assign(partnerBag(p),data.partnerScores[p]);
+  if(data.partnerScores&&data.partnerScores[p])Object.assign(partnerBag(p),data.partnerScores[p]);
+  if(!store.readiness||typeof store.readiness!=='object')store.readiness={};
+  Object.keys(data.readiness||{}).forEach(k=>{if(k.indexOf(p+'|')===0&&!store.readiness[k])store.readiness[k]=data.readiness[k];});
+  if(!store.mobility||typeof store.mobility!=='object')store.mobility={};
+  Object.keys(data.mobility||{}).forEach(k=>{if(k.indexOf(p+'|')===0&&!store.mobility[k])store.mobility[k]=data.mobility[k];});
+  if(data.reminders&&data.reminders[p])store.reminders=Object.assign({},store.reminders,{[p]:Object.assign({},remindersFor(p),data.reminders[p])});
+  if(data.training&&data.training[p])store.training=Object.assign({},store.training,{[p]:Object.assign({},trainingFor(p),data.training[p])});
 }
 async function doExport(){
   const txt=JSON.stringify(exportObj(),null,1),name='k-dogs-gym-backup-'+String(currentPerson()).replace(/\s+/g,'-')+'-'+nowDenver().date+'.json';
@@ -2128,7 +2346,7 @@ function doImport(txt,replace){
   const incoming=peopleIn(inc);
   let data;
   if(incoming.indexOf(me)>=0){
-    data={sessions:{},daily:{},drafts:{},foodDays:{},foodLib:{},foodTargets:{},partnerScores:{},goals:inc.goals[me]||{start:'',goal:''},weighIns:inc.weighIns[me]||[],measures:inc.measures[me]||[]};
+    data={sessions:{},daily:{},drafts:{},foodDays:{},foodLib:{},foodTargets:{},partnerScores:{},readiness:{},mobility:{},reminders:{},training:{},goals:inc.goals[me]||{start:'',goal:''},weighIns:inc.weighIns[me]||[],measures:inc.measures[me]||[]};
     Object.keys(inc.sessions||{}).forEach(k=>{const s=inc.sessions[k];if(s&&s.person===me)data.sessions[k]=s;});
     Object.keys(inc.daily||{}).forEach(k=>{if(k.indexOf(me+'|')===0)data.daily[k]=inc.daily[k];});
     Object.keys(inc.drafts||{}).forEach(k=>{if(k.indexOf(me+'|')===0)data.drafts[k]=inc.drafts[k];});
@@ -2136,6 +2354,10 @@ function doImport(txt,replace){
     if(inc.foodLib&&inc.foodLib[me])data.foodLib[me]=inc.foodLib[me];
     if(inc.foodTargets&&inc.foodTargets[me])data.foodTargets[me]=inc.foodTargets[me];
     if(inc.partnerScores&&inc.partnerScores[me])data.partnerScores[me]=inc.partnerScores[me];
+    Object.keys(inc.readiness||{}).forEach(k=>{if(k.indexOf(me+'|')===0)data.readiness[k]=inc.readiness[k];});
+    Object.keys(inc.mobility||{}).forEach(k=>{if(k.indexOf(me+'|')===0)data.mobility[k]=inc.mobility[k];});
+    if(inc.reminders&&inc.reminders[me])data.reminders[me]=inc.reminders[me];
+    if(inc.training&&inc.training[me])data.training[me]=inc.training[me];
   }else if(incoming.length===1){
     const from=incoming[0];
     if(!confirm('This backup is for '+from+', not '+me+'. Import it into '+me+' on this phone?'))return;
@@ -2156,7 +2378,7 @@ function doImport(txt,replace){
 
 /* ---------- boot ---------- */
 $('#nav').addEventListener('click',e=>{const b=e.target.closest('button[data-tab]');if(b){ui.tab=b.dataset.tab;render();}});
-window.__app={get store(){return store;},ui,render,act,doImport,exportObj,finish,weekStats,plateHint,SWAP_CAT,SWAP_LIB,getDevice,allPeople,peopleIn,LOCAL_FOODS,foodTotals,searchLocal,encodeScore,decodeScore,demoUrl,MEAL_IDEAS};
+window.__app={get store(){return store;},ui,render,act,doImport,exportObj,finish,weekStats,plateHint,SWAP_CAT,SWAP_LIB,getDevice,allPeople,peopleIn,LOCAL_FOODS,foodTotals,searchLocal,encodeScore,decodeScore,demoUrl,MEAL_IDEAS,weightOutlook,progressionHint,reportText};
 render();
 if('serviceWorker' in navigator&&location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
 })();

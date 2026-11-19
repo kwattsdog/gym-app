@@ -1,0 +1,800 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Home Gym Tracker</title>
+<meta name="theme-color" content="#0b1220">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Gym">
+<meta name="robots" content="noindex">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
+<style>:root{--bg:#0b1220;--card:#141c2e;--card2:#1b2540;--line:#26324f;--txt:#eef2fb;--mut:#93a0bd;--acc:#3b82f6;--ok:#22c55e;--warn:#f59e0b;--bad:#ef4444;--r:16px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--txt);font:17px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;padding:env(safe-area-inset-top) 0 calc(150px + env(safe-area-inset-bottom));-webkit-text-size-adjust:100%}
+#app{max-width:620px;margin:0 auto;padding:0 12px}
+h1{font-size:26px;margin:4px 0 0}h2{font-size:19px;margin:0 0 8px}h3{font-size:19px;margin:0}
+p{margin:6px 0}a{color:var(--acc)}
+.muted{color:var(--mut)}.tiny{font-size:13px}.pad{padding:0 4px}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 6px}
+.who{display:flex;background:var(--card);border-radius:14px;padding:4px;gap:4px}
+.who button{flex:1;border:0;border-radius:11px;background:none;color:var(--mut);font-size:18px;font-weight:700;padding:12px;min-height:48px}
+.who button.on{background:var(--acc);color:#fff}
+.days{display:flex;gap:6px;overflow-x:auto;padding:6px 0;margin:0 -2px}
+.days button{position:relative;flex:1;min-width:44px;border:1px solid var(--line);background:var(--card);color:var(--txt);border-radius:12px;min-height:48px;font-size:15px;font-weight:600}
+.days button.today{border-color:var(--acc)}.days button.on{background:var(--acc);border-color:var(--acc)}
+.days button i{position:absolute;top:1px;right:5px;font-size:11px;font-style:normal;color:var(--ok)}
+.days button.on i{color:#fff}
+.dayhead{padding:6px 2px}.focus{font-size:18px;font-weight:600;margin:2px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin:10px 0}
+.card.ok{border-color:var(--ok)}.card.rest{text-align:center}
+.note,.warn{background:#2a2410;border:1px solid #5b4a12;color:#fde9a8;border-radius:12px;padding:10px 12px;margin:10px 0;font-size:15px}
+.warn{background:#35161a;border-color:#7a2a33;color:#ffc9cf}
+.prog{display:flex;align-items:center;gap:10px;margin:8px 2px}.bar{flex:1;height:10px;background:var(--card2);border-radius:6px;overflow:hidden}
+.bar div{height:100%;background:var(--ok);transition:width .25s}
+.meta{margin:4px 0}.hint{background:#0f2a1c;border:1px solid #1f6b3e;border-radius:12px;padding:8px 10px;margin:8px 0;font-size:15px}
+.sets{margin-top:8px}.set{display:grid;grid-template-columns:30px 1fr 1fr 64px;gap:8px;align-items:center;margin:6px 0}
+.set.hdr{font-size:12px;color:var(--mut);margin:4px 0 0}
+.set .n{color:var(--mut);font-weight:700;text-align:center}
+input,textarea{width:100%;background:var(--card2);color:var(--txt);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:18px;min-height:52px;font-family:inherit}
+textarea{min-height:80px;margin:8px 0}
+input[type=checkbox]{width:28px;height:28px;min-height:0;flex:none;accent-color:var(--ok)}
+.set input{text-align:center;font-weight:600}
+.chk{min-height:52px;border-radius:14px;border:2px solid var(--line);background:var(--card2);color:var(--mut);font-size:26px;font-weight:800}
+.set.done .chk{background:var(--ok);border-color:var(--ok);color:#06210f}
+.set.done input{opacity:.6}
+.plate-hint{color:#9ec5ff;min-height:0;margin-top:2px}.plate-hint:empty{display:none}
+.acts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--card2);color:var(--txt);border-radius:12px;padding:12px 16px;font-size:16px;font-weight:600;min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn.mini{min-height:44px;padding:8px 12px;font-size:15px}
+.btn.primary{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn.danger{color:#ff9aa5;border-color:#7a2a33}
+.btn.big{min-height:56px;font-size:20px}
+.btn:disabled{opacity:.4}
+.filebtn{cursor:pointer}
+.swap{margin-top:8px}.alt{display:block;width:100%;text-align:left;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:12px;padding:10px 12px;margin:6px 0;font-size:16px}
+.alt.on{border-color:var(--acc)}
+.det{border-top:1px solid var(--line);margin-top:10px;padding-top:6px;font-size:15px;color:#cbd5ec}
+.chkrow{display:flex;gap:12px;align-items:flex-start;padding:6px 0}.chkrow.sm{align-items:center;min-height:44px}
+.rpe{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.rpe button{min-height:52px;border-radius:12px;border:1px solid var(--line);background:var(--card2);color:var(--txt);font-size:19px;font-weight:700}
+.rpe button.on{background:var(--acc);border-color:var(--acc)}
+.card .btn.big{width:100%;margin-top:6px}
+.water{display:flex;align-items:center;gap:14px;justify-content:space-between}.wnum{text-align:center;font-size:22px}.wnum b{font-size:40px}
+.water .btn{width:84px}
+.drops{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px;font-size:24px}.drop{opacity:.25}.drop.f{opacity:1}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.scale button{min-height:64px;border:1px solid var(--line);background:var(--card2);color:var(--txt);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;gap:2px}
+.scale b{font-size:22px}.scale button.on{background:var(--acc);border-color:var(--acc)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}.two label,label{font-size:13px;color:var(--mut);display:block}
+label input{margin-top:4px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.stats.big{grid-template-columns:repeat(2,1fr)}
+.stats div{background:var(--card2);border-radius:12px;padding:10px;text-align:center}.stats b{display:block;font-size:20px}.stats span{font-size:12px;color:var(--mut)}
+.chart{width:100%;height:auto;margin:6px 0}.chart .grid{stroke:var(--line);stroke-width:1}.chart .ax{fill:var(--mut);font-size:10px}
+.chart .goal{stroke:var(--ok);stroke-dasharray:5 4;stroke-width:1.5}.chart .gl{fill:var(--ok);font-size:10px}.chart .startl{stroke:var(--mut);stroke-dasharray:2 4}
+.chart .ln{stroke:var(--acc);stroke-width:2.5}.chart .pt{fill:var(--acc)}
+.list .li,.li{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
+.good{color:var(--ok)}.bad{color:var(--warn)}
+.x{background:none;border:0;color:var(--mut);font-size:18px;min-width:44px;min-height:44px}
+.table .tr{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr 1fr 40px;gap:4px;padding:6px 0;border-bottom:1px solid var(--line);font-size:14px;align-items:center}.table .th{color:var(--mut);font-size:12px}
+.table .x{min-width:0;min-height:36px;font-size:15px}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.ph{position:relative;border:0;padding:0;border-radius:10px;overflow:hidden;background:#000;aspect-ratio:3/4}.ph img{width:100%;height:100%;object-fit:cover}.ph span{position:absolute;bottom:0;left:0;right:0;background:#000a;font-size:12px;padding:2px}
+.overlay{position:fixed;inset:0;background:#000;z-index:50;display:flex;flex-direction:column}.overlay img{flex:1;min-height:0;object-fit:contain;width:100%}
+.ov-bar{display:flex;gap:10px;align-items:center;padding:12px 12px calc(12px + env(safe-area-inset-bottom));background:#111}.ov-bar span{flex:1}
+.wk{display:flex;align-items:center;justify-content:space-between}
+.sec{margin:16px 4px 4px;font-size:18px}
+.hist summary{cursor:pointer;list-style:none;min-height:44px}.hist .hx{padding:6px 0;border-top:1px solid var(--line);margin-top:6px;font-size:15px}.notes{font-style:italic;color:var(--mut)}
+.spec{margin:8px 0;font-size:15px}.link{display:block;background:var(--card2);border-radius:12px;padding:10px 12px;margin:8px 0;text-decoration:none;color:var(--txt)}
+details summary{min-height:32px}
+ol{padding-left:20px}
+#timer{position:fixed;left:8px;right:8px;bottom:calc(64px + env(safe-area-inset-bottom));z-index:20;background:#0f1a33;border:1px solid var(--acc);border-radius:16px;padding:10px 12px;display:flex;align-items:center;gap:10px;overflow:hidden;max-width:604px;margin:0 auto;box-shadow:0 6px 20px #0008}
+#timer[hidden]{display:none}#timer.go{background:#0f3a20;border-color:var(--ok)}
+#tfill{position:absolute;left:0;bottom:0;height:4px;background:var(--acc);width:0}#tl{flex:1;font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}
+#timer .btn{min-height:44px;padding:6px 12px}
+#nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:#0e1628;border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom)}
+#nav button{flex:1;background:none;border:0;color:var(--mut);padding:8px 2px;min-height:60px;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:2px}
+#nav button span{font-size:22px;line-height:1}#nav button.on{color:var(--acc)}
+#toast{position:fixed;left:50%;top:calc(12px + env(safe-area-inset-top));transform:translate(-50%,-150%);background:#1f2d52;border:1px solid var(--acc);padding:12px 16px;border-radius:14px;z-index:60;max-width:92%;transition:transform .25s;font-weight:600;text-align:center}
+#toast.show{transform:translate(-50%,0)}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:70;overflow:hidden}.confetti span{position:absolute;top:-40px;animation:fall 2s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg);opacity:.8}}
+@media (prefers-reduced-motion:reduce){.bar div,#toast{transition:none}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="timer" hidden><div id="tfill"></div><span id="tl">Rest</span><button class="btn" data-act="timer-add">+15s</button><button class="btn" data-act="timer-skip">Skip</button></div>
+<div id="toast" role="status"></div>
+<nav id="nav"><button data-tab="workout"><span>🏋️</span>Workout</button><button data-tab="daily"><span>💧</span>Daily</button><button data-tab="progress"><span>📈</span>Progress</button><button data-tab="history"><span>🗓️</span>History</button><button data-tab="more"><span>⚙️</span>More</button></nav>
+<noscript>This app needs JavaScript.</noscript>
+<script>
+const PLANS={"Kevin":{"Mon":{"focus":"Push: chest, shoulders, triceps","minutes":"30–45 min","warmup":"5 min easy Peloton, then arm circles, wall slides or light face pulls, and 8–10 push-ups or a light Smith bench ramp-up. Set Smith safety spotters just below chest height before you work.","exercises":[{"id":"k-smith-bench","name":"Smith bench press","sets":4,"reps":"8–10","rest":90,"top":10,"station":"Smith bar + bench. Safety spotters just below the bottom of the press. Bar starting weight is 40 lb; log total weight including the bar.","cue":"Feet planted, slight arch, lower with control to mid-chest, don't bounce. Keep elbows about 45–70° from your torso if shoulders complain."},{"id":"k-db-ohp","name":"Dumbbell overhead press","sets":3,"reps":"10","rest":75,"top":10,"station":"Dumbbells (5–45 lb), seated on the bench with back support if you have it.","cue":"Press up, don't shrug. Stop short of pain in the shoulders. If 45s get easy, switch to a Smith standing or seated overhead press (bar goes up to about 78\")."},{"id":"k-inc-db","name":"Incline dumbbell press","sets":3,"reps":"10–12","rest":75,"top":12,"station":"Adjustable bench on a moderate incline + dumbbells, inside the rack or just in front.","cue":"Moderate incline only (not steeper than you need). Lower to the upper chest, press up without flaring elbows wide."},{"id":"k-fly-lat","name":"Cable fly or lateral raise","sets":3,"reps":"12–15","rest":60,"top":15,"station":"Fly: 2:1 functional-trainer trolleys at mid/high, D-handles. Laterals: dumbbells, or one cable at the low trolley. Log the stack pin number on cables (2:1 feels like half the pin weight).","cue":"Soft elbow, squeeze at the end, no swinging. Pick one variation and stick with it for a few weeks."},{"id":"k-pushdown","name":"Cable triceps pushdown","sets":3,"reps":"12","rest":60,"top":12,"station":"High pulley (2:1 trolley or 1:1 high tower) with the included tricep rope or aluminum tricep/curl bar.","cue":"Elbows stay by your sides. Finish with a straight arm and a controlled return."}],"finisher":"10 min Peloton HIIT (30 sec harder, 30 sec easy). Warm the first minute easy."},"Tue":{"focus":"Pull: back, biceps","minutes":"30–45 min","warmup":"5 min easy Peloton, then shoulder circles, cat-camel, and a light pulldown or row ramp-up. If doing pull-ups, do a couple of easy reps or use the assistance strap first.","exercises":[{"id":"k-pullup","name":"Pull-ups or lat pulldown","sets":4,"reps":"6–10","rest":90,"top":10,"station":"Pull-ups: multi-grip pull-up bar. Assistance: the included pull-up strap on a cable. Pulldown: 1:1 high towers (200 lb stack feels like about 230 lb) + lat seat + aluminum lat bar.","cue":"Chest up, pull elbows down toward your pockets, don't shrug into your ears. Prefer pulldowns if shoulders or elbows complain."},{"id":"k-cable-row","name":"Seated cable row","sets":3,"reps":"10–12","rest":75,"top":12,"station":"Low-row station with the included row foot plate and close-grip row attachment or D-handles. Stock low row is 2:1 (pin weight feels like half). A 1:1 low-pulley kit is optional and not assumed.","cue":"Sit tall, pull to the lower ribs, squeeze shoulder blades, then let the arms stretch forward without rounding the lower back."},{"id":"k-db-row","name":"One-arm dumbbell row","sets":3,"reps":"10/arm","rest":75,"top":10,"station":"Bench + dumbbells, one knee and hand on the bench.","cue":"Back flat, pull the bell to the hip, don't twist the torso. Log each arm."},{"id":"k-facepull","name":"Cable face pulls","sets":3,"reps":"15","rest":60,"top":15,"station":"2:1 functional trainer, high trolley, included tricep rope.","cue":"Pull to the face or upper chest, rotate the hands so the knuckles go back, and keep the neck relaxed. Great for shoulders at 55."},{"id":"k-curls","name":"Dumbbell curls","sets":3,"reps":"12","rest":60,"top":12,"station":"Dumbbells, or the aluminum curl bar on a low 2:1 trolley.","cue":"Elbows quiet at your sides, no swinging. Full lower, controlled lift."}],"finisher":"10 min easy-moderate Peloton ride."},"Wed":{"focus":"Legs and core","minutes":"30–45 min","warmup":"5 min easy Peloton, 10 bodyweight squats, 10 leg swings each side, and a few hip hinges. Set Smith safety spotters just below the bottom of your squat before you load the bar.","exercises":[{"id":"k-smith-squat","name":"Smith squat","sets":4,"reps":"8–10","rest":90,"top":10,"station":"Smith bar, safety spotters just below parallel (or your comfortable depth). Bar starting weight is 40 lb; log total weight including the bar.","cue":"Brace, sit back and down, keep heels down. Stop around parallel if knees or hips prefer it; don't bounce out of the bottom."},{"id":"k-rdl","name":"Dumbbell Romanian deadlift","sets":3,"reps":"10","rest":75,"top":10,"station":"Dumbbells. If 45s get easy, use the Smith bar for the same hinge (the bar travels down to about 11\", which is low enough for a good stretch).","cue":"Soft knees, push the hips back, keep the back flat, feel the hamstrings, then stand tall. Don't round or yank."},{"id":"k-lunge","name":"Reverse lunge or walking lunge","sets":3,"reps":"10/leg","rest":75,"top":10,"station":"Dumbbells on the floor. Reverse lunges are usually friendlier on the knees than walking lunges or Bulgarian split squats.","cue":"Long enough step that the front knee stays over the mid-foot. Drop the back knee under control. Use a bench-supported split squat if balance is off."},{"id":"k-leg-ext","name":"Leg extension","sets":3,"reps":"12–15","rest":60,"top":15,"station":"Bench leg extension/curl attachment (Blazzed's official option is the X4 bench attachment: seated extension). Not a rack-mounted station on the HD1-S.","cue":"Don't slam the top. Pause briefly, lower slowly. Reduce range if the knees complain."},{"id":"k-leg-curl","name":"Leg curl","sets":3,"reps":"12–15","rest":60,"top":15,"station":"Same bench attachment, prone (lying) curl.","cue":"Hips stay on the pad, curl heels toward the glutes, lower slowly."},{"id":"k-plank","name":"Plank","sets":3,"reps":"45 sec","rest":45,"top":45,"timed":true,"station":"Floor, mat if you have one.","cue":"Elbows under shoulders, ribs down, squeeze glutes. Drop to knees if form fades. Log seconds."},{"id":"k-crunch","name":"Cable crunch","sets":3,"reps":"15","rest":60,"top":15,"station":"High pulley with the rope, kneeling.","cue":"Round the ribs toward the hips; don't yank with the arms."}],"finisher":"Core work above is the finisher. Optional 5 min easy spin if you still feel cold or stiff."},"Thu":{"focus":"Push (variation)","minutes":"30–45 min","warmup":"5 min easy Peloton, arm circles, light band or cable face pulls, and a light Smith incline ramp-up. Set safety spotters under the bar path.","exercises":[{"id":"k-smith-inc","name":"Smith incline press","sets":4,"reps":"8–10","rest":90,"top":10,"station":"Smith bar + bench on a moderate incline, safety spotters set just below the bottom.","cue":"Same rules as flat bench: controlled lower, don't bounce, keep the neck relaxed."},{"id":"k-db-flat","name":"Dumbbell flat press","sets":3,"reps":"10","rest":75,"top":10,"station":"Flat bench + dumbbells.","cue":"Lower with control, press up without banging the bells together hard."},{"id":"k-arnold","name":"Arnold press","sets":3,"reps":"10","rest":75,"top":10,"station":"Dumbbells, seated.","cue":"Rotate as you press, stay in a comfortable range. Switch to a plain seated DB press if the rotation bothers a shoulder."},{"id":"k-laterals","name":"Lateral raises","sets":3,"reps":"15","rest":60,"top":15,"station":"Dumbbells, or a 2:1 low cable with a D-handle.","cue":"Lead with the elbows, stop around shoulder height, no swing."},{"id":"k-oh-tri","name":"Overhead dumbbell triceps extension","sets":3,"reps":"12","rest":60,"top":12,"station":"One or two dumbbells, seated, or a cable with the rope at a high or mid trolley.","cue":"Elbows point up, don't flare wide. Shorten the range if it pinches the elbows or shoulders."}],"finisher":"10 min Peloton ride, easy to moderate."},"Fri":{"focus":"Pull (variation)","minutes":"30–45 min","warmup":"5 min easy Peloton, then light pulldowns or rows and a few bodyweight hip hinges.","exercises":[{"id":"k-smith-row","name":"Smith bent-over row","sets":4,"reps":"8–10","rest":90,"top":10,"station":"Smith bar. Because the bar path is fixed, hinge and stay in a groove that doesn't round the back. Safety spotters can sit just below the stretch.","cue":"Soft knees, flat back, pull to the lower ribs, lower under control."},{"id":"k-cg-lat","name":"Close-grip lat pulldown","sets":3,"reps":"10–12","rest":75,"top":12,"station":"1:1 high towers + lat seat + close-grip row attachment or a close grip on the lat bar.","cue":"Pull to the upper chest, elbows in, no leaning way back."},{"id":"k-rear-delt","name":"Rear-delt dumbbell fly","sets":3,"reps":"15","rest":60,"top":15,"station":"Dumbbells, bent over or chest on a slightly incline bench. Cable face-pull style is a fine swap.","cue":"Soft elbows, squeeze the rear shoulders, don't yank with the lower back."},{"id":"k-hammer","name":"Hammer curls","sets":3,"reps":"12","rest":60,"top":12,"station":"Dumbbells, neutral grip.","cue":"Thumbs up, elbows still, controlled lower."},{"id":"k-shrugs","name":"Smith shrugs","sets":3,"reps":"12","rest":60,"top":12,"station":"Smith bar, standing, walk-under height is 73.25\".","cue":"Straight up and down, pause at the top, don't roll the shoulders."}],"finisher":"10 min Peloton HIIT (30 sec harder, 30 sec easy)."},"Sat":{"focus":"Legs and conditioning","minutes":"30–45 min","warmup":"5 min easy Peloton, 10 bodyweight squats, 10 leg swings each side, and a couple of bodyweight hip thrusts or glute bridges.","exercises":[{"id":"k-split-squat","name":"Smith split squat","sets":3,"reps":"10/leg","rest":75,"top":10,"station":"Smith bar, safety spotters set just below the bottom. Back foot can rest lightly on the floor, or on the bench if you like a Bulgarian stance and your hips allow it.","cue":"Front heel down, drop the back knee, stay tall. Reverse lunges with dumbbells are the swap if the Smith stance feels awkward."},{"id":"k-hip-thrust","name":"Smith hip thrust","sets":3,"reps":"10–12","rest":75,"top":12,"station":"Smith bar (low starting height is about 11\", which is what this movement needs) + bench for upper-back support. Pad the bar if you have a pad or towel.","cue":"Chin tucked, ribs down, drive through the heels, squeeze at the top without over-arching the lower back."},{"id":"k-goblet","name":"Goblet squat","sets":3,"reps":"12","rest":60,"top":12,"station":"One dumbbell held at the chest. If 45 lb is easy, use a lighter Smith squat or slower tempo.","cue":"Elbows inside the knees if you can, heels down, controlled depth."},{"id":"k-calf","name":"Smith calf raise","sets":3,"reps":"15","rest":45,"top":15,"station":"Smith bar, standing. A sturdy plate or small step under the balls of the feet helps if you have one; otherwise use the floor.","cue":"Pause at the top, lower slowly through a comfortable stretch. Don't bounce."}],"finisher":"20 min Peloton endurance or climb ride, conversational pace — this is conditioning, not an all-out race."},"Sun":{"focus":"Rest day","minutes":"Easy movement only","warmup":"None required. A walk or an easy Peloton spin is fine if you want to move.","exercises":[],"finisher":"Sleep, protein, and a walk if you feel like it."}},"Sasha":{"Mon":{"focus":"Upper push: strength and bone loading","minutes":"30–45 min","warmup":"5 min easy Peloton, arm circles, wall slides or light face pulls, and a very light Smith or dumbbell press ramp-up. Set Smith safety spotters before you start.","exercises":[{"id":"s-smith-bench","name":"Smith bench press","sets":3,"reps":"8–12","rest":75,"top":12,"station":"Smith bar + bench, safety spotters just below chest height. Bar starts at 40 lb; that's a good first work weight until the movement feels smooth. Log total weight including the bar.","cue":"Lower with control, press up without bouncing. Leave 2–3 reps in reserve. The guided bar is there so you can learn pressing safely."},{"id":"s-db-press","name":"Seated dumbbell press","sets":3,"reps":"8–12","rest":75,"top":12,"station":"Dumbbells, seated on the bench.","cue":"Press up, don't shrug. Use a range that doesn't pinch the shoulders."},{"id":"s-cable-fly","name":"Cable chest fly","sets":2,"reps":"12–15","rest":60,"top":15,"station":"2:1 functional-trainer trolleys at mid height, D-handles. Log the stack pin number.","cue":"Soft elbows, hug in, slow return. Light is fine."},{"id":"s-laterals","name":"Lateral raises","sets":2,"reps":"12–15","rest":45,"top":15,"station":"Light dumbbells or a low 2:1 cable.","cue":"Stop around shoulder height, no swinging."},{"id":"s-pushdown","name":"Cable triceps pushdown","sets":2,"reps":"12–15","rest":45,"top":15,"station":"High pulley with the tricep rope or tricep/curl bar.","cue":"Elbows by your sides, squeeze at the bottom."}],"finisher":"8–10 min easy to moderate Peloton ride, not all-out."},"Tue":{"focus":"Upper pull and posture","minutes":"30–45 min","warmup":"5 min easy Peloton, shoulder circles, and a light pulldown ramp-up.","exercises":[{"id":"s-pulldown","name":"Lat pulldown or assisted pull-up","sets":3,"reps":"8–12","rest":75,"top":12,"station":"Preferred: 1:1 high towers + lat seat + lat bar (heavier, straight overhead). Or use the included pull-up strap for assisted pull-ups on the multi-grip bar.","cue":"Chest up, pull elbows down, don't shrug. Pulldowns are the default if pull-ups are new."},{"id":"s-row","name":"Seated cable row","sets":3,"reps":"10–12","rest":75,"top":12,"station":"Low-row station, row foot plate, close-grip attachment or D-handles. Stock low row is 2:1.","cue":"Sit tall, pull to the lower ribs, pause, then stretch forward without rounding."},{"id":"s-facepull","name":"Cable face pulls","sets":3,"reps":"12–15","rest":45,"top":15,"station":"2:1 high trolley + rope.","cue":"Pull to the face, open the hands back, keep the neck relaxed. Excellent for shoulders and posture."},{"id":"s-curls","name":"Dumbbell or cable curls","sets":2,"reps":"12–15","rest":45,"top":15,"station":"Dumbbells, or the curl bar on a low trolley.","cue":"No swinging. Slow lower."}],"finisher":"8–10 min easy to moderate Peloton ride."},"Wed":{"focus":"Lower body, bone health, and core","minutes":"30–45 min","warmup":"5 min easy Peloton, 10 sit-to-stands or bodyweight squats, 10 leg swings each side, and a few hip hinges. Set Smith safety spotters before you squat.","exercises":[{"id":"s-squat","name":"Smith squat or goblet squat","sets":3,"reps":"8–12","rest":75,"top":12,"station":"Start with a goblet squat (one dumbbell) if the Smith is new, then move to the Smith bar with safety spotters just below your depth. Bar starts at 40 lb.","cue":"Heels down, sit back and down to a comfortable depth (around parallel is plenty). Brace, don't bounce. Squats are a main bone-loading lift."},{"id":"s-rdl","name":"Dumbbell Romanian deadlift","sets":3,"reps":"8–12","rest":75,"top":12,"station":"Dumbbells. Smith RDL is the swap if you want a guided hinge.","cue":"Soft knees, hips back, back flat, stand tall. This hip hinge is also a bone-loading lift."},{"id":"s-leg-ext","name":"Leg extension","sets":2,"reps":"12–15","rest":45,"top":15,"station":"Bench leg extension/curl attachment, seated.","cue":"Controlled, no slam at the top. Shorten the range if knees complain."},{"id":"s-leg-curl","name":"Leg curl","sets":2,"reps":"12–15","rest":45,"top":15,"station":"Same attachment, prone curl.","cue":"Hips on the pad, slow lower."},{"id":"s-calf","name":"Calf raise","sets":2,"reps":"12–15","rest":45,"top":15,"station":"Smith bar or bodyweight on the floor.","cue":"Pause at the top, lower slowly."},{"id":"s-core","name":"Side plank or Pallof press","sets":3,"reps":"20–30 sec or 8–10/side","rest":45,"top":8,"station":"Floor for side planks, or a 2:1 mid pulley with a D-handle for a standing Pallof press (anti-rotation).","cue":"Stay tall, don't hold your breath. Log seconds or reps."}],"finisher":"Optional 5 min easy spin. No hard intervals today."},"Thu":{"focus":"Push variation: shoulders and chest","minutes":"30–45 min","warmup":"5 min easy Peloton, arm circles, and a light incline press ramp-up. Set safety spotters if you use the Smith.","exercises":[{"id":"s-incline","name":"Incline Smith or incline dumbbell press","sets":3,"reps":"8–12","rest":75,"top":12,"station":"Moderate-incline bench in the Smith, or dumbbells on the incline bench.","cue":"Controlled lower, comfortable shoulder angle, leave 2–3 reps in reserve."},{"id":"s-fly2","name":"Cable or dumbbell fly","sets":2,"reps":"12–15","rest":45,"top":15,"station":"2:1 mid pulleys with D-handles, or light dumbbells on the bench.","cue":"Soft elbows, no hard stretch if the shoulder complains."},{"id":"s-arnold","name":"Seated dumbbell press or Arnold press","sets":2,"reps":"10–12","rest":60,"top":12,"station":"Dumbbells, seated. Use a plain press if the rotation feels awkward.","cue":"Smooth press, no shrug."},{"id":"s-rear","name":"Face pulls or rear-delt fly","sets":2,"reps":"12–15","rest":45,"top":15,"station":"High 2:1 rope, or light dumbbells.","cue":"Squeeze the rear shoulders, neck relaxed."},{"id":"s-oh-tri","name":"Cable or dumbbell overhead triceps extension","sets":2,"reps":"12–15","rest":45,"top":15,"station":"Rope on a mid/high trolley, or one light dumbbell.","cue":"Shorten the range if it pinches."}],"finisher":"10 min Peloton endurance ride, conversational pace."},"Fri":{"focus":"Pull variation and posture","minutes":"30–45 min","warmup":"5 min easy Peloton and a light row or pulldown ramp-up.","exercises":[{"id":"s-row2","name":"Seated cable row (neutral or wide)","sets":3,"reps":"10–12","rest":75,"top":12,"station":"Low-row station; switch to D-handles or the lat bar for a slightly different angle than Tuesday.","cue":"Same tall-chest row as Tuesday. Quality over load."},{"id":"s-cg-lat","name":"Close-grip lat pulldown","sets":3,"reps":"10–12","rest":75,"top":12,"station":"1:1 high towers + lat seat + close-grip attachment.","cue":"Pull to the upper chest, don't lean way back."},{"id":"s-rear2","name":"Rear-delt fly","sets":2,"reps":"12–15","rest":45,"top":15,"station":"Light dumbbells or cables.","cue":"Soft elbows, squeeze, no swing."},{"id":"s-hammer","name":"Hammer curls","sets":2,"reps":"10–12","rest":45,"top":12,"station":"Dumbbells, neutral grip.","cue":"Thumbs up, controlled."},{"id":"s-carry","name":"Suitcase hold or light shrug","sets":2,"reps":"20–30 sec/side or 10–12","rest":45,"top":10,"station":"One or two dumbbells at the side. No landmine is assumed (that attachment is optional and not confirmed).","cue":"Stand tall, don't lean. This is a simple bone- and grip-friendly hold."}],"finisher":"10 min moderate Peloton ride. Intervals only if you feel fresh (20 sec a little harder, 40 sec easy)."},"Sat":{"focus":"Lower body and conditioning","minutes":"30–45 min","warmup":"5 min easy Peloton, 10 bodyweight squats, 10 leg swings each side, and a few bodyweight glute bridges.","exercises":[{"id":"s-thrust","name":"Smith hip thrust or glute bridge","sets":3,"reps":"10–12","rest":75,"top":12,"station":"Smith bar with the bench for upper-back support (bar can start around 11\"). Or bodyweight/dumbbell glute bridges on the floor if the setup feels like a lot at first.","cue":"Ribs down, drive through the heels, squeeze at the top without cranking the lower back."},{"id":"s-split","name":"Goblet squat or supported split squat","sets":3,"reps":"8–10/leg or 10–12 goblet","rest":75,"top":10,"station":"One dumbbell, or a Smith split squat with safety spotters. Hold the bench for balance if needed.","cue":"Front heel down, comfortable depth. Choose the variation you can do smoothly."},{"id":"s-stepup","name":"Step-up or glute-focused cable kickback","sets":2,"reps":"8–10/leg","rest":45,"top":10,"station":"Step-ups: bench + optional light dumbbells, only if the bench is stable and the step isn't too high. Kickbacks: low 2:1 trolley with an ankle strap or D-handle around the foot if you have one.","cue":"Control the lowering. Skip step-ups if the height feels aggressive on the knees."},{"id":"s-calf2","name":"Calf raise","sets":2,"reps":"12–15","rest":45,"top":15,"station":"Smith or bodyweight.","cue":"Pause, then slow lower."}],"finisher":"15–20 min Peloton endurance or a gentle climb, conversational pace."},"Sun":{"focus":"Rest day","minutes":"Easy movement only","warmup":"None required. A walk or an easy Peloton spin is fine.","exercises":[],"finisher":"Rest, a walk if you like, and no guilt for taking the day."}}};
+const SWAP_LIB = {
+  hpress: [
+    {n:"Dumbbell floor press", t:"Elbows stop at the floor, which protects the shoulders. Great if the bench press bothers you."},
+    {n:"Neutral-grip dumbbell press", t:"Palms facing each other. Easier on shoulders and elbows than a wide grip."},
+    {n:"Incline push-up (hands on bench)", t:"Body in a straight line, lower the chest to the bench edge. Gentle and joint-friendly."},
+    {n:"Standing cable chest press", t:"One 2:1 trolley at chest height, split stance. No bar path forcing your shoulders."}
+  ],
+  vpress: [
+    {n:"Neutral-grip seated dumbbell press", t:"Palms in, elbows slightly forward of the body. Kinder to the shoulder joint."},
+    {n:"Half-kneeling single-arm cable press", t:"Press at a slight angle, not straight overhead. Builds stability, low joint stress."},
+    {n:"High-incline (60°) dumbbell press", t:"Less overhead reach than a true overhead press."},
+    {n:"Seated Smith overhead press (bench upright)", t:"Guided bar path with safety spotters set. Stop short of full lockout."}
+  ],
+  fly: [
+    {n:"Cable lateral raise (low trolley)", t:"Raise only to shoulder height. Constant tension, light weight."},
+    {n:"Lean-in dumbbell lateral raise", t:"Hold the rack with one hand and lean slightly away. Keeps the shoulder shrug out of it."},
+    {n:"Dumbbell squeeze press (light)", t:"Press two dumbbells together while pressing up. Chest work with little shoulder strain."},
+    {n:"Push-ups (incline if needed)", t:"Slow lower, steady body line."}
+  ],
+  tri: [
+    {n:"Rope pushdown (neutral grip)", t:"Spreads the rope at the bottom. Often friendlier on elbows than a straight bar."},
+    {n:"Single-arm cable pushdown", t:"Light weight, full control. Good if your elbows are cranky."},
+    {n:"Cable overhead extension (rope)", t:"Cable tension is smoother than a dumbbell. Keep the elbows in."},
+    {n:"Close-grip incline push-up", t:"Hands under the chest on the bench. No equipment, light on the elbows."}
+  ],
+  vpull: [
+    {n:"Neutral-grip lat pulldown", t:"Close-grip or neutral handle. Easier on shoulders than a wide bar."},
+    {n:"Assisted pull-up (assist station)", t:"Use enough assistance to get clean reps. Reduce the assist over time."},
+    {n:"Straight-arm cable pulldown", t:"Arms nearly straight, pull down to the thighs. Lat focus with little elbow load."},
+    {n:"Single-arm cable pulldown", t:"Half-kneeling at a high trolley. Even left/right strength."}
+  ],
+  row: [
+    {n:"Chest-supported dumbbell row (incline bench)", t:"Chest on a bench set at about 30°. Takes the load off the lower back."},
+    {n:"Seated cable row, neutral grip", t:"Sit tall, pull to the belly button, no swinging."},
+    {n:"One-arm cable row", t:"Staggered stance, low trolley, steady rotation control."},
+    {n:"Smith inverted row (bar at hip height)", t:"Body weight row. Lower the bar to make it easier."}
+  ],
+  rear: [
+    {n:"Reverse cable fly (D-handles)", t:"Light weight; lead with the elbows, pinch the shoulder blades."},
+    {n:"Chest-supported rear-delt fly", t:"Chest on the incline bench. No back strain, lighter dumbbells."},
+    {n:"Cable pull-apart (rope)", t:"Pull the rope ends apart at face height. Great for posture."}
+  ],
+  bi: [
+    {n:"Cable curl with the curl bar", t:"Steady tension; the angled grip can be easier on wrists."},
+    {n:"Incline dumbbell curl", t:"Bench at 60°. Stretch at the bottom, use lighter weight."},
+    {n:"Neutral-grip hammer curl", t:"Easier on wrists and elbows than a supinated curl."},
+    {n:"Seated concentration curl", t:"Elbow braced on the knee, strict form."}
+  ],
+  trap: [
+    {n:"Dumbbell shrugs", t:"Straight up and down, pause at the top. No rolling."},
+    {n:"Farmer carry (short walk)", t:"Two dumbbells at your sides, walk tall for 20-30 seconds."},
+    {n:"Suitcase hold", t:"One dumbbell, stay level. Builds grip and core."}
+  ],
+  squat: [
+    {n:"Box or bench squat", t:"Sit back to a bench and stand. Controls depth, easier on the knees."},
+    {n:"Goblet squat", t:"Dumbbell at chest, upright torso. Often kinder to knees and back than a bar."},
+    {n:"Smith squat, feet slightly forward", t:"Feet a little ahead of the bar so the knees track comfortably."},
+    {n:"Dumbbell sit-to-stand", t:"Hold a dumbbell at the chest, stand from the bench. Simple and joint-friendly."}
+  ],
+  hinge: [
+    {n:"Smith Romanian deadlift", t:"Guided bar path. Soft knees, hips back, flat back."},
+    {n:"Cable pull-through (rope, low trolley)", t:"Hip hinge with zero spinal compression."},
+    {n:"Hip thrust or glute bridge", t:"Posterior chain with the back supported."},
+    {n:"Single-leg dumbbell RDL (hand on rack)", t:"Light weight, balance support, hamstrings and hips."}
+  ],
+  lunge: [
+    {n:"Supported split squat (hand on the Smith bar or rack)", t:"Shorter range and balance support."},
+    {n:"Reverse lunge to a bench (touch and go)", t:"Controlled depth; reverse steps are easier on the knees."},
+    {n:"Step-up to a low box", t:"Use a low step, drive through the heel."},
+    {n:"Goblet squat", t:"A simpler lower-body pattern if lunges bother the knees or hips."}
+  ],
+  legext: [
+    {n:"Short-range leg extension (top half only)", t:"Skip the bottom half if the knees ache."},
+    {n:"Cable terminal knee extension", t:"Light cable behind the knee. Knee-friendly quad work."},
+    {n:"Wall sit (30-45 seconds)", t:"Isometric hold; no joint motion."}
+  ],
+  legcurl: [
+    {n:"Standing cable leg curl", t:"Ankle strap on a low trolley, steady and light."},
+    {n:"Glute bridge with heels walked in", t:"Hamstrings and glutes on the floor."},
+    {n:"Dumbbell RDL (light)", t:"Hamstrings through the hinge."}
+  ],
+  thrust: [
+    {n:"Floor glute bridge", t:"Pause at the top, squeeze the glutes."},
+    {n:"Single-leg glute bridge", t:"Level hips, slow lower."},
+    {n:"Cable kickback", t:"Low trolley, ankle strap, small controlled range."}
+  ],
+  calf: [
+    {n:"Bodyweight calf raise on the floor", t:"Slow up, pause, slow down."},
+    {n:"Single-leg calf raise (hand on rack)", t:"Hold the rack for balance."},
+    {n:"Seated dumbbell calf raise", t:"Dumbbell on the knee, seated; no balance demand."}
+  ],
+  core: [
+    {n:"Dead bug", t:"Opposite arm and leg lower slowly, low back flat."},
+    {n:"Bird dog", t:"Hold 2-3 seconds at full extension."},
+    {n:"Incline plank (hands on bench)", t:"Easier on the wrists and shoulders than a floor plank."},
+    {n:"Pallof press (2:1 mid trolley)", t:"Resist twisting; stand tall, press and hold."},
+    {n:"Cable crunch (light)", t:"Round the upper back, don't pull with the arms."}
+  ]
+};
+const SWAP_CAT = {
+  "k-smith-bench":"hpress","s-smith-bench":"hpress","k-smith-inc":"hpress","s-incline":"hpress","k-inc-db":"hpress","k-db-flat":"hpress","s-db-press":"hpress",
+  "k-db-ohp":"vpress","k-arnold":"vpress","s-arnold":"vpress",
+  "k-fly-lat":"fly","k-laterals":"fly","s-laterals":"fly","s-cable-fly":"fly","s-fly2":"fly",
+  "k-pushdown":"tri","s-pushdown":"tri","k-oh-tri":"tri","s-oh-tri":"tri",
+  "k-pullup":"vpull","s-pulldown":"vpull","k-cg-lat":"vpull","s-cg-lat":"vpull",
+  "k-cable-row":"row","s-row":"row","s-row2":"row","k-db-row":"row","k-smith-row":"row",
+  "k-facepull":"rear","s-facepull":"rear","k-rear-delt":"rear","s-rear":"rear","s-rear2":"rear",
+  "k-curls":"bi","k-hammer":"bi","s-curls":"bi","s-hammer":"bi",
+  "k-shrugs":"trap","s-carry":"trap",
+  "k-smith-squat":"squat","s-squat":"squat","k-goblet":"squat",
+  "k-rdl":"hinge","s-rdl":"hinge",
+  "k-lunge":"lunge","k-split-squat":"lunge","s-split":"lunge","s-stepup":"lunge",
+  "k-leg-ext":"legext","s-leg-ext":"legext","k-leg-curl":"legcurl","s-leg-curl":"legcurl",
+  "k-hip-thrust":"thrust","s-thrust":"thrust",
+  "k-calf":"calf","s-calf":"calf","s-calf2":"calf",
+  "k-plank":"core","k-crunch":"core","s-core":"core"
+};
+const DAY_KIND = {Mon:"push",Tue:"pull",Wed:"legs",Thu:"push",Fri:"pull",Sat:"legs",Sun:"rest"};
+const COOLDOWN = {
+  push: [
+    "Doorway chest stretch: 30 sec each side",
+    "Cross-body shoulder stretch: 30 sec each side",
+    "Overhead triceps stretch: 30 sec each side",
+    "Wrist flexor stretch: 20 sec each side",
+    "Child's pose: 45 sec"
+  ],
+  pull: [
+    "Lat stretch (hands on the rack, sit hips back): 30 sec",
+    "Cross-body rear-delt stretch: 30 sec each side",
+    "Biceps wall stretch: 20 sec each side",
+    "Upper-trap neck stretch: 20 sec each side",
+    "Open-book thoracic rotation: 8 reps each side"
+  ],
+  legs: [
+    "Standing quad stretch: 30 sec each side",
+    "Seated hamstring stretch: 30 sec each side",
+    "Half-kneeling hip flexor stretch: 30 sec each side",
+    "Figure-4 glute stretch: 30 sec each side",
+    "Wall calf stretch: 30 sec each side",
+    "Child's pose: 45 sec"
+  ],
+  rest: [
+    "Cat-cow: 10 slow reps",
+    "Child's pose: 45 sec",
+    "Half-kneeling hip flexor stretch: 30 sec each side",
+    "Figure-4 glute stretch: 30 sec each side",
+    "Doorway chest stretch: 30 sec each side"
+  ]
+};
+const VIDEOS = [
+  {t:"HD1-S Walk Thru Video (latest version)", u:"https://www.youtube.com/watch?v=Hsovvpd3mN8", s:"youtube.com"},
+  {t:"HD1-S Assembly Video (latest version)", u:"https://www.youtube.com/watch?v=aArzhtbLOJE", s:"youtube.com"},
+  {t:"HD1 1:1 Low Row (optional low-pulley kit)", u:"https://www.youtube.com/watch?v=aW6uIjdBbKs", s:"youtube.com"},
+  {t:"HD1 Squat Rack Functional Trainer (cable and lat stations on the non-Smith HD1)", u:"https://www.youtube.com/watch?v=uWrzAVBWd3A", s:"youtube.com"},
+  {t:"Official HD1-S product page and specs", u:"https://blazzedfitness.com/products/blazzed-functional-trainer-rack-hd1-with-smith", s:"blazzedfitness.com"},
+  {t:"Blazzed Fitness Equipment on YouTube", u:"https://www.youtube.com/@blazzedfitness", s:"youtube.com"}
+];
+const GYM_SPECS = [
+  ["Frame","7.5 ft, 11-gauge 3x3 in uprights, 1 in holes, expandable for HD attachments"],
+  ["Smith bar","Linear-bearing low-range Smith, 600 lb capacity, 40 lb starting weight, 15 racking positions, about 11 in starting height, about 78 in high finish point, 73.25 in walk-under / highest resting position, 35 mm bar diameter"],
+  ["Safety","Safety spotters (1,000 lb max), premium sandwich J-hooks (1,200 lb max), UHMW protection"],
+  ["Cables","Dual 200 lb steel stacks. Adjustable functional-trainer trolleys are 2:1 (200 lb = 100 lb felt). Dedicated high / lat towers are 1:1 at 115% (200 lb = 230 lb felt)."],
+  ["Stations included","Low-range Smith, 2:1 functional trainer, assisted pull-up station, dual lat-pulldown towers with lat seat, low-row station with foot plate, free-weight barbell rack station, multi-grip pull-up bar"],
+  ["Included handles","Aluminum lat bar, aluminum tricep/curl bar, two aluminum D-handles, tricep rope, steel close-grip row attachment, pull-up strap, row foot plate, barbell storage hook, 6 plate horns"],
+  ["Also in this gym","Dumbbells 5-45 lb, a bench with a leg extension/curl attachment, and a Peloton bike. A landmine, articulating arms, captains chair, and the 1:1 low-pulley kit are sold separately and are not assumed."]
+];
+const GYM_TIPS = [
+  "For cables, log the number on the weight-stack pin and keep using the same station. The 2:1 functional-trainer trolleys feel like half the pin weight (200 lb stack = 100 lb). The 1:1 high towers feel heavier (200 lb stack = about 230 lb).",
+  "For Smith lifts, log total weight including the 40 lb starting bar weight.",
+  "Set the Smith safety spotters before every squat, split squat, or press."
+];
+
+(function(){
+'use strict';
+const TZ='America/Denver';
+const DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const DAYNAMES={Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday',Fri:'Friday',Sat:'Saturday',Sun:'Sunday'};
+const PEOPLE=['Kevin','Sasha'];
+const KEY='hd1s-workout-app-v1';
+const $=(s,r)=>(r||document).querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num=v=>{const n=parseFloat(String(v).replace(',','.'));return isNaN(n)?NaN:n;};
+const round1=n=>Math.round(n*10)/10;
+
+/* ---------- dates (America/Denver) ---------- */
+function nowDenver(){
+  if(window.__NOW) return window.__NOW;
+  const o={};
+  new Intl.DateTimeFormat('en-US',{timeZone:TZ,year:'numeric',month:'2-digit',day:'2-digit',weekday:'short'}).formatToParts(new Date()).forEach(p=>o[p.type]=p.value);
+  return {date:o.year+'-'+o.month+'-'+o.day,dow:o.weekday};
+}
+const dUTC=iso=>new Date(iso+'T12:00:00Z');
+function addDays(iso,n){const d=dUTC(iso);d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10);}
+function dowOf(iso){return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][dUTC(iso).getUTCDay()];}
+function weekStart(iso){return addDays(iso,-((dUTC(iso).getUTCDay()+6)%7));}
+function fmtDate(iso){return dUTC(iso).toLocaleDateString('en-US',{timeZone:'UTC',weekday:'short',month:'short',day:'numeric'});}
+function fmtShort(iso){return dUTC(iso).toLocaleDateString('en-US',{timeZone:'UTC',month:'short',day:'numeric'});}
+
+/* ---------- store ---------- */
+function blank(){return {v:1,lastPerson:'Kevin',
+  goals:{Kevin:{start:'219',goal:'180'},Sasha:{start:'',goal:''}},
+  weighIns:{Kevin:[],Sasha:[]},measures:{Kevin:[],Sasha:[]},
+  daily:{},sessions:{},drafts:{},
+  settings:{plates:[45,35,25,10,5,2.5],bar:40,waterGoal:8,showDetails:true},lastBackup:null};}
+function normalize(p){
+  const b=blank();if(!p||typeof p!=='object')return b;
+  const o=Object.assign(b,p);
+  o.goals=Object.assign(blank().goals,p.goals||{});
+  PEOPLE.forEach(n=>{o.goals[n]=Object.assign({start:'',goal:''},o.goals[n]);
+    ['weighIns','measures'].forEach(k=>{o[k]=Object.assign({Kevin:[],Sasha:[]},p[k]||{});if(!Array.isArray(o[k][n]))o[k][n]=[];});});
+  o.daily=p.daily&&typeof p.daily==='object'?p.daily:{};
+  o.sessions=p.sessions&&typeof p.sessions==='object'&&!Array.isArray(p.sessions)?p.sessions:{};
+  o.drafts=p.drafts&&typeof p.drafts==='object'?p.drafts:{};
+  o.settings=Object.assign(blank().settings,p.settings||{});
+  if(!Array.isArray(o.settings.plates)||!o.settings.plates.length)o.settings.plates=blank().settings.plates;
+  if(PEOPLE.indexOf(o.lastPerson)<0)o.lastPerson='Kevin';
+  return o;
+}
+let memoryOnly=false;
+function load(){try{const r=localStorage.getItem(KEY);return r?normalize(JSON.parse(r)):blank();}catch(e){memoryOnly=true;return blank();}}
+let store=load();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(store));}catch(e){memoryOnly=true;}}
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();}catch(e){}
+
+/* ---------- ui state ---------- */
+const today0=nowDenver();
+const ui={person:store.lastPerson,tab:'workout',day:today0.dow,swapOpen:null,weekOff:0,saved:null,photoView:null};
+
+/* ---------- sessions helpers ---------- */
+const sessionsOf=p=>Object.values(store.sessions).filter(s=>s&&s.person===p).sort((a,b)=>(a.date+(a.finishedAt||''))<(b.date+(b.finishedAt||''))?1:-1);
+function doneSets(sets){return (sets||[]).filter(s=>s&&s.r!==''&&s.r!=null&&!isNaN(num(s.r)));}
+function lastFor(person,key){
+  for(const s of sessionsOf(person)){const e=(s.exercises||[]).find(x=>x.key===key);if(e&&doneSets(e.sets).length)return doneSets(e.sets);}
+  return null;
+}
+function score(w,r){const W=num(w),R=num(r);if(isNaN(R)||R<=0)return 0;if(!isNaN(W)&&W>0)return W*(1+Math.min(R,15)/30);return R;}
+function bestScore(person,key){
+  let b=0;sessionsOf(person).forEach(s=>(s.exercises||[]).forEach(e=>{if(e.key===key)doneSets(e.sets).forEach(x=>{b=Math.max(b,score(x.w,x.r));});}));return b;
+}
+function records(person){
+  const m={};
+  sessionsOf(person).slice().reverse().forEach(s=>(s.exercises||[]).forEach(e=>doneSets(e.sets).forEach(x=>{
+    const sc=score(x.w,x.r);const c=m[e.key];
+    if(!c||sc>c.sc){m[e.key]={key:e.key,name:e.name,sc,w:x.w,r:x.r,date:s.date};}
+    const W=num(x.w);if(!isNaN(W)){const cc=m[e.key];if(!cc.maxW||W>cc.maxW)cc.maxW=W;}
+  })));
+  return Object.values(m).sort((a,b)=>a.date<b.date?1:-1);
+}
+const volOf=sets=>doneSets(sets).reduce((a,x)=>{const w=num(x.w),r=num(x.r);return a+((isNaN(w)?0:w)*r);},0);
+function fmtSets(sets){return doneSets(sets).map(x=>(x.w!==''&&x.w!=null?x.w+'×':'')+x.r).join(', ');}
+
+/* ---------- drafts ---------- */
+const dk=(p,d)=>p+'|'+d;
+function planOf(p,d){return PLANS[p][d];}
+function exData(ex,draft){const i=draft.swaps&&draft.swaps[ex.id];
+  if(i==null)return {key:ex.id,name:ex.name,swapOf:null};
+  const alt=(SWAP_LIB[SWAP_CAT[ex.id]]||[])[i];
+  return alt?{key:ex.id+'~'+i,name:alt.n,swapOf:ex.name,tip:alt.t}:{key:ex.id,name:ex.name,swapOf:null};}
+function ensureSets(draft,ex,key,person){
+  if(draft.sets[key]&&draft.sets[key].length)return;
+  const last=lastFor(person,key)||[];const arr=[];
+  for(let i=0;i<ex.sets;i++){const l=last[i]||last[last.length-1];arr.push({w:l?String(l.w==null?'':l.w):'',r:l?String(l.r==null?'':l.r):'',d:false});}
+  draft.sets[key]=arr;
+}
+function getDraft(person,day){
+  const k=dk(person,day),t=nowDenver().date;let d=store.drafts[k];
+  if(d){const any=Object.values(d.sets||{}).some(a=>a.some(s=>s.d));if(d.date!==t&&!any){delete store.drafts[k];d=null;}}
+  if(!d){d={day,date:t,sets:{},swaps:{},warm:false,cool:{},rpe:null,notes:'',pr:{},prNames:[],applied:{}};store.drafts[k]=d;}
+  const plan=planOf(person,day);
+  plan.exercises.forEach(ex=>{const x=exData(ex,d);ensureSets(d,ex,x.key,person);});
+  return d;
+}
+
+/* ---------- plate / dumbbell hints ---------- */
+function plateHint(ex,w){
+  const W=num(w);if(isNaN(W)||W<=0)return '';
+  const isSmith=/smith/i.test(ex.name)&&!/goblet/i.test(ex.name)&&!ex.swapped;
+  if(isSmith){
+    const bar=Number(store.settings.bar)||40;
+    if(W<bar)return 'Under the '+bar+' lb bar weight. Use dumbbells for this one.';
+    let per=(W-bar)/2;if(per===0)return 'Bar only ('+bar+' lb).';
+    const plates=store.settings.plates.slice().map(Number).sort((a,b)=>b-a);const out=[];let rem=per;
+    plates.forEach(p=>{while(rem+1e-9>=p){out.push(p);rem-=p;}});
+    const txt=out.join(' + ');
+    return 'Smith '+W+' lb = '+bar+' lb bar + '+(txt||'0')+' per side'+(rem>0.01?' (closest; '+round1(rem*2)+' lb short)':'')+'.';
+  }
+  if(/dumbbell|curl|row|press|raise|fly|lunge|squat|rdl|shrug/i.test(ex.station+' '+ex.name)&&/dumbbell/i.test(ex.station+' '+ex.name)){
+    if(W>45)return 'Dumbbells top out at 45 lb. Slow the tempo, add reps, or switch to the Smith or a cable.';
+    if(W%5!==0)return 'Dumbbells go in 5 lb steps. Nearest: '+(Math.round(W/5)*5)+' lb each hand.';
+    return 'Dumbbell: '+W+' lb in each hand.';
+  }
+  if(/cable|pulldown|pushdown|row|trolley/i.test(ex.station)&&/cable|pulldown|pushdown|row|face/i.test(ex.name)){
+    return 'Log the stack pin weight. 2:1 trolleys feel like about half; 1:1 towers feel heavier.';
+  }
+  return '';
+}
+
+/* ---------- toast / confetti / audio / timer ---------- */
+function toast(msg,ms){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('show'),ms||2600);}
+function confetti(){
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const w=document.createElement('div');w.className='confetti';
+  for(let i=0;i<28;i++){const s=document.createElement('span');s.textContent=['🎉','🏆','⭐','💪'][i%4];s.style.left=(Math.random()*100)+'%';s.style.animationDelay=(Math.random()*0.5)+'s';s.style.fontSize=(18+Math.random()*18)+'px';w.appendChild(s);}
+  document.body.appendChild(w);setTimeout(()=>w.remove(),2600);
+}
+let ac=null;
+function unlockAudio(){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();}catch(e){}}
+function beep(){if(!ac)return;try{[0,.28,.56].forEach(t=>{const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=t>.5?1175:880;g.gain.value=.18;o.connect(g);g.connect(ac.destination);o.start(ac.currentTime+t);o.stop(ac.currentTime+t+.16);});}catch(e){}if(navigator.vibrate)navigator.vibrate([200,100,200]);}
+let timer=null,tInt=null;
+function startTimer(sec){timer={end:Date.now()+sec*1000,total:sec,fired:false};tick();if(!tInt)tInt=setInterval(tick,250);}
+function tick(){
+  const bar=$('#timer');if(!timer){bar.hidden=true;if(tInt){clearInterval(tInt);tInt=null;}return;}
+  bar.hidden=false;const left=Math.ceil((timer.end-Date.now())/1000);
+  if(left<=0){if(!timer.fired){timer.fired=true;beep();}
+    $('#tl').textContent='Go! Next set';$('#tfill').style.width='100%';bar.classList.add('go');
+    if(Date.now()-timer.end>5000){timer=null;bar.classList.remove('go');tick();}return;}
+  bar.classList.remove('go');
+  $('#tl').textContent='Rest '+Math.floor(left/60)+':'+String(left%60).padStart(2,'0');
+  $('#tfill').style.width=Math.max(0,Math.min(100,100*(1-left/timer.total)))+'%';
+}
+let wl=null;async function wake(){try{if(navigator.wakeLock&&!wl){wl=await navigator.wakeLock.request('screen');wl.addEventListener('release',()=>{wl=null;});}}catch(e){}}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){tick();if(ui.tab==='workout')wake();}});
+
+/* ---------- views ---------- */
+function render(keepScroll){
+  const y=window.scrollY;
+  $('#app').innerHTML=viewHeader()+({workout:viewWorkout,daily:viewDaily,progress:viewProgress,history:viewHistory,more:viewMore}[ui.tab])();
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===ui.tab));
+  if(keepScroll)window.scrollTo(0,y);else window.scrollTo(0,0);
+  if(ui.tab==='progress')loadPhotos();
+  if(ui.tab==='workout')document.querySelectorAll('.plate-hint').forEach(el=>{const inp=document.querySelector('.set[data-key="'+el.dataset.key+'"] input[data-f="w"]');if(inp)updateHint(inp);});
+}
+function viewHeader(){
+  return '<header class="top"><div class="who">'+PEOPLE.map(p=>'<button class="'+(p===ui.person?'on':'')+'" data-act="person" data-p="'+p+'">'+p+'</button>').join('')+'</div></header>'+
+    (memoryOnly?'<div class="warn">Your browser is blocking storage (private mode?). Nothing will be saved. Open the app in normal Safari.</div>':'');
+}
+
+function viewWorkout(){
+  const person=ui.person,day=ui.day,plan=planOf(person,day),now=nowDenver();
+  const wkStart=weekStart(now.date);
+  const doneDays={};sessionsOf(person).forEach(s=>{if(s.date>=wkStart&&s.date<=addDays(wkStart,6))doneDays[s.day]=true;});
+  let h='<div class="days">'+DAYS.map(d=>'<button class="'+(d===day?'on ':'')+(d===now.dow?'today ':'')+(doneDays[d]?'did':'')+'" data-act="day" data-d="'+d+'">'+d+(doneDays[d]?'<i>✓</i>':'')+'</button>').join('')+'</div>';
+  h+='<div class="dayhead"><h1>'+DAYNAMES[day]+(day===now.dow?' · Today':'')+'</h1><p class="focus">'+esc(plan.focus)+'</p><p class="muted">'+esc(plan.minutes)+'</p></div>';
+  if(day!==now.dow&&plan.exercises.length)h+='<div class="note">You are viewing '+DAYNAMES[day]+'. Anything you log saves under today\u2019s date ('+fmtShort(now.date)+').</div>';
+  if(ui.saved&&ui.saved.person===person)h+=savedCard(ui.saved);
+  const stale=!store.lastBackup&&Object.keys(store.sessions).length>=3||(store.lastBackup&&(Date.parse(now.date)-Date.parse(store.lastBackup.slice(0,10)))/864e5>21&&Object.keys(store.sessions).length>0);
+  if(stale)h+='<div class="note">Tip: make a backup (More tab) so a lost phone doesn\u2019t lose your history.</div>';
+  const kind=DAY_KIND[day];
+  if(!plan.exercises.length){
+    h+='<section class="card rest"><h2>😴 Rest day</h2><p>'+esc(plan.warmup)+'</p><p>'+esc(plan.finisher)+'</p></section>';
+    h+=coolCard(null,kind,'Optional 5-minute mobility flow');
+    return h;
+  }
+  const d=getDraft(person,day);save();
+  let tot=0,dn=0;plan.exercises.forEach(ex=>{const x=exData(ex,d);const a=d.sets[x.key]||[];tot+=a.length;dn+=a.filter(s=>s.d).length;});
+  h+='<div class="prog"><div class="bar"><div id="pfill" style="width:'+(tot?100*dn/tot:0)+'%"></div></div><span id="ptxt">'+dn+' / '+tot+' sets</span></div>';
+  h+='<section class="card"><label class="chkrow"><input type="checkbox" data-act="warm" '+(d.warm?'checked':'')+'><span><b>Warm-up</b><br><span class="muted">'+esc(plan.warmup)+'</span></span></label></section>';
+  plan.exercises.forEach(ex=>{h+=exCard(person,ex,d);});
+  h+='<section class="card"><b>Finisher</b><p>'+esc(plan.finisher)+'</p></section>';
+  h+=coolCard(d,kind,'Cool-down and stretch');
+  h+='<section class="card"><h2>How did it go?</h2><p class="muted">Effort (RPE): 1 = very easy, 10 = max effort</p><div class="rpe">'+[1,2,3,4,5,6,7,8,9,10].map(n=>'<button class="'+(d.rpe===n?'on':'')+'" data-act="rpe" data-n="'+n+'">'+n+'</button>').join('')+'</div>'+
+    '<textarea id="notes" rows="3" placeholder="Notes (sleep, aches, what felt good...)" data-f="notes">'+esc(d.notes)+'</textarea>'+
+    '<button class="btn primary big" data-act="finish">Finish workout</button><p class="tiny muted"><a href="#" data-act="reset">Reset today\u2019s entries</a></p></section>';
+  return h;
+}
+function exCard(person,ex,d){
+  const x=exData(ex,d),sets=d.sets[x.key],last=lastFor(person,x.key);
+  const e2={name:x.name,station:ex.station,swapped:x.swapOf!=null};
+  let h='<section class="card ex" data-ex="'+ex.id+'" data-key="'+esc(x.key)+'"><div class="exh"><h3>'+esc(x.name)+'</h3></div>';
+  if(x.swapOf)h+='<div class="tiny muted">Swapped in for: '+esc(x.swapOf)+'</div>';
+  h+='<div class="meta"><b>'+ex.sets+' × '+esc(ex.reps)+'</b> · rest '+ex.rest+' sec'+(ex.timed?' · timed hold':'')+'</div>';
+  if(last){
+    const s=last.slice(0,ex.sets);h+='<div class="tiny muted">Last time: '+esc(fmtSets(s))+'</div>';
+    const hint=overload(ex,last);
+    if(hint&&!d.applied[x.key])h+='<div class="hint">📈 '+esc(hint.text)+(hint.w?' <button class="btn mini" data-act="apply" data-key="'+esc(x.key)+'" data-ex="'+ex.id+'">Use +5 lb</button>':'')+'</div>';
+  }
+  h+='<div class="sets"><div class="set hdr"><span></span><span>Weight (lb)</span><span>'+(ex.timed?'Seconds':'Reps')+'</span><span>Done</span></div>';
+  sets.forEach((s,i)=>{h+='<div class="set'+(s.d?' done':'')+'" data-key="'+esc(x.key)+'" data-ex="'+ex.id+'" data-i="'+i+'"><span class="n">'+(i+1)+'</span>'+
+    '<input inputmode="decimal" autocomplete="off" data-f="w" placeholder="lb" value="'+esc(s.w)+'">'+
+    '<input inputmode="numeric" autocomplete="off" data-f="r" placeholder="'+esc(ex.timed?'sec':ex.reps)+'" value="'+esc(s.r)+'">'+
+    '<button class="chk" data-act="tog" aria-label="Complete set '+(i+1)+'" aria-pressed="'+(s.d?'true':'false')+'">✓</button></div>';});
+  h+='</div><div class="plate-hint tiny" data-key="'+esc(x.key)+'" data-ex="'+ex.id+'"></div>';
+  h+='<div class="acts"><button class="btn mini" data-act="swap" data-ex="'+ex.id+'">⇄ Swap exercise</button><button class="btn mini" data-act="addset" data-key="'+esc(x.key)+'" data-ex="'+ex.id+'">+ Set</button><button class="btn mini" data-act="rmset" data-key="'+esc(x.key)+'" data-ex="'+ex.id+'">− Set</button></div>';
+  if(ui.swapOpen===ex.id){
+    const alts=SWAP_LIB[SWAP_CAT[ex.id]]||[];
+    h+='<div class="swap"><p class="tiny muted">Joint-friendly options. Your weights are tracked separately for each version.</p>'+
+      '<button class="alt'+(d.swaps[ex.id]==null?' on':'')+'" data-act="pick" data-ex="'+ex.id+'" data-i="-1"><b>Original:</b> '+esc(ex.name)+'</button>'+
+      alts.map((a,i)=>'<button class="alt'+(d.swaps[ex.id]===i?' on':'')+'" data-act="pick" data-ex="'+ex.id+'" data-i="'+i+'"><b>'+esc(a.n)+'</b><br><span class="tiny muted">'+esc(a.t)+'</span></button>').join('')+'</div>';
+  }
+  if(store.settings.showDetails){
+    h+='<div class="det"><p><b>Station:</b> '+esc(ex.station)+'</p><p><b>Form:</b> '+esc(ex.cue)+'</p>'+(x.tip?'<p><b>Swap tip:</b> '+esc(x.tip)+'</p>':'')+'</div>';
+  }
+  return h+'</section>';
+}
+function overload(ex,last){
+  const L=last.slice(0,ex.sets);if(L.length<ex.sets||!ex.top)return null;
+  if(!L.every(s=>num(s.r)>=ex.top))return null;
+  if(ex.timed)return {text:'You hit '+ex.top+' sec on every set. Next time add 5-10 seconds.'};
+  const w=num(L[0].w);
+  if(isNaN(w)||w<=0)return {text:'You hit the top of the range on every set. Next time add 1-2 reps or make it harder.'};
+  return {w:w+5,text:'You hit the top of the range ('+ex.reps+') on every set at '+w+' lb. Try '+(w+5)+' lb (+5 lb) today.'};
+}
+function coolCard(d,kind,title){
+  const items=COOLDOWN[kind]||COOLDOWN.rest;
+  return '<section class="card"><b>'+title+'</b><p class="muted tiny">Start with 2 minutes of easy walking or spinning, then stretch gently. Never into sharp pain.</p>'+
+    items.map((t,i)=>'<label class="chkrow sm"><input type="checkbox" data-act="cool" data-i="'+i+'"'+(d&&d.cool[i]?' checked':'')+(d?'':' disabled')+'><span>'+esc(t)+'</span></label>').join('')+'</section>';
+}
+function savedCard(s){
+  const sess=store.sessions[s.key];if(!sess)return '';
+  return '<section class="card ok"><h2>✅ Workout saved</h2><p>'+esc(sess.focus)+' · '+sess.setCount+' sets · '+Math.round(sess.volume).toLocaleString()+' lb total volume'+(sess.rpe?' · effort '+sess.rpe+'/10':'')+'</p>'+
+    (sess.prs&&sess.prs.length?'<p>🏆 New records: '+sess.prs.map(esc).join(', ')+'</p>':'')+
+    '<button class="btn" data-act="dismiss">Dismiss</button></section>';
+}
+
+/* ---- daily ---- */
+function viewDaily(){
+  const t=nowDenver().date,p=ui.person,dd=store.daily[dk(p,t)]||{};const goal=store.settings.waterGoal||8;const w=dd.water||0;
+  let drops='';for(let i=0;i<Math.max(goal,w);i++)drops+='<span class="drop'+(i<w?' f':'')+'">💧</span>';
+  const scale=(f,labels)=>'<div class="scale">'+[1,2,3,4,5].map(n=>'<button class="'+(dd[f]===n?'on':'')+'" data-act="scale" data-f="'+f+'" data-n="'+n+'"><b>'+n+'</b><span>'+labels[n-1]+'</span></button>').join('')+'</div>';
+  return '<div class="dayhead"><h1>Daily check-in</h1><p class="muted">'+fmtDate(t)+' · '+p+'</p></div>'+
+   '<section class="card"><h2>Water</h2><div class="water"><button class="btn big" data-act="water" data-n="-1">−</button><div class="wnum"><b>'+w+'</b> / '+goal+'<br><span class="tiny muted">glasses (8 oz)</span></div><button class="btn primary big" data-act="water" data-n="1">+</button></div><div class="drops">'+drops+'</div></section>'+
+   '<section class="card"><h2>Sleep last night</h2>'+scale('sleep',['Awful','Poor','OK','Good','Great'])+'</section>'+
+   '<section class="card"><h2>Energy today</h2>'+scale('energy',['Drained','Low','OK','Good','Great'])+'</section>'+
+   '<section class="card"><h2>Food (optional)</h2><div class="two"><label>Calories<input inputmode="numeric" data-f="cal" data-daily="1" value="'+esc(dd.cal||'')+'" placeholder="e.g. 2100"></label><label>Protein (g)<input inputmode="numeric" data-f="protein" data-daily="1" value="'+esc(dd.protein||'')+'" placeholder="e.g. 180"></label></div><p class="tiny muted">Used for your weekly average on the History tab.</p></section>';
+}
+
+/* ---- progress ---- */
+function viewProgress(){
+  const p=ui.person,g=store.goals[p],wi=store.weighIns[p].slice().sort((a,b)=>a.date<b.date?-1:1),now=nowDenver().date;
+  const cur=wi.length?wi[wi.length-1].lbs:NaN,start=num(g.start),goal=num(g.goal);
+  const base=!isNaN(start)?start:(wi.length?wi[0].lbs:NaN);
+  const toGo=!isNaN(goal)&&!isNaN(cur)?cur-goal:NaN,lost=!isNaN(base)&&!isNaN(cur)?base-cur:NaN;
+  const pct=!isNaN(base)&&!isNaN(goal)&&!isNaN(cur)&&base!==goal?Math.max(0,Math.min(100,100*(base-cur)/(base-goal))):NaN;
+  let h='<div class="dayhead"><h1>Progress</h1><p class="muted">'+p+'</p></div>';
+  h+='<section class="card"><h2>Body weight</h2><div class="two"><label>Start (lb)<input inputmode="decimal" data-f="start" data-goal="1" value="'+esc(g.start)+'"></label><label>Goal (lb)<input inputmode="decimal" data-f="goal" data-goal="1" value="'+esc(g.goal)+'"></label></div>'+
+   '<div class="two"><label>Weigh-in (lb)<input id="wi-lbs" inputmode="decimal" placeholder="e.g. 217.4"></label><label>Date<input id="wi-date" type="date" value="'+now+'"></label></div><button class="btn primary" data-act="addweight">Save weigh-in</button>'+
+   '<div class="stats"><div><b>'+(isNaN(cur)?'—':cur)+'</b><span>Latest lb</span></div><div><b>'+(isNaN(toGo)?'—':round1(toGo))+'</b><span>To goal</span></div><div><b>'+(isNaN(lost)?'—':round1(lost))+'</b><span>Lost</span></div><div><b>'+(isNaN(pct)?'—':Math.round(pct)+'%')+'</b><span>Progress</span></div></div>'+
+   weightChart(wi,start,goal)+
+   (wi.length?'<div class="list">'+wi.slice().reverse().slice(0,12).map((x,i,arr)=>{const nx=arr[i+1];const dl=nx?round1(x.lbs-nx.lbs):null;return '<div class="li"><span>'+fmtDate(x.date)+'</span><b>'+x.lbs+' lb</b><span class="'+(dl==null?'':(dl<=0?'good':'bad'))+'">'+(dl==null?'':(dl>0?'+':'')+dl)+'</span><button class="x" data-act="delweight" data-date="'+x.date+'" aria-label="Delete">✕</button></div>';}).join('')+'</div>':'<p class="muted">No weigh-ins yet.</p>')+'</section>';
+  // measurements
+  const ms=store.measures[p].slice().sort((a,b)=>a.date<b.date?-1:1);
+  const F=[['waist','Waist'],['chest','Chest'],['arm','Arms'],['hip','Hips']];
+  h+='<section class="card"><h2>Body measurements (inches)</h2><div class="two">'+F.map(f=>'<label>'+f[1]+'<input inputmode="decimal" id="ms-'+f[0]+'" placeholder="in"></label>').join('')+'</div><label>Date<input id="ms-date" type="date" value="'+now+'"></label><button class="btn primary" data-act="addmeasure">Save measurements</button>';
+  if(ms.length){const first=ms[0],lastm=ms[ms.length-1];
+    h+='<div class="table"><div class="tr th"><span>Date</span>'+F.map(f=>'<span>'+f[1]+'</span>').join('')+'<span></span></div>'+ms.slice().reverse().slice(0,8).map(m=>'<div class="tr"><span>'+fmtShort(m.date)+'</span>'+F.map(f=>'<span>'+(m[f[0]]!=null?m[f[0]]:'—')+'</span>').join('')+'<button class="x" data-act="delmeasure" data-date="'+m.date+'">✕</button></div>').join('')+'</div>';
+    if(ms.length>1)h+='<p class="tiny muted">Change since '+fmtShort(first.date)+': '+F.map(f=>(first[f[0]]!=null&&lastm[f[0]]!=null)?f[1]+' '+(round1(lastm[f[0]]-first[f[0]])>0?'+':'')+round1(lastm[f[0]]-first[f[0]]):'').filter(Boolean).join(' · ')+'</p>';
+  }else h+='<p class="muted">Measure once every 2-4 weeks, same time of day, same spot.</p>';
+  h+='</section>';
+  // PRs
+  const recs=records(p);
+  h+='<section class="card"><h2>🏆 Personal records</h2>'+(recs.length?recs.slice(0,30).map(r=>'<div class="li pr"><span><b>'+esc(r.name)+'</b><br><span class="tiny muted">'+fmtDate(r.date)+'</span></span><b>'+(r.w!==''&&!isNaN(num(r.w))?esc(r.w)+' × '+esc(r.r):esc(r.r)+' reps')+'</b></div>').join(''):'<p class="muted">Finish a workout and your best lifts will show up here. A new PR gets a celebration during a workout.</p>')+'<p class="tiny muted">Best set per exercise, ranked by estimated one-rep max.</p></section>';
+  // photos
+  h+='<section class="card"><h2>Progress photos</h2><p class="tiny muted">Optional. Stored only on this phone (not in the backup file). Photos are shrunk before saving.</p><label class="btn primary filebtn">📷 Add photo<input id="photoIn" type="file" accept="image/*" hidden></label><div id="photoGrid" class="pgrid"></div></section>';
+  return h;
+}
+function weightChart(wi,start,goal){
+  if(!wi.length)return '<p class="muted">Log a weigh-in to see your chart.</p>';
+  const W=340,H=210,L=38,R=12,T=14,B=26;
+  const vals=wi.map(x=>x.lbs);if(!isNaN(goal))vals.push(goal);if(!isNaN(start))vals.push(start);
+  let mn=Math.min.apply(null,vals)-3,mx=Math.max.apply(null,vals)+3;if(mx-mn<8){mx+=4;mn-=4;}
+  const t0=dUTC(wi[0].date).getTime(),t1=dUTC(wi[wi.length-1].date).getTime();
+  const X=d=>t1===t0?L+(W-L-R)/2:L+(W-L-R)*(dUTC(d).getTime()-t0)/(t1-t0),Y=v=>T+(H-T-B)*(1-(v-mn)/(mx-mn));
+  let s='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Body weight chart">';
+  for(let i=0;i<=4;i++){const v=mn+(mx-mn)*i/4,y=Y(v);s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y+'" y2="'+y+'" class="grid"/><text x="'+(L-5)+'" y="'+(y+4)+'" text-anchor="end" class="ax">'+Math.round(v)+'</text>';}
+  if(!isNaN(goal))s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(goal)+'" y2="'+Y(goal)+'" class="goal"/><text x="'+(W-R)+'" y="'+(Y(goal)-4)+'" text-anchor="end" class="gl">Goal '+goal+'</text>';
+  if(!isNaN(start)&&start!==goal)s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(start)+'" y2="'+Y(start)+'" class="startl"/><text x="'+L+'" y="'+(Y(start)-4)+'" class="ax">Start '+start+'</text>';
+  s+='<polyline class="ln" fill="none" points="'+wi.map(x=>X(x.date).toFixed(1)+','+Y(x.lbs).toFixed(1)).join(' ')+'"/>';
+  wi.forEach(x=>{s+='<circle cx="'+X(x.date).toFixed(1)+'" cy="'+Y(x.lbs).toFixed(1)+'" r="4" class="pt"/>';});
+  s+='<text x="'+L+'" y="'+(H-6)+'" class="ax">'+fmtShort(wi[0].date)+'</text><text x="'+(W-R)+'" y="'+(H-6)+'" text-anchor="end" class="ax">'+fmtShort(wi[wi.length-1].date)+'</text></svg>';
+  return s;
+}
+
+/* ---- history + weekly summary ---- */
+function weekStats(p,ws){
+  const we=addDays(ws,6),ss=sessionsOf(p).filter(s=>s.date>=ws&&s.date<=we);
+  const vol=ss.reduce((a,s)=>a+(s.volume||0),0),sets=ss.reduce((a,s)=>a+(s.setCount||0),0),rp=ss.filter(s=>s.rpe).map(s=>s.rpe);
+  const days=[];for(let i=0;i<7;i++){const d=store.daily[dk(p,addDays(ws,i))];if(d)days.push(d);}
+  const avg=f=>{const v=days.map(d=>num(d[f])).filter(x=>!isNaN(x)&&x>0);return v.length?v.reduce((a,b)=>a+b,0)/v.length:NaN;};
+  const wi=store.weighIns[p].slice().sort((a,b)=>a.date<b.date?-1:1);
+  const inWk=wi.filter(x=>x.date>=ws&&x.date<=we),before=wi.filter(x=>x.date<ws);
+  let wc=NaN;if(inWk.length&&(before.length||inWk.length>1)){const ref=before.length?before[before.length-1].lbs:inWk[0].lbs;wc=inWk[inWk.length-1].lbs-ref;}
+  return {n:ss.length,vol,sets,rpe:rp.length?rp.reduce((a,b)=>a+b,0)/rp.length:NaN,cal:avg('cal'),protein:avg('protein'),water:avg('water'),sleep:avg('sleep'),energy:avg('energy'),wc,prs:ss.reduce((a,s)=>a+((s.prs||[]).length),0)};
+}
+function viewHistory(){
+  const p=ui.person,now=nowDenver().date,ws=addDays(weekStart(now),ui.weekOff*7),st=weekStats(p,ws);
+  const f=(v,d)=>isNaN(v)?'—':(d===0?Math.round(v):round1(v));
+  let h='<div class="dayhead"><h1>History</h1><p class="muted">'+p+'</p></div>';
+  h+='<section class="card"><div class="wk"><button class="btn mini" data-act="wk" data-n="-1">‹</button><b>'+(ui.weekOff===0?'This week':'Week of '+fmtShort(ws))+'</b><button class="btn mini" data-act="wk" data-n="1"'+(ui.weekOff>=0?' disabled':'')+'>›</button></div>'+
+   '<p class="tiny muted">'+fmtShort(ws)+' – '+fmtShort(addDays(ws,6))+'</p><div class="stats big"><div><b>'+st.n+'/6</b><span>Workouts</span></div><div><b>'+Math.round(st.vol).toLocaleString()+'</b><span>Volume (lb)</span></div><div><b>'+st.sets+'</b><span>Sets</span></div><div><b>'+f(st.rpe)+'</b><span>Avg effort</span></div>'+
+   '<div><b>'+(isNaN(st.wc)?'—':(st.wc>0?'+':'')+round1(st.wc))+'</b><span>Weight change</span></div><div><b>'+f(st.cal,0)+'</b><span>Avg calories</span></div><div><b>'+f(st.water)+'</b><span>Avg water</span></div><div><b>'+f(st.sleep)+' / '+f(st.energy)+'</b><span>Sleep / energy</span></div></div>'+
+   (st.prs?'<p>🏆 '+st.prs+' new record'+(st.prs>1?'s':'')+' this week</p>':'')+'</section>';
+  const ss=sessionsOf(p);
+  h+='<h2 class="sec">Workouts ('+ss.length+')</h2>';
+  if(!ss.length)h+='<p class="muted pad">No finished workouts yet. Log your sets and tap Finish workout.</p>';
+  ss.slice(0,60).forEach(s=>{
+    h+='<details class="card hist"><summary><b>'+fmtDate(s.date)+'</b> · '+esc(s.focus)+'<br><span class="tiny muted">'+s.setCount+' sets · '+Math.round(s.volume||0).toLocaleString()+' lb'+(s.rpe?' · effort '+s.rpe+'/10':'')+((s.prs||[]).length?' · 🏆'+s.prs.length:'')+'</span></summary>'+
+      (s.exercises||[]).map(e=>doneSets(e.sets).length?'<div class="hx"><b>'+esc(e.name)+'</b><br><span class="muted">'+esc(fmtSets(e.sets))+'</span></div>':'').join('')+
+      (s.notes?'<p class="notes">“'+esc(s.notes)+'”</p>':'')+'<button class="btn mini danger" data-act="delsession" data-k="'+esc(s.id)+'">Delete</button></details>';
+  });
+  return h;
+}
+
+/* ---- more ---- */
+function viewMore(){
+  const s=store.settings;
+  return '<div class="dayhead"><h1>More</h1></div>'+
+  '<section class="card"><h2>Backup and move data</h2><p class="muted">Everything lives on this phone. Export a file to back it up or move it to another phone (Messages, AirDrop, Files). Importing merges, so nothing gets overwritten.</p>'+
+   '<button class="btn primary" data-act="export">Export backup</button> <label class="btn filebtn">Import backup<input id="impIn" type="file" accept=".json,application/json" hidden></label>'+
+   '<p class="tiny muted">Last backup: '+(store.lastBackup?esc(store.lastBackup.slice(0,10)):'never')+'</p>'+
+   '<details><summary class="tiny">Copy / paste instead of a file</summary><button class="btn mini" data-act="copyjson">Copy backup text</button><textarea id="pasteJson" rows="3" placeholder="Paste backup text here"></textarea><button class="btn mini" data-act="pasteimport">Import pasted text</button></details>'+
+   '<p class="tiny muted"><a href="#" data-act="replaceimport">Replace everything with a backup file…</a></p></section>'+
+  '<section class="card"><h2>Settings</h2><label class="chkrow sm"><input type="checkbox" data-act="details" '+(s.showDetails?'checked':'')+'><span>Show station and form tips on exercises</span></label>'+
+   '<div class="two"><label>Water goal (glasses)<input inputmode="numeric" data-set="waterGoal" value="'+esc(s.waterGoal)+'"></label><label>Smith bar weight (lb)<input inputmode="decimal" data-set="bar" value="'+esc(s.bar)+'"></label></div>'+
+   '<label>Plates you own (lb, comma separated)<input data-set="plates" value="'+esc(s.plates.join(', '))+'"></label><p class="tiny muted">Used for the Smith plate hints. Edit to match your plates.</p></section>'+
+  '<section class="card"><h2>Add to Home Screen (iPhone)</h2><ol><li>Open this page in <b>Safari</b>.</li><li>Tap the Share button (square with an arrow).</li><li>Tap <b>Add to Home Screen</b>, then <b>Add</b>.</li><li>From now on, open the app from your Home Screen icon only. Data saved in Safari is separate from the Home Screen app, so start fresh there (or import a backup).</li></ol></section>'+
+  '<section class="card"><h2>Your gym: Blazzed HD1-S</h2>'+GYM_TIPS.map(t=>'<p>'+esc(t)+'</p>').join('')+GYM_SPECS.map(x=>'<div class="spec"><b>'+esc(x[0])+'</b><br><span class="muted">'+esc(x[1])+'</span></div>').join('')+
+   '<div class="note">Sharp pain is a stop sign. Swap to an easier variation or skip the lift. If you have joint, heart, or other medical issues, check with your doctor before ramping up.</div></section>'+
+  '<section class="card"><h2>Videos and links</h2>'+VIDEOS.map(v=>'<a class="link" href="'+esc(v.u)+'" target="_blank" rel="noopener"><b>'+esc(v.t)+'</b><br><span class="tiny muted">'+esc(v.s)+'</span></a>').join('')+'</section>';
+}
+
+/* ---------- photos (IndexedDB) ---------- */
+function idb(){return new Promise((res,rej)=>{const r=indexedDB.open('hd1s-photos',1);r.onupgradeneeded=()=>r.result.createObjectStore('p',{keyPath:'id'});r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
+function idbAll(){return idb().then(db=>new Promise((res,rej)=>{const q=db.transaction('p').objectStore('p').getAll();q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error);}));}
+function idbPut(o){return idb().then(db=>new Promise((res,rej)=>{const t=db.transaction('p','readwrite');t.objectStore('p').put(o);t.oncomplete=res;t.onerror=()=>rej(t.error);}));}
+function idbDel(id){return idb().then(db=>new Promise((res,rej)=>{const t=db.transaction('p','readwrite');t.objectStore('p').delete(id);t.oncomplete=res;t.onerror=()=>rej(t.error);}));}
+let photoCache=[];
+async function loadPhotos(){
+  const g=$('#photoGrid');if(!g)return;
+  try{photoCache=(await idbAll()).filter(x=>x.person===ui.person).sort((a,b)=>a.date<b.date?1:-1);}catch(e){g.innerHTML='<p class="muted">Photos aren\u2019t available in this browser.</p>';return;}
+  const gg=$('#photoGrid');if(!gg)return;
+  gg.innerHTML=photoCache.length?photoCache.map(x=>'<button class="ph" data-act="viewphoto" data-id="'+esc(x.id)+'"><img src="'+x.data+'" alt=""><span>'+fmtShort(x.date)+'</span></button>').join(''):'<p class="muted">No photos yet.</p>';
+}
+function shrink(file){return new Promise((res,rej)=>{const url=URL.createObjectURL(file),im=new Image();im.onload=()=>{const m=900,sc=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(url);res(c.toDataURL('image/jpeg',.8));};im.onerror=()=>{URL.revokeObjectURL(url);rej(new Error('img'));};im.src=url;});}
+
+/* ---------- events ---------- */
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b||b.tagName==='INPUT'&&b.type==='checkbox')return;
+  const a=b.dataset.act;if(b.tagName==='A')e.preventDefault();
+  act(a,b,e);
+});
+document.addEventListener('change',e=>{
+  const t=e.target;
+  if(t.dataset&&t.dataset.act==='warm'){const d=getDraft(ui.person,ui.day);d.warm=t.checked;save();}
+  else if(t.dataset&&t.dataset.act==='cool'){const d=getDraft(ui.person,ui.day);d.cool[t.dataset.i]=t.checked;save();}
+  else if(t.dataset&&t.dataset.act==='details'){store.settings.showDetails=t.checked;save();}
+  else if(t.id==='photoIn'&&t.files[0]){const f=t.files[0];shrink(f).then(data=>idbPut({id:'p'+Date.now(),person:ui.person,date:nowDenver().date,data})).then(()=>{toast('Photo saved');loadPhotos();}).catch(()=>toast('Could not save that photo'));t.value='';}
+  else if(t.id==='impIn'&&t.files[0]){const f=t.files[0];f.text().then(txt=>doImport(txt,false));t.value='';}
+  else if(t.id==='impReplaceIn'&&t.files[0]){const f=t.files[0];f.text().then(txt=>doImport(txt,true));t.value='';}
+});
+document.addEventListener('input',e=>{
+  const t=e.target,d=t.dataset||{};
+  if(d.f&&t.closest('.set')){
+    const row=t.closest('.set'),dr=getDraft(ui.person,ui.day),arr=dr.sets[row.dataset.key];if(!arr)return;
+    arr[+row.dataset.i][d.f]=t.value;save();if(d.f==='w')updateHint(t);
+  }else if(d.f==='notes'){getDraft(ui.person,ui.day).notes=t.value;save();}
+  else if(d.daily){const k=dk(ui.person,nowDenver().date);store.daily[k]=store.daily[k]||{};store.daily[k][d.f]=t.value;save();}
+  else if(d.goal){store.goals[ui.person][d.f]=t.value;save();}
+  else if(d.set){const s=store.settings;
+    if(d.set==='plates'){const v=t.value.split(/[ ,]+/).map(Number).filter(x=>x>0);if(v.length)s.plates=v;}
+    else{const v=num(t.value);if(!isNaN(v)&&v>0)s[d.set]=v;}save();}
+});
+document.addEventListener('focusin',e=>{if(e.target.matches&&e.target.matches('.set input'))updateHint(e.target);});
+function updateHint(inp){
+  const row=inp.closest('.set');if(!row)return;
+  const card=row.closest('.ex'),ph=card.querySelector('.plate-hint');if(!ph)return;
+  const w=row.querySelector('input[data-f="w"]').value;
+  const plan=planOf(ui.person,ui.day),ex=plan.exercises.find(x=>x.id===row.dataset.ex);if(!ex)return;
+  const d=getDraft(ui.person,ui.day),x=exData(ex,d);
+  ph.textContent=plateHint({name:x.name,station:ex.station,swapped:x.swapOf!=null},w);
+}
+function act(a,b){
+  const P=ui.person;
+  switch(a){
+    case 'person':ui.person=b.dataset.p;store.lastPerson=ui.person;ui.swapOpen=null;ui.saved=null;save();render();break;
+    case 'day':ui.day=b.dataset.d;ui.swapOpen=null;render();break;
+    case 'tab':ui.tab=b.dataset.tab;render();break;
+    case 'tog':{
+      unlockAudio();wake();
+      const row=b.closest('.set'),d=getDraft(P,ui.day),arr=d.sets[row.dataset.key],i=+row.dataset.i,s=arr[i];
+      s.d=!s.d;row.classList.toggle('done',s.d);b.setAttribute('aria-pressed',s.d?'true':'false');save();
+      let dn=0,tot=0;Object.values(d.sets).forEach(a=>{tot+=a.length;dn+=a.filter(x=>x.d).length;});
+      const pf=$('#pfill');if(pf)pf.style.width=(tot?100*dn/tot:0)+'%';const pt=$('#ptxt');if(pt)pt.textContent=dn+' / '+tot+' sets';
+      if(s.d){
+        const ex=planOf(P,ui.day).exercises.find(x=>x.id===row.dataset.ex);
+        checkPR(P,d,row.dataset.key,s);
+        if(ex&&dn<tot)startTimer(ex.rest);else if(dn===tot){timer=null;tick();toast('All sets done. Finish up and tap Finish workout.');}
+      }
+      break;}
+    case 'addset':{const d=getDraft(P,ui.day),arr=d.sets[b.dataset.key],l=arr[arr.length-1]||{w:'',r:''};arr.push({w:l.w,r:l.r,d:false});save();render(true);break;}
+    case 'rmset':{const d=getDraft(P,ui.day),arr=d.sets[b.dataset.key];if(arr.length>1){arr.pop();save();render(true);}break;}
+    case 'swap':ui.swapOpen=ui.swapOpen===b.dataset.ex?null:b.dataset.ex;render(true);break;
+    case 'pick':{const d=getDraft(P,ui.day),i=+b.dataset.i;if(i<0)delete d.swaps[b.dataset.ex];else d.swaps[b.dataset.ex]=i;ui.swapOpen=null;save();render(true);break;}
+    case 'apply':{const d=getDraft(P,ui.day),arr=d.sets[b.dataset.key];arr.forEach(s=>{if(!s.d){const w=num(s.w);if(!isNaN(w))s.w=String(w+5);}});d.applied[b.dataset.key]=true;save();render(true);toast('Added 5 lb to the sets you haven\u2019t done yet');break;}
+    case 'rpe':{const d=getDraft(P,ui.day);d.rpe=+b.dataset.n===d.rpe?null:+b.dataset.n;save();render(true);break;}
+    case 'finish':finish();break;
+    case 'reset':if(confirm('Clear everything you entered for this day?')){delete store.drafts[dk(P,ui.day)];save();render(true);}break;
+    case 'dismiss':ui.saved=null;render(true);break;
+    case 'timer-add':if(timer){timer.end+=15000;timer.total+=15;timer.fired=false;tick();}break;
+    case 'timer-skip':timer=null;tick();break;
+    case 'water':{const k=dk(P,nowDenver().date);store.daily[k]=store.daily[k]||{};store.daily[k].water=Math.max(0,(store.daily[k].water||0)+(+b.dataset.n));save();render(true);break;}
+    case 'scale':{const k=dk(P,nowDenver().date);store.daily[k]=store.daily[k]||{};const n=+b.dataset.n;store.daily[k][b.dataset.f]=store.daily[k][b.dataset.f]===n?null:n;save();render(true);break;}
+    case 'addweight':{const v=num($('#wi-lbs').value),dt=$('#wi-date').value||nowDenver().date;if(isNaN(v)||v<=0){toast('Enter your weight in pounds first');break;}
+      const l=store.weighIns[P].filter(x=>x.date!==dt);l.push({date:dt,lbs:v});store.weighIns[P]=l;save();render(true);toast('Weigh-in saved');break;}
+    case 'delweight':if(confirm('Delete this weigh-in?')){store.weighIns[P]=store.weighIns[P].filter(x=>x.date!==b.dataset.date);save();render(true);}break;
+    case 'addmeasure':{const dt=$('#ms-date').value||nowDenver().date,m={date:dt};let any=false;['waist','chest','arm','hip'].forEach(f=>{const v=num($('#ms-'+f).value);if(!isNaN(v)&&v>0){m[f]=v;any=true;}});
+      if(!any){toast('Enter at least one measurement');break;}
+      const old=store.measures[P].find(x=>x.date===dt);if(old)Object.assign(old,m);else store.measures[P].push(m);save();render(true);toast('Measurements saved');break;}
+    case 'delmeasure':if(confirm('Delete these measurements?')){store.measures[P]=store.measures[P].filter(x=>x.date!==b.dataset.date);save();render(true);}break;
+    case 'viewphoto':{const p=photoCache.find(x=>x.id===b.dataset.id);if(p)showPhoto(p);break;}
+    case 'wk':ui.weekOff=Math.min(0,ui.weekOff+(+b.dataset.n));render(true);break;
+    case 'delsession':if(confirm('Delete this workout from history?')){delete store.sessions[b.dataset.k];save();render(true);}break;
+    case 'export':doExport();break;
+    case 'copyjson':{const txt=JSON.stringify(exportObj());(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast('Backup copied')).catch(()=>{$('#pasteJson').value=txt;$('#pasteJson').select();toast('Select all and copy the text');});break;}
+    case 'pasteimport':doImport($('#pasteJson').value,false);break;
+    case 'replaceimport':{const i=document.createElement('input');i.type='file';i.accept='.json,application/json';i.id='impReplaceIn';i.hidden=true;document.body.appendChild(i);i.addEventListener('change',()=>{if(i.files[0])i.files[0].text().then(t=>doImport(t,true));i.remove();});i.click();break;}
+  }
+}
+function showPhoto(p){
+  const o=document.createElement('div');o.className='overlay';
+  o.innerHTML='<img src="'+p.data+'" alt=""><div class="ov-bar"><span>'+fmtDate(p.date)+'</span><button class="btn danger">Delete</button><button class="btn primary">Close</button></div>';
+  o.querySelector('.danger').onclick=()=>{if(confirm('Delete this photo?')){idbDel(p.id).then(()=>{o.remove();loadPhotos();});}};
+  o.querySelector('.primary').onclick=()=>o.remove();document.body.appendChild(o);
+}
+function checkPR(person,d,key,s){
+  const sc=score(s.w,s.r);if(sc<=0)return;
+  const prior=bestScore(person,key),seen=d.pr[key]||0;
+  if(prior>0&&sc>Math.max(prior,seen)+1e-9){
+    const ex=planOf(person,ui.day).exercises.find(e=>exData(e,d).key===key),name=ex?exData(ex,d).name:key;
+    if(d.prNames.indexOf(name)<0)d.prNames.push(name);
+    confetti();toast('🏆 New PR! '+name+': '+(num(s.w)>0?s.w+' lb × '+s.r:s.r+' reps'),4200);
+  }
+  if(sc>seen)d.pr[key]=sc;save();
+}
+function finish(){
+  const P=ui.person,day=ui.day,plan=planOf(P,day),d=getDraft(P,day);
+  const exs=[];let setCount=0,vol=0;
+  plan.exercises.forEach(ex=>{const x=exData(ex,d),sets=(d.sets[x.key]||[]).filter(s=>s.d).map(s=>({w:s.w,r:s.r}));
+    if(sets.length){exs.push({key:x.key,name:x.name,swapOf:x.swapOf,sets});setCount+=sets.length;vol+=volOf(sets);}});
+  if(!exs.length){toast('Check off at least one set first');return;}
+  const total=Object.values(d.sets).reduce((a,x)=>a+x.length,0),done=setCount;
+  if(done<total&&!confirm('You completed '+done+' of '+total+' sets. Save this workout anyway?'))return;
+  const id=P+'|'+d.date+'|'+day;
+  store.sessions[id]={id,person:P,date:d.date,day,focus:plan.focus,finishedAt:new Date().toISOString(),rpe:d.rpe,notes:d.notes||'',warm:!!d.warm,cool:Object.values(d.cool).filter(Boolean).length,exercises:exs,setCount,volume:vol,prs:d.prNames.slice()};
+  delete store.drafts[dk(P,day)];save();timer=null;tick();
+  ui.saved={person:P,key:id};ui.swapOpen=null;render();toast('Workout saved. Nice work!');
+}
+
+/* ---------- export / import ---------- */
+function exportObj(){const o=JSON.parse(JSON.stringify(store));o.app='hd1s-workout-tracker';o.exportedAt=new Date().toISOString();return o;}
+async function doExport(){
+  const txt=JSON.stringify(exportObj(),null,1),name='gym-backup-'+nowDenver().date+'.json';
+  const file=new File([txt],name,{type:'application/json'});
+  try{
+    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Gym backup'});store.lastBackup=new Date().toISOString();save();render(true);toast('Backup shared');return;}
+  }catch(e){if(e&&e.name==='AbortError')return;}
+  const a=document.createElement('a');a.href=URL.createObjectURL(file);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000);
+  store.lastBackup=new Date().toISOString();save();render(true);toast('Backup downloaded');
+}
+function doImport(txt,replace){
+  let o;try{o=JSON.parse(txt);}catch(e){toast('That doesn\u2019t look like a backup file');return;}
+  if(!o||typeof o!=='object'||(!o.sessions&&!o.weighIns&&!o.daily)){toast('That doesn\u2019t look like a backup file');return;}
+  const inc=normalize(o);
+  if(replace){if(!confirm('Replace ALL data on this phone with the backup?'))return;store=inc;store.drafts={};}
+  else{
+    Object.keys(inc.sessions).forEach(k=>{const a=store.sessions[k],b=inc.sessions[k];if(!a||String(b.finishedAt||'')>String(a.finishedAt||''))store.sessions[k]=b;});
+    PEOPLE.forEach(p=>{
+      const m=new Map();store.weighIns[p].forEach(x=>m.set(x.date,x));inc.weighIns[p].forEach(x=>m.set(x.date,x));store.weighIns[p]=[...m.values()];
+      const mm=new Map();store.measures[p].forEach(x=>mm.set(x.date,x));inc.measures[p].forEach(x=>mm.set(x.date,Object.assign({},mm.get(x.date),x)));store.measures[p]=[...mm.values()];
+      ['start','goal'].forEach(f=>{if(!store.goals[p][f]&&inc.goals[p][f])store.goals[p][f]=inc.goals[p][f];});
+    });
+    Object.keys(inc.daily).forEach(k=>{store.daily[k]=Object.assign({},inc.daily[k],store.daily[k]||{});});
+  }
+  save();render(true);toast('Backup imported');
+}
+
+/* ---------- boot ---------- */
+$('#nav').addEventListener('click',e=>{const b=e.target.closest('button[data-tab]');if(b){ui.tab=b.dataset.tab;render();}});
+window.__app={get store(){return store;},ui,render,act,doImport,exportObj,finish,weekStats,plateHint,SWAP_CAT,SWAP_LIB};
+render();
+if('serviceWorker' in navigator&&location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
+})();
+
+</script>
+</body>
+</html>

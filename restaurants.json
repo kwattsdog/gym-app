@@ -1,0 +1,5316 @@
+{
+  "retrieved": "2026-11-19",
+  "note": "Each item is one published menu serving. Chick-fil-A numbers come from chick-fil-a.com. Other chains come from that brand's menu nutrition table on Nutritionix. McDonald's Big Mac (580 kcal) and Egg McMuffin (310 kcal) match mcdonalds.com product pages retrieved the same day. Chains without a readable official or Nutritionix table were left out.",
+  "restaurants": [
+    {
+      "id": "chick-fil-a",
+      "name": "Chick-fil-A",
+      "source": "https://www.chick-fil-a.com/nutrition-allergens",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Official nutrition table embedded on chick-fil-a.com, retrieved 2026-11-19. Values are per listed item.",
+      "items": [
+        {
+          "id": "cfa-1",
+          "serving": "1 menu item",
+          "name": "Grilled Chicken Sandwich",
+          "kcal": 390,
+          "p": 28.0,
+          "c": 45.0,
+          "f": 11.0
+        },
+        {
+          "id": "cfa-2",
+          "serving": "1 menu item",
+          "name": "Cobb Salad w/ Grilled Nuggets",
+          "kcal": 630,
+          "p": 39.0,
+          "c": 16.0,
+          "f": 45.0
+        },
+        {
+          "id": "cfa-3",
+          "serving": "1 menu item",
+          "name": "Spicy Southwest Salad w/ Grilled Nuggets",
+          "kcal": 700,
+          "p": 39.0,
+          "c": 26.0,
+          "f": 49.0
+        },
+        {
+          "id": "cfa-4",
+          "serving": "1 menu item",
+          "name": "Market Salad w/ Grilled Nuggets",
+          "kcal": 570,
+          "p": 32.0,
+          "c": 41.0,
+          "f": 32.0
+        },
+        {
+          "id": "cfa-5",
+          "serving": "1 menu item",
+          "name": "Chick-fil-A® Chicken Sandwich",
+          "kcal": 420,
+          "p": 29.0,
+          "c": 41.0,
+          "f": 16.0
+        },
+        {
+          "id": "cfa-6",
+          "serving": "1 menu item",
+          "name": "Spicy Chicken Sandwich",
+          "kcal": 450,
+          "p": 28.0,
+          "c": 44.0,
+          "f": 18.0
+        },
+        {
+          "id": "cfa-7",
+          "serving": "1 menu item",
+          "name": "8 ct Grilled Nuggets",
+          "kcal": 130,
+          "p": 25.0,
+          "c": 1.0,
+          "f": 3.0
+        },
+        {
+          "id": "cfa-8",
+          "serving": "1 menu item",
+          "name": "Grilled Nuggets",
+          "kcal": 130,
+          "p": 25.0,
+          "c": 1.0,
+          "f": 3.0
+        },
+        {
+          "id": "cfa-9",
+          "serving": "1 menu item",
+          "name": "Chick-fil-A Cool Wrap®",
+          "kcal": 660,
+          "p": 43.0,
+          "c": 32.0,
+          "f": 45.0
+        },
+        {
+          "id": "cfa-10",
+          "serving": "1 menu item",
+          "name": "Cobb Salad w/ Chick-fil-A Chick-n-Strips®",
+          "kcal": 810,
+          "p": 43.0,
+          "c": 31.0,
+          "f": 56.0
+        },
+        {
+          "id": "cfa-11",
+          "serving": "1 menu item",
+          "name": "Spicy Southwest Salad w/ Chick-fil-A Chick-n-Strips®",
+          "kcal": 880,
+          "p": 43.0,
+          "c": 41.0,
+          "f": 60.0
+        },
+        {
+          "id": "cfa-12",
+          "serving": "1 menu item",
+          "name": "Cobb Salad w/ Nuggets",
+          "kcal": 830,
+          "p": 41.0,
+          "c": 31.0,
+          "f": 60.0
+        },
+        {
+          "id": "cfa-13",
+          "serving": "1 menu item",
+          "name": "Cobb Salad",
+          "kcal": 830,
+          "p": 41.0,
+          "c": 31.0,
+          "f": 60.0
+        },
+        {
+          "id": "cfa-14",
+          "serving": "1 menu item",
+          "name": "Spicy Southwest Salad w/ Nuggets",
+          "kcal": 800,
+          "p": 39.0,
+          "c": 35.0,
+          "f": 56.0
+        },
+        {
+          "id": "cfa-15",
+          "serving": "1 menu item",
+          "name": "Grilled Chicken Club w/ Colby Jack",
+          "kcal": 520,
+          "p": 37.0,
+          "c": 45.0,
+          "f": 22.0
+        },
+        {
+          "id": "cfa-16",
+          "serving": "1 menu item",
+          "name": "Grilled Chicken Club w/ Pepper Jack",
+          "kcal": 520,
+          "p": 37.0,
+          "c": 45.0,
+          "f": 22.0
+        },
+        {
+          "id": "cfa-17",
+          "serving": "1 menu item",
+          "name": "Chick-fil-A® Grilled Chicken Club Sandwich",
+          "kcal": 520,
+          "p": 37.0,
+          "c": 45.0,
+          "f": 22.0
+        },
+        {
+          "id": "cfa-18",
+          "serving": "1 menu item",
+          "name": "Hash Brown Scramble Burrito w/ Spicy Chicken",
+          "kcal": 740,
+          "p": 37.0,
+          "c": 53.0,
+          "f": 42.0
+        },
+        {
+          "id": "cfa-19",
+          "serving": "1 menu item",
+          "name": "Hash Brown Scramble Burrito w/ Spicy Chicken - no hash browns",
+          "kcal": 590,
+          "p": 36.0,
+          "c": 40.0,
+          "f": 32.0
+        },
+        {
+          "id": "cfa-20",
+          "serving": "1 menu item",
+          "name": "Market Salad w/ Chick-fil-A Chick-n-Strips®",
+          "kcal": 750,
+          "p": 36.0,
+          "c": 57.0,
+          "f": 43.0
+        },
+        {
+          "id": "cfa-21",
+          "serving": "1 menu item",
+          "name": "Cobb Salad w/ Grilled Filet (Warm)",
+          "kcal": 600,
+          "p": 35.0,
+          "c": 16.0,
+          "f": 44.0
+        },
+        {
+          "id": "cfa-22",
+          "serving": "1 menu item",
+          "name": "Cobb Salad w/ Grilled Filet (Cold)",
+          "kcal": 610,
+          "p": 35.0,
+          "c": 16.0,
+          "f": 44.0
+        }
+      ]
+    },
+    {
+      "id": "mcdonalds",
+      "name": "McDonald's",
+      "source": "https://www.nutritionix.com/mcdonalds/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Menu nutrition table on Nutritionix, retrieved 2026-11-19. Big Mac calories (580) and Egg McMuffin calories (310) match the figures stated on the matching mcdonalds.com product pages the same day.",
+      "items": [
+        {
+          "id": "mcdonalds-1",
+          "serving": "1 menu serving",
+          "name": "Egg McMuffin",
+          "kcal": 310,
+          "p": 17.0,
+          "c": 30.0,
+          "f": 13.0
+        },
+        {
+          "id": "mcdonalds-2",
+          "serving": "1 menu serving",
+          "name": "Bacon Quarter Pounder with Cheese",
+          "kcal": 630,
+          "p": 36.0,
+          "c": 43.0,
+          "f": 35.0
+        },
+        {
+          "id": "mcdonalds-3",
+          "serving": "1 menu serving",
+          "name": "Big Mac",
+          "kcal": 580,
+          "p": 25.0,
+          "c": 45.0,
+          "f": 34.0
+        },
+        {
+          "id": "mcdonalds-4",
+          "serving": "1 menu serving",
+          "name": "Double Quarter Pounder with Cheese",
+          "kcal": 740,
+          "p": 48.0,
+          "c": 43.0,
+          "f": 42.0
+        },
+        {
+          "id": "mcdonalds-5",
+          "serving": "1 menu serving",
+          "name": "Quarter Pounder with Cheese",
+          "kcal": 520,
+          "p": 30.0,
+          "c": 42.0,
+          "f": 26.0
+        },
+        {
+          "id": "mcdonalds-6",
+          "serving": "1 menu serving",
+          "name": "Quarter Pounder with Cheese Deluxe",
+          "kcal": 630,
+          "p": 30.0,
+          "c": 44.0,
+          "f": 37.0
+        },
+        {
+          "id": "mcdonalds-7",
+          "serving": "1 menu serving",
+          "name": "McCrispy Strips, 4 Piece",
+          "kcal": 460,
+          "p": 40.0,
+          "c": 24.0,
+          "f": 23.0
+        },
+        {
+          "id": "mcdonalds-8",
+          "serving": "1 menu serving",
+          "name": "McCrispy Strips, 3 Piece",
+          "kcal": 350,
+          "p": 30.0,
+          "c": 18.0,
+          "f": 17.0
+        },
+        {
+          "id": "mcdonalds-9",
+          "serving": "1 menu serving",
+          "name": "Deluxe McCrispy",
+          "kcal": 530,
+          "p": 27.0,
+          "c": 48.0,
+          "f": 26.0
+        },
+        {
+          "id": "mcdonalds-10",
+          "serving": "1 menu serving",
+          "name": "Spicy Deluxe McCrispy",
+          "kcal": 530,
+          "p": 27.0,
+          "c": 49.0,
+          "f": 26.0
+        },
+        {
+          "id": "mcdonalds-11",
+          "serving": "1 menu serving",
+          "name": "Spicy McCrispy",
+          "kcal": 530,
+          "p": 27.0,
+          "c": 48.0,
+          "f": 26.0
+        },
+        {
+          "id": "mcdonalds-12",
+          "serving": "1 menu serving",
+          "name": "McCrispy",
+          "kcal": 470,
+          "p": 26.0,
+          "c": 46.0,
+          "f": 20.0
+        },
+        {
+          "id": "mcdonalds-13",
+          "serving": "1 menu serving",
+          "name": "McCafe Caramel Latte, Large",
+          "kcal": 390,
+          "p": 14.0,
+          "c": 60.0,
+          "f": 11.0
+        },
+        {
+          "id": "mcdonalds-14",
+          "serving": "1 menu serving",
+          "name": "McCafe Mocha Latte, Large",
+          "kcal": 460,
+          "p": 14.0,
+          "c": 68.0,
+          "f": 14.0
+        },
+        {
+          "id": "mcdonalds-15",
+          "serving": "1 menu serving",
+          "name": "McCafe Latte, Large",
+          "kcal": 250,
+          "p": 13.0,
+          "c": 22.0,
+          "f": 12.0
+        },
+        {
+          "id": "mcdonalds-16",
+          "serving": "1 menu serving",
+          "name": "McCafe French Vanilla Latte, Large",
+          "kcal": 400,
+          "p": 12.0,
+          "c": 63.0,
+          "f": 11.0
+        },
+        {
+          "id": "mcdonalds-17",
+          "serving": "1 menu serving",
+          "name": "McCafe Caramel Latte, Medium",
+          "kcal": 320,
+          "p": 11.0,
+          "c": 49.0,
+          "f": 8.0
+        },
+        {
+          "id": "mcdonalds-18",
+          "serving": "1 menu serving",
+          "name": "McCafe Iced Caramel Latte, Large",
+          "kcal": 330,
+          "p": 11.0,
+          "c": 54.0,
+          "f": 8.0
+        },
+        {
+          "id": "mcdonalds-19",
+          "serving": "1 menu serving",
+          "name": "McCafe Iced Mocha Latte, Large",
+          "kcal": 440,
+          "p": 11.0,
+          "c": 67.0,
+          "f": 14.0
+        },
+        {
+          "id": "mcdonalds-20",
+          "serving": "1 menu serving",
+          "name": "McCafe Latte, Medium",
+          "kcal": 190,
+          "p": 10.0,
+          "c": 17.0,
+          "f": 9.0
+        }
+      ]
+    },
+    {
+      "id": "wendys",
+      "name": "Wendy's",
+      "source": "https://www.nutritionix.com/wendys/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Wendy's menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "wendys-1",
+          "serving": "1 menu serving",
+          "name": "Baconator",
+          "kcal": 890,
+          "p": 59.0,
+          "c": 36.0,
+          "f": 58.0
+        },
+        {
+          "id": "wendys-2",
+          "serving": "1 menu serving",
+          "name": "Dave's Single",
+          "kcal": 560,
+          "p": 31.0,
+          "c": 37.0,
+          "f": 34.0
+        },
+        {
+          "id": "wendys-3",
+          "serving": "1 menu serving",
+          "name": "Son of Baconator",
+          "kcal": 590,
+          "p": 34.0,
+          "c": 35.0,
+          "f": 36.0
+        },
+        {
+          "id": "wendys-4",
+          "serving": "1 menu serving",
+          "name": "Baconator Fries",
+          "kcal": 450,
+          "p": 14.0,
+          "c": 42.0,
+          "f": 25.0
+        },
+        {
+          "id": "wendys-5",
+          "serving": "1 menu serving",
+          "name": "Breakfast, Breakfast Baconator",
+          "kcal": 680,
+          "p": 34.0,
+          "c": 36.0,
+          "f": 45.0
+        },
+        {
+          "id": "wendys-6",
+          "serving": "1 menu serving",
+          "name": "Pretzel Bacon Pub Chicken Sandwich",
+          "kcal": 860,
+          "p": 42.0,
+          "c": 73.0,
+          "f": 44.0
+        },
+        {
+          "id": "wendys-7",
+          "serving": "1 menu serving",
+          "name": "Classic Chicken Sandwich",
+          "kcal": 550,
+          "p": 28.0,
+          "c": 55.0,
+          "f": 25.0
+        },
+        {
+          "id": "wendys-8",
+          "serving": "1 menu serving",
+          "name": "Spicy Chicken Sandwich",
+          "kcal": 560,
+          "p": 28.0,
+          "c": 55.0,
+          "f": 26.0
+        },
+        {
+          "id": "wendys-9",
+          "serving": "1 menu serving",
+          "name": "Crispy Chicken Sandwich",
+          "kcal": 340,
+          "p": 15.0,
+          "c": 32.0,
+          "f": 17.0
+        },
+        {
+          "id": "wendys-10",
+          "serving": "1 menu serving",
+          "name": "Everyday Value, Crispy Chicken Sandwich",
+          "kcal": 340,
+          "p": 15.0,
+          "c": 32.0,
+          "f": 17.0
+        },
+        {
+          "id": "wendys-11",
+          "serving": "1 menu serving",
+          "name": "Dave's Triple",
+          "kcal": 1100,
+          "p": 72.0,
+          "c": 38.0,
+          "f": 74.0
+        },
+        {
+          "id": "wendys-12",
+          "serving": "1 menu serving",
+          "name": "Dave's Double",
+          "kcal": 810,
+          "p": 50.0,
+          "c": 37.0,
+          "f": 52.0
+        },
+        {
+          "id": "wendys-13",
+          "serving": "1 menu serving",
+          "name": "Pretzel Bacon Pub Double Cheeseburger",
+          "kcal": 1110,
+          "p": 65.0,
+          "c": 52.0,
+          "f": 71.0
+        },
+        {
+          "id": "wendys-14",
+          "serving": "1 menu serving",
+          "name": "4 Piece Tenders",
+          "kcal": 560,
+          "p": 44.0,
+          "c": 29.0,
+          "f": 30.0
+        },
+        {
+          "id": "wendys-15",
+          "serving": "1 menu serving",
+          "name": "Pretzel Bacon Pub Cheeseburger",
+          "kcal": 780,
+          "p": 40.0,
+          "c": 52.0,
+          "f": 46.0
+        },
+        {
+          "id": "wendys-16",
+          "serving": "1 menu serving",
+          "name": "Cobb Salad, Entree",
+          "kcal": 410,
+          "p": 37.0,
+          "c": 16.0,
+          "f": 23.0
+        },
+        {
+          "id": "wendys-17",
+          "serving": "1 menu serving",
+          "name": "Asiago Ranch Club Sandwich, Classic",
+          "kcal": 670,
+          "p": 37.0,
+          "c": 56.0,
+          "f": 34.0
+        },
+        {
+          "id": "wendys-18",
+          "serving": "1 menu serving",
+          "name": "Asiago Ranch Club Sandwich, Spicy",
+          "kcal": 680,
+          "p": 36.0,
+          "c": 56.0,
+          "f": 35.0
+        },
+        {
+          "id": "wendys-19",
+          "serving": "1 menu serving",
+          "name": "3 Piece Tenders",
+          "kcal": 420,
+          "p": 33.0,
+          "c": 22.0,
+          "f": 22.0
+        },
+        {
+          "id": "wendys-20",
+          "serving": "1 menu serving",
+          "name": "Breakfast, Breakfast Burrito, Bacon",
+          "kcal": 700,
+          "p": 32.0,
+          "c": 55.0,
+          "f": 39.0
+        }
+      ]
+    },
+    {
+      "id": "burger-king",
+      "name": "Burger King",
+      "source": "https://www.nutritionix.com/burger-king/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Burger King menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "burger-king-1",
+          "serving": "1 menu serving",
+          "name": "Bacon Swiss BBQ Whopper",
+          "kcal": 920,
+          "p": 44.0,
+          "c": 71.0,
+          "f": 55.0
+        },
+        {
+          "id": "burger-king-2",
+          "serving": "1 menu serving",
+          "name": "BBQ Bacon Whopper Jr.",
+          "kcal": 390,
+          "p": 19.0,
+          "c": 32.0,
+          "f": 23.0
+        },
+        {
+          "id": "burger-king-3",
+          "serving": "1 menu serving",
+          "name": "Double Whopper",
+          "kcal": 980,
+          "p": 56.0,
+          "c": 57.0,
+          "f": 62.0
+        },
+        {
+          "id": "burger-king-4",
+          "serving": "1 menu serving",
+          "name": "Double Whopper with Bacon",
+          "kcal": 1040,
+          "p": 60.0,
+          "c": 57.0,
+          "f": 67.0
+        },
+        {
+          "id": "burger-king-5",
+          "serving": "1 menu serving",
+          "name": "Double Whopper with Bacon & Cheese",
+          "kcal": 1120,
+          "p": 64.0,
+          "c": 59.0,
+          "f": 74.0
+        },
+        {
+          "id": "burger-king-6",
+          "serving": "1 menu serving",
+          "name": "Double Whopper with Cheese",
+          "kcal": 1060,
+          "p": 60.0,
+          "c": 59.0,
+          "f": 69.0
+        },
+        {
+          "id": "burger-king-7",
+          "serving": "1 menu serving",
+          "name": "Impossible Loaded Jalapeno Whopper",
+          "kcal": 810,
+          "p": 37.0,
+          "c": 75.0,
+          "f": 44.0
+        },
+        {
+          "id": "burger-king-8",
+          "serving": "1 menu serving",
+          "name": "Impossible Whopper",
+          "kcal": 670,
+          "p": 32.0,
+          "c": 64.0,
+          "f": 35.0
+        },
+        {
+          "id": "burger-king-9",
+          "serving": "1 menu serving",
+          "name": "Loaded Jalapeno Whopper",
+          "kcal": 820,
+          "p": 38.0,
+          "c": 65.0,
+          "f": 49.0
+        },
+        {
+          "id": "burger-king-10",
+          "serving": "1 menu serving",
+          "name": "Loaded Jalapeno Whopper Jr.",
+          "kcal": 410,
+          "p": 18.0,
+          "c": 35.0,
+          "f": 24.0
+        },
+        {
+          "id": "burger-king-11",
+          "serving": "1 menu serving",
+          "name": "Texas Double Whopper",
+          "kcal": 1120,
+          "p": 64.0,
+          "c": 56.0,
+          "f": 74.0
+        },
+        {
+          "id": "burger-king-12",
+          "serving": "1 menu serving",
+          "name": "Whopper",
+          "kcal": 710,
+          "p": 34.0,
+          "c": 57.0,
+          "f": 42.0
+        },
+        {
+          "id": "burger-king-13",
+          "serving": "1 menu serving",
+          "name": "Whopper Jr.",
+          "kcal": 340,
+          "p": 15.0,
+          "c": 30.0,
+          "f": 19.0
+        },
+        {
+          "id": "burger-king-14",
+          "serving": "1 menu serving",
+          "name": "Whopper Jr. with Bacon",
+          "kcal": 380,
+          "p": 19.0,
+          "c": 30.0,
+          "f": 23.0
+        },
+        {
+          "id": "burger-king-15",
+          "serving": "1 menu serving",
+          "name": "Whopper Jr. with Bacon & Cheese",
+          "kcal": 430,
+          "p": 20.0,
+          "c": 31.0,
+          "f": 26.0
+        },
+        {
+          "id": "burger-king-16",
+          "serving": "1 menu serving",
+          "name": "Whopper Jr. with Cheese",
+          "kcal": 380,
+          "p": 17.0,
+          "c": 31.0,
+          "f": 23.0
+        },
+        {
+          "id": "burger-king-17",
+          "serving": "1 menu serving",
+          "name": "Whopper with Bacon",
+          "kcal": 770,
+          "p": 38.0,
+          "c": 57.0,
+          "f": 47.0
+        },
+        {
+          "id": "burger-king-18",
+          "serving": "1 menu serving",
+          "name": "Whopper with Bacon & Cheese",
+          "kcal": 860,
+          "p": 42.0,
+          "c": 58.0,
+          "f": 54.0
+        },
+        {
+          "id": "burger-king-19",
+          "serving": "1 menu serving",
+          "name": "Whopper with Cheese",
+          "kcal": 790,
+          "p": 37.0,
+          "c": 58.0,
+          "f": 49.0
+        },
+        {
+          "id": "burger-king-20",
+          "serving": "1 menu serving",
+          "name": "Original Chicken Sandwich",
+          "kcal": 680,
+          "p": 23.0,
+          "c": 63.0,
+          "f": 39.0
+        }
+      ]
+    },
+    {
+      "id": "taco-bell",
+      "name": "Taco Bell",
+      "source": "https://www.nutritionix.com/taco-bell/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Taco Bell menu nutrition table on Nutritionix. Taco Bell's nutrition page links to this listing. Retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "taco-bell-1",
+          "serving": "1 menu serving",
+          "name": "Crunchy Taco",
+          "kcal": 170,
+          "p": 7.0,
+          "c": 13.0,
+          "f": 9.0
+        },
+        {
+          "id": "taco-bell-2",
+          "serving": "1 menu serving",
+          "name": "Crunchy Taco Supreme®",
+          "kcal": 190,
+          "p": 8.0,
+          "c": 16.0,
+          "f": 10.0
+        },
+        {
+          "id": "taco-bell-3",
+          "serving": "1 menu serving",
+          "name": "Vanilla Crema Latte Chiller (20 oz)",
+          "kcal": 580,
+          "p": 9.0,
+          "c": 77.0,
+          "f": 26.0
+        },
+        {
+          "id": "taco-bell-4",
+          "serving": "1 menu serving",
+          "name": "Cinnabon® Caramel Latte Chiller (19 oz)",
+          "kcal": 620,
+          "p": 9.0,
+          "c": 89.0,
+          "f": 25.0
+        },
+        {
+          "id": "taco-bell-5",
+          "serving": "1 menu serving",
+          "name": "Mexican Mocha Latte Chiller (20 oz)",
+          "kcal": 620,
+          "p": 9.0,
+          "c": 87.0,
+          "f": 26.0
+        },
+        {
+          "id": "taco-bell-6",
+          "serving": "1 menu serving",
+          "name": "Mexican Mocha Latte Chiller (16 oz)",
+          "kcal": 480,
+          "p": 7.0,
+          "c": 68.0,
+          "f": 19.0
+        },
+        {
+          "id": "taco-bell-7",
+          "serving": "1 menu serving",
+          "name": "Vanilla Crema Latte Chiller (16 oz)",
+          "kcal": 430,
+          "p": 6.0,
+          "c": 59.0,
+          "f": 19.0
+        },
+        {
+          "id": "taco-bell-8",
+          "serving": "1 menu serving",
+          "name": "Cinnabon® Caramel Latte Chiller (16 oz)",
+          "kcal": 480,
+          "p": 6.0,
+          "c": 70.0,
+          "f": 18.0
+        },
+        {
+          "id": "taco-bell-9",
+          "serving": "1 menu serving",
+          "name": "Cantina Chicken Rolled Quesadilla",
+          "kcal": 570,
+          "p": 33.0,
+          "c": 46.0,
+          "f": 28.0
+        },
+        {
+          "id": "taco-bell-10",
+          "serving": "1 menu serving",
+          "name": "Crispy Chicken Strips - 4 piece",
+          "kcal": 460,
+          "p": 28.0,
+          "c": 39.0,
+          "f": 22.0
+        },
+        {
+          "id": "taco-bell-11",
+          "serving": "1 menu serving",
+          "name": "Breakfast Quesadilla - Steak",
+          "kcal": 500,
+          "p": 28.0,
+          "c": 43.0,
+          "f": 23.0
+        },
+        {
+          "id": "taco-bell-12",
+          "serving": "1 menu serving",
+          "name": "Grilled Cheese Burrito - Chicken",
+          "kcal": 670,
+          "p": 28.0,
+          "c": 66.0,
+          "f": 33.0
+        },
+        {
+          "id": "taco-bell-13",
+          "serving": "1 menu serving",
+          "name": "Grilled Cheese Burrito - Steak",
+          "kcal": 680,
+          "p": 28.0,
+          "c": 66.0,
+          "f": 34.0
+        },
+        {
+          "id": "taco-bell-14",
+          "serving": "1 menu serving",
+          "name": "Quesadilla - Chicken",
+          "kcal": 490,
+          "p": 26.0,
+          "c": 44.0,
+          "f": 23.0
+        },
+        {
+          "id": "taco-bell-15",
+          "serving": "1 menu serving",
+          "name": "Quesadilla - Steak",
+          "kcal": 500,
+          "p": 26.0,
+          "c": 44.0,
+          "f": 24.0
+        },
+        {
+          "id": "taco-bell-16",
+          "serving": "1 menu serving",
+          "name": "Grande Toasted Breakfast Burrito - Steak",
+          "kcal": 560,
+          "p": 26.0,
+          "c": 53.0,
+          "f": 27.0
+        },
+        {
+          "id": "taco-bell-17",
+          "serving": "1 menu serving",
+          "name": "Cantina Chicken Bowl",
+          "kcal": 580,
+          "p": 26.0,
+          "c": 55.0,
+          "f": 29.0
+        },
+        {
+          "id": "taco-bell-18",
+          "serving": "1 menu serving",
+          "name": "Cheesy Street Chalupas - Steak",
+          "kcal": 680,
+          "p": 26.0,
+          "c": 67.0,
+          "f": 34.0
+        },
+        {
+          "id": "taco-bell-19",
+          "serving": "1 menu serving",
+          "name": "Flamin' Hot Grilled Cheese Burrito",
+          "kcal": 720,
+          "p": 26.0,
+          "c": 70.0,
+          "f": 37.0
+        },
+        {
+          "id": "taco-bell-20",
+          "serving": "1 menu serving",
+          "name": "Breakfast Quesadilla - Bacon",
+          "kcal": 500,
+          "p": 25.0,
+          "c": 42.0,
+          "f": 26.0
+        }
+      ]
+    },
+    {
+      "id": "chipotle",
+      "name": "Chipotle",
+      "source": "https://www.nutritionix.com/chipotle/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Chipotle menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "chipotle-1",
+          "serving": "1 menu serving",
+          "name": "Chicken",
+          "kcal": 180,
+          "p": 32.0,
+          "c": 0.0,
+          "f": 7.0
+        },
+        {
+          "id": "chipotle-2",
+          "serving": "1 menu serving",
+          "name": "Steak",
+          "kcal": 150,
+          "p": 21.0,
+          "c": 1.0,
+          "f": 6.0
+        },
+        {
+          "id": "chipotle-3",
+          "serving": "1 menu serving",
+          "name": "Kids Quesadilla, Chicken",
+          "kcal": 90,
+          "p": 15.0,
+          "c": 0.0,
+          "f": 3.0
+        },
+        {
+          "id": "chipotle-4",
+          "serving": "1 menu serving",
+          "name": "Kids Tacos, Chicken",
+          "kcal": 90,
+          "p": 15.0,
+          "c": 0.0,
+          "f": 3.0
+        },
+        {
+          "id": "chipotle-5",
+          "serving": "1 menu serving",
+          "name": "Kids Quesadilla, Barbacoa",
+          "kcal": 80,
+          "p": 12.0,
+          "c": 1.0,
+          "f": 3.0
+        },
+        {
+          "id": "chipotle-6",
+          "serving": "1 menu serving",
+          "name": "Kids Tacos, Barbacoa",
+          "kcal": 80,
+          "p": 12.0,
+          "c": 1.0,
+          "f": 3.0
+        },
+        {
+          "id": "chipotle-7",
+          "serving": "1 menu serving",
+          "name": "Kids Quesadilla, Carnitas",
+          "kcal": 110,
+          "p": 12.0,
+          "c": 0.0,
+          "f": 6.0
+        },
+        {
+          "id": "chipotle-8",
+          "serving": "1 menu serving",
+          "name": "Kids Tacos, Carnitas",
+          "kcal": 110,
+          "p": 12.0,
+          "c": 0.0,
+          "f": 6.0
+        },
+        {
+          "id": "chipotle-9",
+          "serving": "1 menu serving",
+          "name": "Kids Quesadilla, Steak",
+          "kcal": 70,
+          "p": 10.0,
+          "c": 1.0,
+          "f": 3.0
+        },
+        {
+          "id": "chipotle-10",
+          "serving": "1 menu serving",
+          "name": "Kids Tacos, Steak",
+          "kcal": 70,
+          "p": 10.0,
+          "c": 1.0,
+          "f": 3.0
+        },
+        {
+          "id": "chipotle-11",
+          "serving": "1 menu serving",
+          "name": "Flour Tortilla (Burrito)",
+          "kcal": 320,
+          "p": 8.0,
+          "c": 50.0,
+          "f": 9.0
+        },
+        {
+          "id": "chipotle-12",
+          "serving": "1 menu serving",
+          "name": "Kids Quesadilla, Black Beans",
+          "kcal": 100,
+          "p": 6.0,
+          "c": 16.0,
+          "f": 1.0
+        },
+        {
+          "id": "chipotle-13",
+          "serving": "1 menu serving",
+          "name": "Kids Quesadilla, Pinto Beans",
+          "kcal": 100,
+          "p": 6.0,
+          "c": 15.0,
+          "f": 1.0
+        },
+        {
+          "id": "chipotle-14",
+          "serving": "1 menu serving",
+          "name": "Kids Tacos, Black Beans",
+          "kcal": 100,
+          "p": 6.0,
+          "c": 16.0,
+          "f": 1.0
+        },
+        {
+          "id": "chipotle-15",
+          "serving": "1 menu serving",
+          "name": "Kids Tacos, Pinto Beans",
+          "kcal": 100,
+          "p": 6.0,
+          "c": 15.0,
+          "f": 1.0
+        },
+        {
+          "id": "chipotle-16",
+          "serving": "1 menu serving",
+          "name": "Kids Quesadilla, Cheese",
+          "kcal": 110,
+          "p": 6.0,
+          "c": 1.0,
+          "f": 8.0
+        },
+        {
+          "id": "chipotle-17",
+          "serving": "1 menu serving",
+          "name": "Kids Tacos, Cheese",
+          "kcal": 110,
+          "p": 6.0,
+          "c": 1.0,
+          "f": 8.0
+        },
+        {
+          "id": "chipotle-18",
+          "serving": "1 menu serving",
+          "name": "Kids Tacos, 2 Soft Flour Tortillas",
+          "kcal": 170,
+          "p": 5.0,
+          "c": 27.0,
+          "f": 5.0
+        },
+        {
+          "id": "chipotle-19",
+          "serving": "1 menu serving",
+          "name": "Kids Quesadilla, Sofritas",
+          "kcal": 70,
+          "p": 4.0,
+          "c": 5.0,
+          "f": 5.0
+        },
+        {
+          "id": "chipotle-20",
+          "serving": "1 menu serving",
+          "name": "Kids Tacos, Sofritas",
+          "kcal": 70,
+          "p": 4.0,
+          "c": 5.0,
+          "f": 5.0
+        }
+      ]
+    },
+    {
+      "id": "subway",
+      "name": "Subway",
+      "source": "https://www.nutritionix.com/subway/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Subway menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "subway-1",
+          "serving": "1 menu serving",
+          "name": "Italians, 5 Meat Italian Protein Bowl",
+          "kcal": 930,
+          "p": 65.0,
+          "c": 17.0,
+          "f": 68.0
+        },
+        {
+          "id": "subway-2",
+          "serving": "1 menu serving",
+          "name": "Italians, 5 Meat Italian Wrap",
+          "kcal": 1000,
+          "p": 65.0,
+          "c": 61.0,
+          "f": 56.0
+        },
+        {
+          "id": "subway-3",
+          "serving": "1 menu serving",
+          "name": "Cheesesteaks, Steak & Bacon Wrap",
+          "kcal": 880,
+          "p": 58.0,
+          "c": 58.0,
+          "f": 46.0
+        },
+        {
+          "id": "subway-4",
+          "serving": "1 menu serving",
+          "name": "Chicken, Chicken & Bacon Ranch Protein Bowl",
+          "kcal": 760,
+          "p": 55.0,
+          "c": 14.0,
+          "f": 55.0
+        },
+        {
+          "id": "subway-5",
+          "serving": "1 menu serving",
+          "name": "Chicken, Chicken & Bacon Ranch Wrap",
+          "kcal": 840,
+          "p": 55.0,
+          "c": 57.0,
+          "f": 45.0
+        },
+        {
+          "id": "subway-6",
+          "serving": "1 menu serving",
+          "name": "Cheesesteaks, Steak & Bacon Protein Bowl",
+          "kcal": 720,
+          "p": 54.0,
+          "c": 16.0,
+          "f": 50.0
+        },
+        {
+          "id": "subway-7",
+          "serving": "1 menu serving",
+          "name": "Chicken, Grilled Chicken Protein Bowl",
+          "kcal": 620,
+          "p": 48.0,
+          "c": 11.0,
+          "f": 44.0
+        },
+        {
+          "id": "subway-8",
+          "serving": "1 menu serving",
+          "name": "Chicken, Grilled Chicken Wrap",
+          "kcal": 680,
+          "p": 48.0,
+          "c": 55.0,
+          "f": 31.0
+        },
+        {
+          "id": "subway-9",
+          "serving": "1 menu serving",
+          "name": "Clubs, Subway Club Wrap",
+          "kcal": 700,
+          "p": 48.0,
+          "c": 59.0,
+          "f": 31.0
+        },
+        {
+          "id": "subway-10",
+          "serving": "1 menu serving",
+          "name": "Steak, Egg & Cheese on 12\" Wrap",
+          "kcal": 860,
+          "p": 48.0,
+          "c": 57.0,
+          "f": 48.0
+        },
+        {
+          "id": "subway-11",
+          "serving": "1 menu serving",
+          "name": "Cheesesteaks, Chipotle Philly Wrap",
+          "kcal": 700,
+          "p": 47.0,
+          "c": 56.0,
+          "f": 32.0
+        },
+        {
+          "id": "subway-12",
+          "serving": "1 menu serving",
+          "name": "Deli Classics, Roast Beef Protein Bowl",
+          "kcal": 590,
+          "p": 46.0,
+          "c": 14.0,
+          "f": 40.0
+        },
+        {
+          "id": "subway-13",
+          "serving": "1 menu serving",
+          "name": "Cheesesteaks, Chipotle Philly Protein Bowl",
+          "kcal": 600,
+          "p": 46.0,
+          "c": 15.0,
+          "f": 41.0
+        },
+        {
+          "id": "subway-14",
+          "serving": "1 menu serving",
+          "name": "Deli Classics, Roast Beef Wrap",
+          "kcal": 670,
+          "p": 46.0,
+          "c": 58.0,
+          "f": 29.0
+        },
+        {
+          "id": "subway-15",
+          "serving": "1 menu serving",
+          "name": "Cheesesteaks, Steak Philly Wrap",
+          "kcal": 710,
+          "p": 46.0,
+          "c": 56.0,
+          "f": 35.0
+        },
+        {
+          "id": "subway-16",
+          "serving": "1 menu serving",
+          "name": "Clubs, Subway Club Protein Bowl",
+          "kcal": 410,
+          "p": 45.0,
+          "c": 16.0,
+          "f": 20.0
+        },
+        {
+          "id": "subway-17",
+          "serving": "1 menu serving",
+          "name": "Local Favorites, Buffalo Chicken Wrap",
+          "kcal": 640,
+          "p": 45.0,
+          "c": 58.0,
+          "f": 26.0
+        },
+        {
+          "id": "subway-18",
+          "serving": "1 menu serving",
+          "name": "Italians, Meatball Pepperoni Wrap",
+          "kcal": 1050,
+          "p": 45.0,
+          "c": 77.0,
+          "f": 64.0
+        },
+        {
+          "id": "subway-19",
+          "serving": "1 menu serving",
+          "name": "Local Favorites, Buffalo Chicken Salad",
+          "kcal": 540,
+          "p": 44.0,
+          "c": 18.0,
+          "f": 34.0
+        },
+        {
+          "id": "subway-20",
+          "serving": "1 menu serving",
+          "name": "Chicken, Sweet Onion Chicken Teriyaki Wrap",
+          "kcal": 630,
+          "p": 44.0,
+          "c": 77.0,
+          "f": 18.0
+        }
+      ]
+    },
+    {
+      "id": "starbucks",
+      "name": "Starbucks",
+      "source": "https://www.nutritionix.com/starbucks/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Starbucks menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "starbucks-1",
+          "serving": "1 menu serving",
+          "name": "Eggnog Latte with Nonfat Milk, Venti",
+          "kcal": 590,
+          "p": 22.0,
+          "c": 74.0,
+          "f": 23.0
+        },
+        {
+          "id": "starbucks-2",
+          "serving": "1 menu serving",
+          "name": "Eggnog Latte with 2% Milk, Venti",
+          "kcal": 620,
+          "p": 22.0,
+          "c": 74.0,
+          "f": 26.0
+        },
+        {
+          "id": "starbucks-3",
+          "serving": "1 menu serving",
+          "name": "Eggnog Latte with Whole Milk, Venti",
+          "kcal": 630,
+          "p": 22.0,
+          "c": 74.0,
+          "f": 28.0
+        },
+        {
+          "id": "starbucks-4",
+          "serving": "1 menu serving",
+          "name": "Eggnog Latte with Soy Milk, Venti",
+          "kcal": 620,
+          "p": 21.0,
+          "c": 76.0,
+          "f": 26.0
+        },
+        {
+          "id": "starbucks-5",
+          "serving": "1 menu serving",
+          "name": "Pumpkin Spice Latte with Nonfat Milk and No Whip, Venti",
+          "kcal": 330,
+          "p": 18.0,
+          "c": 64.0,
+          "f": 0.5
+        },
+        {
+          "id": "starbucks-6",
+          "serving": "1 menu serving",
+          "name": "Pumpkin Spice Latte with 2% Milk and No Whip, Venti",
+          "kcal": 400,
+          "p": 18.0,
+          "c": 64.0,
+          "f": 9.0
+        },
+        {
+          "id": "starbucks-7",
+          "serving": "1 menu serving",
+          "name": "Pumpkin Spice Latte with Nonfat Milk and Whip, Venti",
+          "kcal": 400,
+          "p": 18.0,
+          "c": 66.0,
+          "f": 8.0
+        },
+        {
+          "id": "starbucks-8",
+          "serving": "1 menu serving",
+          "name": "Pumpkin Spice Latte with 2% Milk and Whip, Venti",
+          "kcal": 470,
+          "p": 18.0,
+          "c": 66.0,
+          "f": 16.0
+        },
+        {
+          "id": "starbucks-9",
+          "serving": "1 menu serving",
+          "name": "Pumpkin Spice Latte with Whole Milk and Whip, Venti",
+          "kcal": 520,
+          "p": 18.0,
+          "c": 66.0,
+          "f": 21.0
+        },
+        {
+          "id": "starbucks-10",
+          "serving": "1 menu serving",
+          "name": "Eggnog Latte with Almond Milk, Venti",
+          "kcal": 570,
+          "p": 18.0,
+          "c": 69.0,
+          "f": 26.0
+        },
+        {
+          "id": "starbucks-11",
+          "serving": "1 menu serving",
+          "name": "Caffe Latte with Nonfat Milk, Venti",
+          "kcal": 170,
+          "p": 17.0,
+          "c": 25.0,
+          "f": 0.0
+        },
+        {
+          "id": "starbucks-12",
+          "serving": "1 menu serving",
+          "name": "Pumpkin Spice Latte with Whole Milk and No Whip, Venti",
+          "kcal": 440,
+          "p": 17.0,
+          "c": 64.0,
+          "f": 14.0
+        },
+        {
+          "id": "starbucks-13",
+          "serving": "1 menu serving",
+          "name": "Eggnog Latte with Nonfat Milk, Grande",
+          "kcal": 450,
+          "p": 17.0,
+          "c": 57.0,
+          "f": 18.0
+        },
+        {
+          "id": "starbucks-14",
+          "serving": "1 menu serving",
+          "name": "Eggnog Latte with 2% Milk, Grande",
+          "kcal": 470,
+          "p": 17.0,
+          "c": 57.0,
+          "f": 20.0
+        },
+        {
+          "id": "starbucks-15",
+          "serving": "1 menu serving",
+          "name": "Eggnog Latte with Whole Milk, Grande",
+          "kcal": 480,
+          "p": 17.0,
+          "c": 57.0,
+          "f": 21.0
+        },
+        {
+          "id": "starbucks-16",
+          "serving": "1 menu serving",
+          "name": "Eggnog Latte with Coconut Milk, Venti",
+          "kcal": 590,
+          "p": 17.0,
+          "c": 72.0,
+          "f": 27.0
+        },
+        {
+          "id": "starbucks-17",
+          "serving": "1 menu serving",
+          "name": "Latte Macchiato with Nonfat Milk, Venti",
+          "kcal": 170,
+          "p": 16.0,
+          "c": 25.0,
+          "f": 0.0
+        },
+        {
+          "id": "starbucks-18",
+          "serving": "1 menu serving",
+          "name": "Latte Macchiato with 2% Milk, Venti",
+          "kcal": 240,
+          "p": 16.0,
+          "c": 24.0,
+          "f": 9.0
+        },
+        {
+          "id": "starbucks-19",
+          "serving": "1 menu serving",
+          "name": "Caffe Latte with 2% Milk, Venti",
+          "kcal": 250,
+          "p": 16.0,
+          "c": 24.0,
+          "f": 9.0
+        },
+        {
+          "id": "starbucks-20",
+          "serving": "1 menu serving",
+          "name": "Matcha Green Tea Latte with Nonfat Milk, Venti",
+          "kcal": 250,
+          "p": 16.0,
+          "c": 45.0,
+          "f": 0.5
+        }
+      ]
+    },
+    {
+      "id": "panda-express",
+      "name": "Panda Express",
+      "source": "https://www.nutritionix.com/panda-express/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Panda Express menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "panda-express-1",
+          "serving": "1 menu serving",
+          "name": "Teriyaki Chicken",
+          "kcal": 340,
+          "p": 41.0,
+          "c": 14.0,
+          "f": 13.0
+        },
+        {
+          "id": "panda-express-2",
+          "serving": "1 menu serving",
+          "name": "Grilled Teriyaki Chicken",
+          "kcal": 280,
+          "p": 33.0,
+          "c": 14.0,
+          "f": 10.0
+        },
+        {
+          "id": "panda-express-3",
+          "serving": "1 menu serving",
+          "name": "Orange Chicken",
+          "kcal": 510,
+          "p": 26.0,
+          "c": 53.0,
+          "f": 24.0
+        },
+        {
+          "id": "panda-express-4",
+          "serving": "1 menu serving",
+          "name": "Beyond Orange Chicken",
+          "kcal": 440,
+          "p": 13.0,
+          "c": 47.0,
+          "f": 22.0
+        },
+        {
+          "id": "panda-express-5",
+          "serving": "1 menu serving",
+          "name": "Black Pepper Sirloin Steak",
+          "kcal": 210,
+          "p": 19.0,
+          "c": 13.0,
+          "f": 10.0
+        },
+        {
+          "id": "panda-express-6",
+          "serving": "1 menu serving",
+          "name": "Wok-Fired Shrimp",
+          "kcal": 190,
+          "p": 17.0,
+          "c": 19.0,
+          "f": 5.0
+        },
+        {
+          "id": "panda-express-7",
+          "serving": "1 menu serving",
+          "name": "Kung Pao Chicken",
+          "kcal": 320,
+          "p": 17.0,
+          "c": 15.0,
+          "f": 21.0
+        },
+        {
+          "id": "panda-express-8",
+          "serving": "1 menu serving",
+          "name": "Honey Sesame Chicken Breast",
+          "kcal": 340,
+          "p": 16.0,
+          "c": 35.0,
+          "f": 15.0
+        },
+        {
+          "id": "panda-express-9",
+          "serving": "1 menu serving",
+          "name": "Sweetfire Chicken Breast",
+          "kcal": 360,
+          "p": 15.0,
+          "c": 40.0,
+          "f": 15.0
+        },
+        {
+          "id": "panda-express-10",
+          "serving": "1 menu serving",
+          "name": "Golden Treasure Shrimp",
+          "kcal": 360,
+          "p": 14.0,
+          "c": 35.0,
+          "f": 18.0
+        },
+        {
+          "id": "panda-express-11",
+          "serving": "1 menu serving",
+          "name": "Chili Crisp Shrimp",
+          "kcal": 210,
+          "p": 13.0,
+          "c": 19.0,
+          "f": 10.0
+        },
+        {
+          "id": "panda-express-12",
+          "serving": "1 menu serving",
+          "name": "Mushroom Chicken",
+          "kcal": 220,
+          "p": 13.0,
+          "c": 10.0,
+          "f": 14.0
+        },
+        {
+          "id": "panda-express-13",
+          "serving": "1 menu serving",
+          "name": "Black Pepper Chicken",
+          "kcal": 280,
+          "p": 13.0,
+          "c": 15.0,
+          "f": 19.0
+        },
+        {
+          "id": "panda-express-14",
+          "serving": "1 menu serving",
+          "name": "Honey Walnut Shrimp",
+          "kcal": 430,
+          "p": 13.0,
+          "c": 32.0,
+          "f": 28.0
+        },
+        {
+          "id": "panda-express-15",
+          "serving": "1 menu serving",
+          "name": "String Bean Chicken Breast",
+          "kcal": 210,
+          "p": 12.0,
+          "c": 13.0,
+          "f": 12.0
+        },
+        {
+          "id": "panda-express-16",
+          "serving": "1 menu serving",
+          "name": "Hot & Sour Soup, Bowl",
+          "kcal": 170,
+          "p": 10.0,
+          "c": 20.0,
+          "f": 6.0
+        },
+        {
+          "id": "panda-express-17",
+          "serving": "1 menu serving",
+          "name": "Sweet & Sour Chicken Breast",
+          "kcal": 300,
+          "p": 10.0,
+          "c": 40.0,
+          "f": 12.0
+        },
+        {
+          "id": "panda-express-18",
+          "serving": "1 menu serving",
+          "name": "Potato Chicken",
+          "kcal": 190,
+          "p": 8.0,
+          "c": 18.0,
+          "f": 10.0
+        },
+        {
+          "id": "panda-express-19",
+          "serving": "1 menu serving",
+          "name": "Eggplant Tofu",
+          "kcal": 340,
+          "p": 7.0,
+          "c": 23.0,
+          "f": 24.0
+        },
+        {
+          "id": "panda-express-20",
+          "serving": "1 menu serving",
+          "name": "Chicken Potsticker (3 Pieces)",
+          "kcal": 160,
+          "p": 6.0,
+          "c": 20.0,
+          "f": 6.0
+        }
+      ]
+    },
+    {
+      "id": "five-guys",
+      "name": "Five Guys",
+      "source": "https://www.nutritionix.com/five-guys/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Five Guys menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "five-guys-1",
+          "serving": "1 menu serving",
+          "name": "Hamburger Patty",
+          "kcal": 300,
+          "p": 16.0,
+          "c": 0.0,
+          "f": 17.0
+        },
+        {
+          "id": "five-guys-2",
+          "serving": "1 menu serving",
+          "name": "Eggs, 2",
+          "kcal": 140,
+          "p": 13.0,
+          "c": 1.0,
+          "f": 10.0
+        },
+        {
+          "id": "five-guys-3",
+          "serving": "1 menu serving",
+          "name": "Grilled Mushrooms",
+          "kcal": 5,
+          "p": 0.0,
+          "c": 1.0,
+          "f": 0.0
+        },
+        {
+          "id": "five-guys-4",
+          "serving": "1 menu serving",
+          "name": "Onions / Grilled Onions",
+          "kcal": 10,
+          "p": 0.0,
+          "c": 2.0,
+          "f": 0.0
+        },
+        {
+          "id": "five-guys-5",
+          "serving": "1 menu serving",
+          "name": "Regular, Five Guys Style",
+          "kcal": 950,
+          "p": 15.0,
+          "c": 131.0,
+          "f": 41.0
+        },
+        {
+          "id": "five-guys-6",
+          "serving": "1 menu serving",
+          "name": "Regular, Cajun Style",
+          "kcal": 970,
+          "p": 15.0,
+          "c": 134.0,
+          "f": 41.0
+        },
+        {
+          "id": "five-guys-7",
+          "serving": "1 menu serving",
+          "name": "Vanilla Shake Base",
+          "kcal": 670,
+          "p": 13.0,
+          "c": 84.0,
+          "f": 32.0
+        },
+        {
+          "id": "five-guys-8",
+          "serving": "1 menu serving",
+          "name": "Hot Dog",
+          "kcal": 280,
+          "p": 11.0,
+          "c": 1.0,
+          "f": 26.0
+        },
+        {
+          "id": "five-guys-9",
+          "serving": "1 menu serving",
+          "name": "Peanut Butter",
+          "kcal": 320,
+          "p": 9.0,
+          "c": 9.0,
+          "f": 29.0
+        },
+        {
+          "id": "five-guys-10",
+          "serving": "1 menu serving",
+          "name": "Little, Five Guys Style",
+          "kcal": 530,
+          "p": 8.0,
+          "c": 72.0,
+          "f": 23.0
+        },
+        {
+          "id": "five-guys-11",
+          "serving": "1 menu serving",
+          "name": "Little, Cajun Style",
+          "kcal": 540,
+          "p": 8.0,
+          "c": 75.0,
+          "f": 28.0
+        },
+        {
+          "id": "five-guys-12",
+          "serving": "1 menu serving",
+          "name": "Bulk Peanuts (1 oz.)",
+          "kcal": 170,
+          "p": 7.0,
+          "c": 5.0,
+          "f": 14.0
+        },
+        {
+          "id": "five-guys-13",
+          "serving": "1 menu serving",
+          "name": "Bun",
+          "kcal": 240,
+          "p": 7.0,
+          "c": 39.0,
+          "f": 9.0
+        },
+        {
+          "id": "five-guys-14",
+          "serving": "1 menu serving",
+          "name": "Bacon (2 Pieces)",
+          "kcal": 70,
+          "p": 6.0,
+          "c": 0.0,
+          "f": 5.0
+        },
+        {
+          "id": "five-guys-15",
+          "serving": "1 menu serving",
+          "name": "Mix In, Bacon (2 Pieces)",
+          "kcal": 70,
+          "p": 5.0,
+          "c": 0.0,
+          "f": 6.0
+        },
+        {
+          "id": "five-guys-16",
+          "serving": "1 menu serving",
+          "name": "Cheese (1 Slice)",
+          "kcal": 70,
+          "p": 3.0,
+          "c": 1.0,
+          "f": 6.0
+        },
+        {
+          "id": "five-guys-17",
+          "serving": "1 menu serving",
+          "name": "Reese’s Peanut Butter Cup",
+          "kcal": 150,
+          "p": 3.0,
+          "c": 15.0,
+          "f": 8.0
+        },
+        {
+          "id": "five-guys-18",
+          "serving": "1 menu serving",
+          "name": "Chocolate",
+          "kcal": 130,
+          "p": 2.0,
+          "c": 30.0,
+          "f": 2.0
+        },
+        {
+          "id": "five-guys-19",
+          "serving": "1 menu serving",
+          "name": "Tomatoes",
+          "kcal": 10,
+          "p": 1.0,
+          "c": 2.0,
+          "f": 0.0
+        },
+        {
+          "id": "five-guys-20",
+          "serving": "1 menu serving",
+          "name": "Strawberry",
+          "kcal": 90,
+          "p": 1.0,
+          "c": 17.0,
+          "f": 0.0
+        }
+      ]
+    },
+    {
+      "id": "panera-bread",
+      "name": "Panera",
+      "source": "https://www.nutritionix.com/panera-bread/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Panera menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "panera-bread-1",
+          "serving": "1 menu serving",
+          "name": "Chai Tea Latte, 20 fl oz",
+          "kcal": 280,
+          "p": 12.0,
+          "c": 42.0,
+          "f": 7.0
+        },
+        {
+          "id": "panera-bread-2",
+          "serving": "1 menu serving",
+          "name": "Iced Madagascar Vanilla Latte, 20 fl oz",
+          "kcal": 280,
+          "p": 11.0,
+          "c": 35.0,
+          "f": 10.0
+        },
+        {
+          "id": "panera-bread-3",
+          "serving": "1 menu serving",
+          "name": "Madagascar Vanilla Latte, 20 fl oz",
+          "kcal": 300,
+          "p": 11.0,
+          "c": 41.0,
+          "f": 10.0
+        },
+        {
+          "id": "panera-bread-4",
+          "serving": "1 menu serving",
+          "name": "Iced Caramel Latte, 20 fl oz",
+          "kcal": 360,
+          "p": 11.0,
+          "c": 54.0,
+          "f": 10.0
+        },
+        {
+          "id": "panera-bread-5",
+          "serving": "1 menu serving",
+          "name": "Caramel Latte, 20 fl oz",
+          "kcal": 400,
+          "p": 11.0,
+          "c": 66.0,
+          "f": 10.0
+        },
+        {
+          "id": "panera-bread-6",
+          "serving": "1 menu serving",
+          "name": "Caffe Latte, 20 fl oz",
+          "kcal": 160,
+          "p": 10.0,
+          "c": 15.0,
+          "f": 6.0
+        },
+        {
+          "id": "panera-bread-7",
+          "serving": "1 menu serving",
+          "name": "Iced Caffe Latte, 20 fl oz",
+          "kcal": 160,
+          "p": 10.0,
+          "c": 15.0,
+          "f": 6.0
+        },
+        {
+          "id": "panera-bread-8",
+          "serving": "1 menu serving",
+          "name": "Chai Tea Latte, 16 fl oz",
+          "kcal": 230,
+          "p": 10.0,
+          "c": 33.0,
+          "f": 6.0
+        },
+        {
+          "id": "panera-bread-9",
+          "serving": "1 menu serving",
+          "name": "Iced Chai Tea Latte, 20 fl oz",
+          "kcal": 230,
+          "p": 10.0,
+          "c": 33.0,
+          "f": 6.0
+        },
+        {
+          "id": "panera-bread-10",
+          "serving": "1 menu serving",
+          "name": "Madagascar Vanilla Latte, 16 fl oz",
+          "kcal": 250,
+          "p": 9.0,
+          "c": 32.0,
+          "f": 9.0
+        },
+        {
+          "id": "panera-bread-11",
+          "serving": "1 menu serving",
+          "name": "Caramel Latte, 16 fl oz",
+          "kcal": 330,
+          "p": 9.0,
+          "c": 51.0,
+          "f": 9.0
+        },
+        {
+          "id": "panera-bread-12",
+          "serving": "1 menu serving",
+          "name": "Caffe Latte, 16 fl oz",
+          "kcal": 130,
+          "p": 8.0,
+          "c": 12.0,
+          "f": 5.0
+        },
+        {
+          "id": "panera-bread-13",
+          "serving": "1 menu serving",
+          "name": "Spicy Fiesta Chicken on Ciabatta, Whole",
+          "kcal": 850,
+          "p": 54.0,
+          "c": 89.0,
+          "f": 30.0
+        },
+        {
+          "id": "panera-bread-14",
+          "serving": "1 menu serving",
+          "name": "Chicken Bacon Rancher on Black Pepper Focaccia Round, Whole",
+          "kcal": 900,
+          "p": 54.0,
+          "c": 72.0,
+          "f": 45.0
+        },
+        {
+          "id": "panera-bread-15",
+          "serving": "1 menu serving",
+          "name": "Ciabatta Cheesesteak, Whole",
+          "kcal": 1050,
+          "p": 52.0,
+          "c": 92.0,
+          "f": 53.0
+        },
+        {
+          "id": "panera-bread-16",
+          "serving": "1 menu serving",
+          "name": "Grilled Chicken & Avo Blt on Country Rustic Sourdough, Whole",
+          "kcal": 900,
+          "p": 50.0,
+          "c": 55.0,
+          "f": 54.0
+        },
+        {
+          "id": "panera-bread-17",
+          "serving": "1 menu serving",
+          "name": "Smokehouse Bbq Chicken on Artisan Ciabatta, Whole",
+          "kcal": 730,
+          "p": 49.0,
+          "c": 90.0,
+          "f": 20.0
+        },
+        {
+          "id": "panera-bread-18",
+          "serving": "1 menu serving",
+          "name": "Chipotle Chicken Avo Melt on Black Pepper Focaccia Round, Whole",
+          "kcal": 930,
+          "p": 48.0,
+          "c": 75.0,
+          "f": 49.0
+        },
+        {
+          "id": "panera-bread-19",
+          "serving": "1 menu serving",
+          "name": "Strawberry Chicken Caprese Salad, Whole",
+          "kcal": 600,
+          "p": 46.0,
+          "c": 22.0,
+          "f": 36.0
+        },
+        {
+          "id": "panera-bread-20",
+          "serving": "1 menu serving",
+          "name": "Strawberry Chicken Caprese Salad without Pecans, Whole",
+          "kcal": 490,
+          "p": 45.0,
+          "c": 20.0,
+          "f": 26.0
+        }
+      ]
+    },
+    {
+      "id": "olive-garden",
+      "name": "Olive Garden",
+      "source": "https://www.nutritionix.com/olive-garden/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Olive Garden menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "olive-garden-1",
+          "serving": "1 menu serving",
+          "name": "Grilled Chicken Parmigiana with Rotini & Marinara",
+          "kcal": 810,
+          "p": 75.0,
+          "c": 59.0,
+          "f": 33.0
+        },
+        {
+          "id": "olive-garden-2",
+          "serving": "1 menu serving",
+          "name": "Stuffed Chicken Marsala",
+          "kcal": 1090,
+          "p": 72.0,
+          "c": 53.0,
+          "f": 65.0
+        },
+        {
+          "id": "olive-garden-3",
+          "serving": "1 menu serving",
+          "name": "Grilled Chicken Margherita",
+          "kcal": 650,
+          "p": 65.0,
+          "c": 15.0,
+          "f": 39.0
+        },
+        {
+          "id": "olive-garden-4",
+          "serving": "1 menu serving",
+          "name": "Chicken Parmigiana",
+          "kcal": 1020,
+          "p": 64.0,
+          "c": 80.0,
+          "f": 51.0
+        },
+        {
+          "id": "olive-garden-5",
+          "serving": "1 menu serving",
+          "name": "Shrimp Carbonara",
+          "kcal": 1200,
+          "p": 58.0,
+          "c": 63.0,
+          "f": 81.0
+        },
+        {
+          "id": "olive-garden-6",
+          "serving": "1 menu serving",
+          "name": "Herb-Grilled Salmon Coho (Regional)",
+          "kcal": 510,
+          "p": 50.0,
+          "c": 9.0,
+          "f": 31.0
+        },
+        {
+          "id": "olive-garden-7",
+          "serving": "1 menu serving",
+          "name": "Gluten Sensitive, Herb-Grilled Salmon Coho (Regional)",
+          "kcal": 510,
+          "p": 50.0,
+          "c": 9.0,
+          "f": 31.0
+        },
+        {
+          "id": "olive-garden-8",
+          "serving": "1 menu serving",
+          "name": "Chicken Scampi",
+          "kcal": 1050,
+          "p": 49.0,
+          "c": 106.0,
+          "f": 45.0
+        },
+        {
+          "id": "olive-garden-9",
+          "serving": "1 menu serving",
+          "name": "Herb-Grilled Salmon",
+          "kcal": 610,
+          "p": 45.0,
+          "c": 9.0,
+          "f": 45.0
+        },
+        {
+          "id": "olive-garden-10",
+          "serving": "1 menu serving",
+          "name": "Gluten Sensitive, Herb-Grilled Salmon",
+          "kcal": 610,
+          "p": 45.0,
+          "c": 9.0,
+          "f": 45.0
+        },
+        {
+          "id": "olive-garden-11",
+          "serving": "1 menu serving",
+          "name": "Lunch, Chicken Parmigiana",
+          "kcal": 630,
+          "p": 36.0,
+          "c": 61.0,
+          "f": 29.0
+        },
+        {
+          "id": "olive-garden-12",
+          "serving": "1 menu serving",
+          "name": "Lighter Portions, Chicken Parmigiana",
+          "kcal": 630,
+          "p": 36.0,
+          "c": 61.0,
+          "f": 29.0
+        },
+        {
+          "id": "olive-garden-13",
+          "serving": "1 menu serving",
+          "name": "Eggplant Parmigiana",
+          "kcal": 1070,
+          "p": 35.0,
+          "c": 108.0,
+          "f": 58.0
+        },
+        {
+          "id": "olive-garden-14",
+          "serving": "1 menu serving",
+          "name": "Sauteed Shrimp",
+          "kcal": 170,
+          "p": 33.0,
+          "c": 1.0,
+          "f": 3.5
+        },
+        {
+          "id": "olive-garden-15",
+          "serving": "1 menu serving",
+          "name": "Kids Grilled Chicken with Rotini Pasta & Marinara",
+          "kcal": 430,
+          "p": 33.0,
+          "c": 58.0,
+          "f": 9.0
+        },
+        {
+          "id": "olive-garden-16",
+          "serving": "1 menu serving",
+          "name": "Spinach-Artichoke Dip with Flatbread Crisps",
+          "kcal": 1160,
+          "p": 33.0,
+          "c": 75.0,
+          "f": 81.0
+        },
+        {
+          "id": "olive-garden-17",
+          "serving": "1 menu serving",
+          "name": "Shrimp Scampi",
+          "kcal": 490,
+          "p": 29.0,
+          "c": 52.0,
+          "f": 18.0
+        },
+        {
+          "id": "olive-garden-18",
+          "serving": "1 menu serving",
+          "name": "Grilled Chicken",
+          "kcal": 130,
+          "p": 26.0,
+          "c": 1.0,
+          "f": 2.5
+        },
+        {
+          "id": "olive-garden-19",
+          "serving": "1 menu serving",
+          "name": "Lighter Portions, Grilled Chicken",
+          "kcal": 130,
+          "p": 26.0,
+          "c": 1.0,
+          "f": 2.5
+        },
+        {
+          "id": "olive-garden-20",
+          "serving": "1 menu serving",
+          "name": "Kids, Create Your Own Pasta, Meat Choice, Grilled Chicken",
+          "kcal": 130,
+          "p": 26.0,
+          "c": 1.0,
+          "f": 2.5
+        }
+      ]
+    },
+    {
+      "id": "applebees",
+      "name": "Applebee's",
+      "source": "https://www.nutritionix.com/applebees/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Applebee's menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "applebees-1",
+          "serving": "1 menu serving",
+          "name": "Bacon Ranch Chicken Sandwich (with Grilled Chicken)",
+          "kcal": 1190,
+          "p": 63.0,
+          "c": 93.0,
+          "f": 64.0
+        },
+        {
+          "id": "applebees-2",
+          "serving": "1 menu serving",
+          "name": "Shrimp 'N Parmesan Sirloin",
+          "kcal": 910,
+          "p": 66.0,
+          "c": 48.0,
+          "f": 52.0
+        },
+        {
+          "id": "applebees-3",
+          "serving": "1 menu serving",
+          "name": "Crispy Chicken Tender Salad (with Grilled Chicken)",
+          "kcal": 640,
+          "p": 60.0,
+          "c": 37.0,
+          "f": 29.0
+        },
+        {
+          "id": "applebees-4",
+          "serving": "1 menu serving",
+          "name": "Fiesta Lime Chicken",
+          "kcal": 1190,
+          "p": 60.0,
+          "c": 98.0,
+          "f": 62.0
+        },
+        {
+          "id": "applebees-5",
+          "serving": "1 menu serving",
+          "name": "Chicken & Shrimp Scampi Skillet",
+          "kcal": 840,
+          "p": 57.0,
+          "c": 48.0,
+          "f": 49.0
+        },
+        {
+          "id": "applebees-6",
+          "serving": "1 menu serving",
+          "name": "Caesar Salad (with Grilled Chicken)",
+          "kcal": 950,
+          "p": 57.0,
+          "c": 56.0,
+          "f": 57.0
+        },
+        {
+          "id": "applebees-7",
+          "serving": "1 menu serving",
+          "name": "Oriental Chicken Salad (with Grilled Chicken)",
+          "kcal": 710,
+          "p": 56.0,
+          "c": 61.0,
+          "f": 29.0
+        },
+        {
+          "id": "applebees-8",
+          "serving": "1 menu serving",
+          "name": "Bourbon Street Chicken & Shrimp",
+          "kcal": 800,
+          "p": 56.0,
+          "c": 48.0,
+          "f": 44.0
+        },
+        {
+          "id": "applebees-9",
+          "serving": "1 menu serving",
+          "name": "Shrimp Sizzle Skillet",
+          "kcal": 1150,
+          "p": 56.0,
+          "c": 98.0,
+          "f": 61.0
+        },
+        {
+          "id": "applebees-10",
+          "serving": "1 menu serving",
+          "name": "Grilled Chicken Balsamic Berry Salad",
+          "kcal": 660,
+          "p": 54.0,
+          "c": 53.0,
+          "f": 29.0
+        },
+        {
+          "id": "applebees-11",
+          "serving": "1 menu serving",
+          "name": "Garlic Sirloin Steak Skillet (8 oz)",
+          "kcal": 810,
+          "p": 54.0,
+          "c": 46.0,
+          "f": 47.0
+        },
+        {
+          "id": "applebees-12",
+          "serving": "1 menu serving",
+          "name": "Southwest Chicken Bowl",
+          "kcal": 830,
+          "p": 54.0,
+          "c": 90.0,
+          "f": 30.0
+        },
+        {
+          "id": "applebees-13",
+          "serving": "1 menu serving",
+          "name": "California Grilled Chicken Salad",
+          "kcal": 460,
+          "p": 53.0,
+          "c": 23.0,
+          "f": 19.0
+        },
+        {
+          "id": "applebees-14",
+          "serving": "1 menu serving",
+          "name": "Bourbon Street Steak",
+          "kcal": 820,
+          "p": 52.0,
+          "c": 47.0,
+          "f": 48.0
+        },
+        {
+          "id": "applebees-15",
+          "serving": "1 menu serving",
+          "name": "Sesame Salmon Bowl",
+          "kcal": 1100,
+          "p": 51.0,
+          "c": 109.0,
+          "f": 54.0
+        },
+        {
+          "id": "applebees-16",
+          "serving": "1 menu serving",
+          "name": "Grilled Chicken Breast",
+          "kcal": 560,
+          "p": 49.0,
+          "c": 43.0,
+          "f": 22.0
+        },
+        {
+          "id": "applebees-17",
+          "serving": "1 menu serving",
+          "name": "Strawberry Balsamic Chicken Salad",
+          "kcal": 430,
+          "p": 48.0,
+          "c": 38.0,
+          "f": 12.0
+        },
+        {
+          "id": "applebees-18",
+          "serving": "1 menu serving",
+          "name": "Chicken Quesadilla",
+          "kcal": 1170,
+          "p": 48.0,
+          "c": 74.0,
+          "f": 75.0
+        },
+        {
+          "id": "applebees-19",
+          "serving": "1 menu serving",
+          "name": "Lemon Parmesan Chicken",
+          "kcal": 1030,
+          "p": 47.0,
+          "c": 69.0,
+          "f": 63.0
+        },
+        {
+          "id": "applebees-20",
+          "serving": "1 menu serving",
+          "name": "Crispy Chicken Tender Salad",
+          "kcal": 830,
+          "p": 44.0,
+          "c": 58.0,
+          "f": 47.0
+        }
+      ]
+    },
+    {
+      "id": "chilis",
+      "name": "Chili's",
+      "source": "https://www.nutritionix.com/chilis/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Chili's menu nutrition table on Nutritionix. Chili's nutrition page links to Nutritionix. Retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "chilis-1",
+          "serving": "1 menu serving",
+          "name": "Deluxe Grilled Chicken Sandwich",
+          "kcal": 800,
+          "p": 50.0,
+          "c": 46.0,
+          "f": 47.0
+        },
+        {
+          "id": "chilis-2",
+          "serving": "1 menu serving",
+          "name": "Grilled Chicken Sandwich",
+          "kcal": 740,
+          "p": 51.0,
+          "c": 54.0,
+          "f": 36.0
+        },
+        {
+          "id": "chilis-3",
+          "serving": "1 menu serving",
+          "name": "Deluxe Big Crispy Chicken Sandwich",
+          "kcal": 1050,
+          "p": 56.0,
+          "c": 63.0,
+          "f": 64.0
+        },
+        {
+          "id": "chilis-4",
+          "serving": "1 menu serving",
+          "name": "Nashville Hot Big Crispy Chicken Sandwich",
+          "kcal": 950,
+          "p": 45.0,
+          "c": 70.0,
+          "f": 54.0
+        },
+        {
+          "id": "chilis-5",
+          "serving": "1 menu serving",
+          "name": "Buffalo Big Crispy Chicken Sandwich",
+          "kcal": 710,
+          "p": 43.0,
+          "c": 62.0,
+          "f": 33.0
+        },
+        {
+          "id": "chilis-6",
+          "serving": "1 menu serving",
+          "name": "Honey-Chipotle Big Crispy Chicken Sandwich",
+          "kcal": 840,
+          "p": 43.0,
+          "c": 104.0,
+          "f": 29.0
+        },
+        {
+          "id": "chilis-7",
+          "serving": "1 menu serving",
+          "name": "Spicy Big Crispy Chicken Sandwich",
+          "kcal": 870,
+          "p": 43.0,
+          "c": 61.0,
+          "f": 52.0
+        },
+        {
+          "id": "chilis-8",
+          "serving": "1 menu serving",
+          "name": "Big Crispy Chicken Sandwich",
+          "kcal": 880,
+          "p": 43.0,
+          "c": 61.0,
+          "f": 52.0
+        },
+        {
+          "id": "chilis-9",
+          "serving": "1 menu serving",
+          "name": "Fajitas Chicken",
+          "kcal": 910,
+          "p": 124.0,
+          "c": 43.0,
+          "f": 29.0
+        },
+        {
+          "id": "chilis-10",
+          "serving": "1 menu serving",
+          "name": "Fajitas Steak",
+          "kcal": 1100,
+          "p": 113.0,
+          "c": 48.0,
+          "f": 53.0
+        },
+        {
+          "id": "chilis-11",
+          "serving": "1 menu serving",
+          "name": "8 Count Wings - Nashville Hot",
+          "kcal": 1190,
+          "p": 76.0,
+          "c": 13.0,
+          "f": 93.0
+        },
+        {
+          "id": "chilis-12",
+          "serving": "1 menu serving",
+          "name": "8 Count Wings - House BBQ",
+          "kcal": 1140,
+          "p": 75.0,
+          "c": 53.0,
+          "f": 71.0
+        },
+        {
+          "id": "chilis-13",
+          "serving": "1 menu serving",
+          "name": "8 Count Wings - Buffalo",
+          "kcal": 990,
+          "p": 74.0,
+          "c": 6.0,
+          "f": 74.0
+        },
+        {
+          "id": "chilis-14",
+          "serving": "1 menu serving",
+          "name": "8 Count Wings - Honey Chipotle",
+          "kcal": 1170,
+          "p": 74.0,
+          "c": 60.0,
+          "f": 71.0
+        },
+        {
+          "id": "chilis-15",
+          "serving": "1 menu serving",
+          "name": "Margarita Grilled Chicken",
+          "kcal": 640,
+          "p": 69.0,
+          "c": 61.0,
+          "f": 14.0
+        },
+        {
+          "id": "chilis-16",
+          "serving": "1 menu serving",
+          "name": "Cajun Pasta with Grilled Chicken",
+          "kcal": 1160,
+          "p": 64.0,
+          "c": 109.0,
+          "f": 51.0
+        },
+        {
+          "id": "chilis-17",
+          "serving": "1 menu serving",
+          "name": "Bacon Cheeseburger",
+          "kcal": 1130,
+          "p": 63.0,
+          "c": 44.0,
+          "f": 79.0
+        },
+        {
+          "id": "chilis-18",
+          "serving": "1 menu serving",
+          "name": "Fajita Grilled Chicken",
+          "kcal": 480,
+          "p": 62.0,
+          "c": 22.0,
+          "f": 17.0
+        },
+        {
+          "id": "chilis-19",
+          "serving": "1 menu serving",
+          "name": "Monterey Chicken",
+          "kcal": 880,
+          "p": 62.0,
+          "c": 55.0,
+          "f": 47.0
+        },
+        {
+          "id": "chilis-20",
+          "serving": "1 menu serving",
+          "name": "Fajitas Shrimp",
+          "kcal": 630,
+          "p": 61.0,
+          "c": 41.0,
+          "f": 27.0
+        }
+      ]
+    },
+    {
+      "id": "dominos",
+      "name": "Domino's",
+      "source": "https://www.nutritionix.com/dominos/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Domino's menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "dominos-1",
+          "serving": "1 menu serving",
+          "name": "Buffalo Chicken Sandwich",
+          "kcal": 420,
+          "p": 20.0,
+          "c": 39.0,
+          "f": 20.0
+        },
+        {
+          "id": "dominos-2",
+          "serving": "1 menu serving",
+          "name": "Chicken Parm Sandwich",
+          "kcal": 400,
+          "p": 25.0,
+          "c": 38.0,
+          "f": 15.0
+        },
+        {
+          "id": "dominos-3",
+          "serving": "1 menu serving",
+          "name": "Chicken Alfredo Penne Pasta",
+          "kcal": 590,
+          "p": 24.0,
+          "c": 60.0,
+          "f": 28.0
+        },
+        {
+          "id": "dominos-4",
+          "serving": "1 menu serving",
+          "name": "Chicken Bacon Ranch Sandwich",
+          "kcal": 450,
+          "p": 23.0,
+          "c": 37.0,
+          "f": 22.0
+        },
+        {
+          "id": "dominos-5",
+          "serving": "1 menu serving",
+          "name": "Italian Sausage Marinara Penne Pasta in Bread Bowl",
+          "kcal": 700,
+          "p": 23.0,
+          "c": 89.0,
+          "f": 28.0
+        },
+        {
+          "id": "dominos-6",
+          "serving": "1 menu serving",
+          "name": "Sweet & Spicy Chicken Habanero Sandwich",
+          "kcal": 390,
+          "p": 22.0,
+          "c": 44.0,
+          "f": 14.0
+        },
+        {
+          "id": "dominos-7",
+          "serving": "1 menu serving",
+          "name": "Cali Chicken Bacon Ranch Hand Tossed Pizza, XLarge",
+          "kcal": 530,
+          "p": 22.0,
+          "c": 44.0,
+          "f": 29.0
+        },
+        {
+          "id": "dominos-8",
+          "serving": "1 menu serving",
+          "name": "Chicken Alfredo Penne Pasta in Bread Bowl",
+          "kcal": 660,
+          "p": 22.0,
+          "c": 87.0,
+          "f": 24.0
+        },
+        {
+          "id": "dominos-9",
+          "serving": "1 menu serving",
+          "name": "Italian Sandwich",
+          "kcal": 420,
+          "p": 21.0,
+          "c": 37.0,
+          "f": 20.0
+        },
+        {
+          "id": "dominos-10",
+          "serving": "1 menu serving",
+          "name": "ExtravaganZZa Hand Tossed Pizza, XLarge",
+          "kcal": 500,
+          "p": 21.0,
+          "c": 47.0,
+          "f": 25.0
+        },
+        {
+          "id": "dominos-11",
+          "serving": "1 menu serving",
+          "name": "Philly Cheese Steak Sandwich",
+          "kcal": 380,
+          "p": 20.0,
+          "c": 38.0,
+          "f": 15.0
+        },
+        {
+          "id": "dominos-12",
+          "serving": "1 menu serving",
+          "name": "Buffalo Chicken Hand Tossed Pizza, XLarge",
+          "kcal": 450,
+          "p": 20.0,
+          "c": 44.0,
+          "f": 20.0
+        },
+        {
+          "id": "dominos-13",
+          "serving": "1 menu serving",
+          "name": "Memphis BBQ Chicken Hand Tossed Pizza, XLarge",
+          "kcal": 460,
+          "p": 20.0,
+          "c": 51.0,
+          "f": 18.0
+        },
+        {
+          "id": "dominos-14",
+          "serving": "1 menu serving",
+          "name": "MeatZZa Hand Tossed Pizza, XLarge",
+          "kcal": 480,
+          "p": 20.0,
+          "c": 45.0,
+          "f": 24.0
+        },
+        {
+          "id": "dominos-15",
+          "serving": "1 menu serving",
+          "name": "Ultimate Pepperoni Hand Tossed Pizza, XLarge",
+          "kcal": 480,
+          "p": 20.0,
+          "c": 45.0,
+          "f": 23.0
+        },
+        {
+          "id": "dominos-16",
+          "serving": "1 menu serving",
+          "name": "Chicken Caesar Salad",
+          "kcal": 220,
+          "p": 19.0,
+          "c": 14.0,
+          "f": 8.0
+        },
+        {
+          "id": "dominos-17",
+          "serving": "1 menu serving",
+          "name": "Honolulu Hawaiian Hand Tossed Pizza, XLarge",
+          "kcal": 430,
+          "p": 19.0,
+          "c": 47.0,
+          "f": 18.0
+        },
+        {
+          "id": "dominos-18",
+          "serving": "1 menu serving",
+          "name": "Wisconsin 6 Cheese Hand Tossed Pizza, XLarge",
+          "kcal": 440,
+          "p": 19.0,
+          "c": 46.0,
+          "f": 19.0
+        },
+        {
+          "id": "dominos-19",
+          "serving": "1 menu serving",
+          "name": "Cali Chicken Bacon Ranch Hand Tossed Pizza, Medium",
+          "kcal": 480,
+          "p": 19.0,
+          "c": 37.0,
+          "f": 27.0
+        },
+        {
+          "id": "dominos-20",
+          "serving": "1 menu serving",
+          "name": "Buffalo Chicken Hand Tossed Pizza, Medium",
+          "kcal": 410,
+          "p": 18.0,
+          "c": 38.0,
+          "f": 19.0
+        }
+      ]
+    },
+    {
+      "id": "pizza-hut",
+      "name": "Pizza Hut",
+      "source": "https://www.nutritionix.com/pizza-hut/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Pizza Hut menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "pizza-hut-1",
+          "serving": "1 menu serving",
+          "name": "Baked Bone-In Wings - 6 Count",
+          "kcal": 680,
+          "p": 64.0,
+          "c": 5.0,
+          "f": 45.0
+        },
+        {
+          "id": "pizza-hut-2",
+          "serving": "1 menu serving",
+          "name": "Pepperoni Lover's® - Pizza Hut Melt",
+          "kcal": 1130,
+          "p": 53.0,
+          "c": 88.0,
+          "f": 62.0
+        },
+        {
+          "id": "pizza-hut-3",
+          "serving": "1 menu serving",
+          "name": "Meat Lover's® - Pizza Hut Melt",
+          "kcal": 1080,
+          "p": 49.0,
+          "c": 88.0,
+          "f": 60.0
+        },
+        {
+          "id": "pizza-hut-4",
+          "serving": "1 menu serving",
+          "name": "Burger - Pizza Hut Melt",
+          "kcal": 1190,
+          "p": 42.0,
+          "c": 84.0,
+          "f": 77.0
+        },
+        {
+          "id": "pizza-hut-5",
+          "serving": "1 menu serving",
+          "name": "Supremo Sandwich",
+          "kcal": 1010,
+          "p": 41.0,
+          "c": 85.0,
+          "f": 56.0
+        },
+        {
+          "id": "pizza-hut-6",
+          "serving": "1 menu serving",
+          "name": "Traditional Wings - 6 Count",
+          "kcal": 400,
+          "p": 38.0,
+          "c": 0.0,
+          "f": 28.0
+        },
+        {
+          "id": "pizza-hut-7",
+          "serving": "1 menu serving",
+          "name": "Oven-Baked Chicken Alfredo Pasta",
+          "kcal": 950,
+          "p": 37.0,
+          "c": 85.0,
+          "f": 52.0
+        },
+        {
+          "id": "pizza-hut-8",
+          "serving": "1 menu serving",
+          "name": "Boneless Wings - 8 Count",
+          "kcal": 720,
+          "p": 36.0,
+          "c": 48.0,
+          "f": 43.0
+        },
+        {
+          "id": "pizza-hut-9",
+          "serving": "1 menu serving",
+          "name": "Buffalo Chicken Salad",
+          "kcal": 800,
+          "p": 34.0,
+          "c": 83.0,
+          "f": 38.0
+        },
+        {
+          "id": "pizza-hut-10",
+          "serving": "1 menu serving",
+          "name": "Black Forest Ham & Cheese Sandwich",
+          "kcal": 870,
+          "p": 34.0,
+          "c": 85.0,
+          "f": 45.0
+        },
+        {
+          "id": "pizza-hut-11",
+          "serving": "1 menu serving",
+          "name": "Baked Boneless Wings - 8 Count",
+          "kcal": 490,
+          "p": 33.0,
+          "c": 35.0,
+          "f": 24.0
+        },
+        {
+          "id": "pizza-hut-12",
+          "serving": "1 menu serving",
+          "name": "Chicken Caesar Salad",
+          "kcal": 730,
+          "p": 33.0,
+          "c": 33.0,
+          "f": 52.0
+        },
+        {
+          "id": "pizza-hut-13",
+          "serving": "1 menu serving",
+          "name": "Chicken Garden Salad",
+          "kcal": 530,
+          "p": 30.0,
+          "c": 34.0,
+          "f": 31.0
+        },
+        {
+          "id": "pizza-hut-14",
+          "serving": "1 menu serving",
+          "name": "Caesar Side Salad with Chicken",
+          "kcal": 510,
+          "p": 27.0,
+          "c": 18.0,
+          "f": 37.0
+        },
+        {
+          "id": "pizza-hut-15",
+          "serving": "1 menu serving",
+          "name": "Pepperoni Lover's® - Pizza Hut Half Melt",
+          "kcal": 580,
+          "p": 27.0,
+          "c": 47.0,
+          "f": 31.0
+        },
+        {
+          "id": "pizza-hut-16",
+          "serving": "1 menu serving",
+          "name": "Oven-Baked Veggie Pasta",
+          "kcal": 640,
+          "p": 27.0,
+          "c": 98.0,
+          "f": 16.0
+        },
+        {
+          "id": "pizza-hut-17",
+          "serving": "1 menu serving",
+          "name": "Garden Side Salad with Chicken",
+          "kcal": 410,
+          "p": 26.0,
+          "c": 18.0,
+          "f": 26.0
+        },
+        {
+          "id": "pizza-hut-18",
+          "serving": "1 menu serving",
+          "name": "Meaty Deep Dish Pizza Slice",
+          "kcal": 550,
+          "p": 26.0,
+          "c": 38.0,
+          "f": 33.0
+        },
+        {
+          "id": "pizza-hut-19",
+          "serving": "1 menu serving",
+          "name": "Meat Lover's® - Pizza Hut Half Melt",
+          "kcal": 550,
+          "p": 25.0,
+          "c": 47.0,
+          "f": 30.0
+        },
+        {
+          "id": "pizza-hut-20",
+          "serving": "1 menu serving",
+          "name": "Pepperoni Deep Dish Pizza Slice",
+          "kcal": 510,
+          "p": 24.0,
+          "c": 37.0,
+          "f": 29.0
+        }
+      ]
+    },
+    {
+      "id": "arbys",
+      "name": "Arby's",
+      "source": "https://www.nutritionix.com/arbys/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Arby's menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "arbys-1",
+          "serving": "1 menu serving",
+          "name": "Turkey Ranch & Bacon Sandwich",
+          "kcal": 810,
+          "p": 46.0,
+          "c": 79.0,
+          "f": 35.0
+        },
+        {
+          "id": "arbys-2",
+          "serving": "1 menu serving",
+          "name": "BBQ Bacon Burger",
+          "kcal": 710,
+          "p": 40.0,
+          "c": 45.0,
+          "f": 41.0
+        },
+        {
+          "id": "arbys-3",
+          "serving": "1 menu serving",
+          "name": "Chicken Tenders (5 Piece)",
+          "kcal": 610,
+          "p": 39.0,
+          "c": 47.0,
+          "f": 30.0
+        },
+        {
+          "id": "arbys-4",
+          "serving": "1 menu serving",
+          "name": "Big Cheesy Bacon Burger",
+          "kcal": 710,
+          "p": 37.0,
+          "c": 50.0,
+          "f": 41.0
+        },
+        {
+          "id": "arbys-5",
+          "serving": "1 menu serving",
+          "name": "Ham & Swiss Sandwich",
+          "kcal": 730,
+          "p": 37.0,
+          "c": 81.0,
+          "f": 29.0
+        },
+        {
+          "id": "arbys-6",
+          "serving": "1 menu serving",
+          "name": "Chicken Bacon Swiss",
+          "kcal": 650,
+          "p": 35.0,
+          "c": 61.0,
+          "f": 30.0
+        },
+        {
+          "id": "arbys-7",
+          "serving": "1 menu serving",
+          "name": "Chicken Cordon Bleu",
+          "kcal": 650,
+          "p": 35.0,
+          "c": 59.0,
+          "f": 30.0
+        },
+        {
+          "id": "arbys-8",
+          "serving": "1 menu serving",
+          "name": "Deluxe Burger",
+          "kcal": 600,
+          "p": 31.0,
+          "c": 45.0,
+          "f": 33.0
+        },
+        {
+          "id": "arbys-9",
+          "serving": "1 menu serving",
+          "name": "Ham, Egg & Cheese Sourdough",
+          "kcal": 460,
+          "p": 26.0,
+          "c": 47.0,
+          "f": 18.0
+        },
+        {
+          "id": "arbys-10",
+          "serving": "1 menu serving",
+          "name": "Buffalo Chicken",
+          "kcal": 530,
+          "p": 24.0,
+          "c": 59.0,
+          "f": 22.0
+        },
+        {
+          "id": "arbys-11",
+          "serving": "1 menu serving",
+          "name": "Crispy Chicken",
+          "kcal": 530,
+          "p": 24.0,
+          "c": 59.0,
+          "f": 22.0
+        },
+        {
+          "id": "arbys-12",
+          "serving": "1 menu serving",
+          "name": "Sausage, Egg & Cheese Sourdough",
+          "kcal": 630,
+          "p": 24.0,
+          "c": 47.0,
+          "f": 38.0
+        },
+        {
+          "id": "arbys-13",
+          "serving": "1 menu serving",
+          "name": "Chicken Tenders (3 Piece)",
+          "kcal": 370,
+          "p": 23.0,
+          "c": 28.0,
+          "f": 18.0
+        },
+        {
+          "id": "arbys-14",
+          "serving": "1 menu serving",
+          "name": "Bacon, Egg & Cheese Sourdough",
+          "kcal": 470,
+          "p": 23.0,
+          "c": 46.0,
+          "f": 22.0
+        },
+        {
+          "id": "arbys-15",
+          "serving": "1 menu serving",
+          "name": "Ham, Egg & Cheese Croissant",
+          "kcal": 410,
+          "p": 21.0,
+          "c": 30.0,
+          "f": 23.0
+        },
+        {
+          "id": "arbys-16",
+          "serving": "1 menu serving",
+          "name": "Ham, Egg & Cheese Biscuit",
+          "kcal": 460,
+          "p": 21.0,
+          "c": 38.0,
+          "f": 24.0
+        },
+        {
+          "id": "arbys-17",
+          "serving": "1 menu serving",
+          "name": "Ham, Egg & Cheese Wrap",
+          "kcal": 400,
+          "p": 20.0,
+          "c": 31.0,
+          "f": 21.0
+        },
+        {
+          "id": "arbys-18",
+          "serving": "1 menu serving",
+          "name": "Sausage, Egg & Cheese Croissant",
+          "kcal": 580,
+          "p": 19.0,
+          "c": 30.0,
+          "f": 43.0
+        },
+        {
+          "id": "arbys-19",
+          "serving": "1 menu serving",
+          "name": "Sausage, Egg & Cheese Biscuit",
+          "kcal": 630,
+          "p": 19.0,
+          "c": 39.0,
+          "f": 44.0
+        },
+        {
+          "id": "arbys-20",
+          "serving": "1 menu serving",
+          "name": "Bacon, Egg & Cheese Wrap",
+          "kcal": 410,
+          "p": 18.0,
+          "c": 29.0,
+          "f": 24.0
+        }
+      ]
+    },
+    {
+      "id": "sonic",
+      "name": "Sonic",
+      "source": "https://www.nutritionix.com/sonic/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Sonic menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "sonic-1",
+          "serving": "1 menu serving",
+          "name": "Crispy Chicken Sandwich",
+          "kcal": 520,
+          "p": 24.0,
+          "c": 52.0,
+          "f": 24.0
+        },
+        {
+          "id": "sonic-2",
+          "serving": "1 menu serving",
+          "name": "Philly Cheesesteak Sandwich",
+          "kcal": 750,
+          "p": 46.0,
+          "c": 53.0,
+          "f": 39.0
+        },
+        {
+          "id": "sonic-3",
+          "serving": "1 menu serving",
+          "name": "Crispy Tenders (5 Piece)",
+          "kcal": 430,
+          "p": 35.0,
+          "c": 27.0,
+          "f": 20.0
+        },
+        {
+          "id": "sonic-4",
+          "serving": "1 menu serving",
+          "name": "Chicken Club Toaster",
+          "kcal": 670,
+          "p": 33.0,
+          "c": 55.0,
+          "f": 36.0
+        },
+        {
+          "id": "sonic-5",
+          "serving": "1 menu serving",
+          "name": "Ultimate Meat & Cheese Breakfast Burrito",
+          "kcal": 820,
+          "p": 29.0,
+          "c": 47.0,
+          "f": 56.0
+        },
+        {
+          "id": "sonic-6",
+          "serving": "1 menu serving",
+          "name": "Breakfast Burrito Ham",
+          "kcal": 440,
+          "p": 27.0,
+          "c": 38.0,
+          "f": 20.0
+        },
+        {
+          "id": "sonic-7",
+          "serving": "1 menu serving",
+          "name": "Premium Chicken Bites, Large",
+          "kcal": 510,
+          "p": 27.0,
+          "c": 41.0,
+          "f": 26.0
+        },
+        {
+          "id": "sonic-8",
+          "serving": "1 menu serving",
+          "name": "Breakfast Burrito Bacon",
+          "kcal": 470,
+          "p": 25.0,
+          "c": 35.0,
+          "f": 25.0
+        },
+        {
+          "id": "sonic-9",
+          "serving": "1 menu serving",
+          "name": "Brioche Sandwich Ham",
+          "kcal": 450,
+          "p": 24.0,
+          "c": 41.0,
+          "f": 21.0
+        },
+        {
+          "id": "sonic-10",
+          "serving": "1 menu serving",
+          "name": "Supersonic Breakfast Burrito",
+          "kcal": 590,
+          "p": 24.0,
+          "c": 49.0,
+          "f": 33.0
+        },
+        {
+          "id": "sonic-11",
+          "serving": "1 menu serving",
+          "name": "Breakfast Burrito Sausage",
+          "kcal": 490,
+          "p": 23.0,
+          "c": 35.0,
+          "f": 28.0
+        },
+        {
+          "id": "sonic-12",
+          "serving": "1 menu serving",
+          "name": "Biscuit Sandwich Ham",
+          "kcal": 500,
+          "p": 23.0,
+          "c": 43.0,
+          "f": 22.0
+        },
+        {
+          "id": "sonic-13",
+          "serving": "1 menu serving",
+          "name": "Croissonic Sandwich Ham",
+          "kcal": 430,
+          "p": 22.0,
+          "c": 31.0,
+          "f": 23.0
+        },
+        {
+          "id": "sonic-14",
+          "serving": "1 menu serving",
+          "name": "Brioche Sandwich Sausage",
+          "kcal": 530,
+          "p": 22.0,
+          "c": 38.0,
+          "f": 33.0
+        },
+        {
+          "id": "sonic-15",
+          "serving": "1 menu serving",
+          "name": "Crispy Tenders (3 Piece)",
+          "kcal": 260,
+          "p": 21.0,
+          "c": 16.0,
+          "f": 12.0
+        },
+        {
+          "id": "sonic-16",
+          "serving": "1 menu serving",
+          "name": "Jr Double Cheeseburger",
+          "kcal": 390,
+          "p": 21.0,
+          "c": 25.0,
+          "f": 23.0
+        },
+        {
+          "id": "sonic-17",
+          "serving": "1 menu serving",
+          "name": "Biscuit Sandwich Sausage",
+          "kcal": 580,
+          "p": 21.0,
+          "c": 40.0,
+          "f": 34.0
+        },
+        {
+          "id": "sonic-18",
+          "serving": "1 menu serving",
+          "name": "Brioche Sandwich Bacon",
+          "kcal": 440,
+          "p": 20.0,
+          "c": 38.0,
+          "f": 23.0
+        },
+        {
+          "id": "sonic-19",
+          "serving": "1 menu serving",
+          "name": "Biscuit Sandwich Bacon",
+          "kcal": 480,
+          "p": 20.0,
+          "c": 40.0,
+          "f": 24.0
+        },
+        {
+          "id": "sonic-20",
+          "serving": "1 menu serving",
+          "name": "Pork Tenderloin Sandwich",
+          "kcal": 650,
+          "p": 20.0,
+          "c": 69.0,
+          "f": 30.0
+        }
+      ]
+    },
+    {
+      "id": "dairy-queen",
+      "name": "Dairy Queen",
+      "source": "https://www.nutritionix.com/dairy-queen/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Dairy Queen menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "dairy-queen-1",
+          "serving": "1 menu serving",
+          "name": "Vanilla Syrup, Shake, Malt, Moolatte",
+          "kcal": 25,
+          "p": 0.0,
+          "c": 6.0,
+          "f": 0.0
+        },
+        {
+          "id": "dairy-queen-2",
+          "serving": "1 menu serving",
+          "name": "Backyard Bacon Ranch Burger, Triple",
+          "kcal": 1020,
+          "p": 50.0,
+          "c": 54.0,
+          "f": 67.0
+        },
+        {
+          "id": "dairy-queen-3",
+          "serving": "1 menu serving",
+          "name": "Bacon Two Cheese Deluxe Burger, Triple",
+          "kcal": 920,
+          "p": 49.0,
+          "c": 40.0,
+          "f": 63.0
+        },
+        {
+          "id": "dairy-queen-4",
+          "serving": "1 menu serving",
+          "name": "Flamethrower Burger, Triple",
+          "kcal": 910,
+          "p": 46.0,
+          "c": 38.0,
+          "f": 65.0
+        },
+        {
+          "id": "dairy-queen-5",
+          "serving": "1 menu serving",
+          "name": "Two Cheese Deluxe Burger, Triple",
+          "kcal": 820,
+          "p": 41.0,
+          "c": 40.0,
+          "f": 55.0
+        },
+        {
+          "id": "dairy-queen-6",
+          "serving": "1 menu serving",
+          "name": "Original Cheeseburger, Triple",
+          "kcal": 760,
+          "p": 40.0,
+          "c": 39.0,
+          "f": 50.0
+        },
+        {
+          "id": "dairy-queen-7",
+          "serving": "1 menu serving",
+          "name": "Backyard Bacon Ranch Burger, Double",
+          "kcal": 820,
+          "p": 38.0,
+          "c": 53.0,
+          "f": 51.0
+        },
+        {
+          "id": "dairy-queen-8",
+          "serving": "1 menu serving",
+          "name": "Bacon Two Cheese Deluxe Burger, Double",
+          "kcal": 720,
+          "p": 37.0,
+          "c": 39.0,
+          "f": 47.0
+        },
+        {
+          "id": "dairy-queen-9",
+          "serving": "1 menu serving",
+          "name": "Chicken Strip Basket, 4 Piece",
+          "kcal": 1020,
+          "p": 35.0,
+          "c": 111.0,
+          "f": 48.0
+        },
+        {
+          "id": "dairy-queen-10",
+          "serving": "1 menu serving",
+          "name": "Sauced & Tossed Honey BBQ Chicken Strip Basket, 4 Piece",
+          "kcal": 1140,
+          "p": 35.0,
+          "c": 142.0,
+          "f": 48.0
+        },
+        {
+          "id": "dairy-queen-11",
+          "serving": "1 menu serving",
+          "name": "Flamethrower Burger, Double",
+          "kcal": 720,
+          "p": 34.0,
+          "c": 37.0,
+          "f": 49.0
+        },
+        {
+          "id": "dairy-queen-12",
+          "serving": "1 menu serving",
+          "name": "Hamburger, Triple",
+          "kcal": 610,
+          "p": 33.0,
+          "c": 36.0,
+          "f": 37.0
+        },
+        {
+          "id": "dairy-queen-13",
+          "serving": "1 menu serving",
+          "name": "Original Cheeseburger, Double",
+          "kcal": 570,
+          "p": 29.0,
+          "c": 38.0,
+          "f": 34.0
+        },
+        {
+          "id": "dairy-queen-14",
+          "serving": "1 menu serving",
+          "name": "Two Cheese Deluxe Burger, Double",
+          "kcal": 620,
+          "p": 29.0,
+          "c": 39.0,
+          "f": 39.0
+        },
+        {
+          "id": "dairy-queen-15",
+          "serving": "1 menu serving",
+          "name": "Hamburger, Double",
+          "kcal": 460,
+          "p": 24.0,
+          "c": 36.0,
+          "f": 25.0
+        },
+        {
+          "id": "dairy-queen-16",
+          "serving": "1 menu serving",
+          "name": "Steakfinger Basket",
+          "kcal": 940,
+          "p": 23.0,
+          "c": 97.0,
+          "f": 51.0
+        },
+        {
+          "id": "dairy-queen-17",
+          "serving": "1 menu serving",
+          "name": "DQ Sandwich, 6 Pack",
+          "kcal": 1100,
+          "p": 23.0,
+          "c": 182.0,
+          "f": 31.0
+        },
+        {
+          "id": "dairy-queen-18",
+          "serving": "1 menu serving",
+          "name": "Pork Tenderloin Sandwich",
+          "kcal": 600,
+          "p": 21.0,
+          "c": 52.0,
+          "f": 34.0
+        },
+        {
+          "id": "dairy-queen-19",
+          "serving": "1 menu serving",
+          "name": "Chicken Strips, 3 Piece",
+          "kcal": 430,
+          "p": 19.0,
+          "c": 41.0,
+          "f": 20.0
+        },
+        {
+          "id": "dairy-queen-20",
+          "serving": "1 menu serving",
+          "name": "Spicy Chicken Strip Sandwich",
+          "kcal": 530,
+          "p": 18.0,
+          "c": 63.0,
+          "f": 23.0
+        }
+      ]
+    },
+    {
+      "id": "jack-in-the-box",
+      "name": "Jack in the Box",
+      "source": "https://www.nutritionix.com/jack-in-the-box/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Jack in the Box menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "jack-in-the-box-1",
+          "serving": "1 menu serving",
+          "name": "Jack's Spicy Chicken Sandwich with Cheese",
+          "kcal": 720,
+          "p": 29.0,
+          "c": 51.0,
+          "f": 45.0
+        },
+        {
+          "id": "jack-in-the-box-2",
+          "serving": "1 menu serving",
+          "name": "The Cluck Chicken Sandwich",
+          "kcal": 710,
+          "p": 28.0,
+          "c": 68.0,
+          "f": 37.0
+        },
+        {
+          "id": "jack-in-the-box-3",
+          "serving": "1 menu serving",
+          "name": "Jack's Munchie Meals, The Cluck Chicken Sandwich",
+          "kcal": 710,
+          "p": 28.0,
+          "c": 68.0,
+          "f": 37.0
+        },
+        {
+          "id": "jack-in-the-box-4",
+          "serving": "1 menu serving",
+          "name": "Jack's Spicy Chicken Sandwich",
+          "kcal": 690,
+          "p": 27.0,
+          "c": 51.0,
+          "f": 42.0
+        },
+        {
+          "id": "jack-in-the-box-5",
+          "serving": "1 menu serving",
+          "name": "Jack's Munchie Meals, Jack's Spicy Chicken Sandwich",
+          "kcal": 690,
+          "p": 27.0,
+          "c": 51.0,
+          "f": 42.0
+        },
+        {
+          "id": "jack-in-the-box-6",
+          "serving": "1 menu serving",
+          "name": "Chicken Sandwich with Bacon",
+          "kcal": 610,
+          "p": 19.0,
+          "c": 40.0,
+          "f": 42.0
+        },
+        {
+          "id": "jack-in-the-box-7",
+          "serving": "1 menu serving",
+          "name": "Jack's Deals, Chicken Sandwich with Bacon",
+          "kcal": 610,
+          "p": 19.0,
+          "c": 40.0,
+          "f": 42.0
+        },
+        {
+          "id": "jack-in-the-box-8",
+          "serving": "1 menu serving",
+          "name": "Chicken Sandwich",
+          "kcal": 560,
+          "p": 15.0,
+          "c": 40.0,
+          "f": 38.0
+        },
+        {
+          "id": "jack-in-the-box-9",
+          "serving": "1 menu serving",
+          "name": "Kids, Chicken Sandwich",
+          "kcal": 560,
+          "p": 15.0,
+          "c": 40.0,
+          "f": 38.0
+        },
+        {
+          "id": "jack-in-the-box-10",
+          "serving": "1 menu serving",
+          "name": "Jack's Deals, Chicken Sandwich",
+          "kcal": 560,
+          "p": 15.0,
+          "c": 40.0,
+          "f": 38.0
+        },
+        {
+          "id": "jack-in-the-box-11",
+          "serving": "1 menu serving",
+          "name": "Bacon Ultimate Cheeseburger",
+          "kcal": 930,
+          "p": 55.0,
+          "c": 32.0,
+          "f": 65.0
+        },
+        {
+          "id": "jack-in-the-box-12",
+          "serving": "1 menu serving",
+          "name": "Crispy Chicken Strips (5 Piece)",
+          "kcal": 780,
+          "p": 54.0,
+          "c": 53.0,
+          "f": 38.0
+        },
+        {
+          "id": "jack-in-the-box-13",
+          "serving": "1 menu serving",
+          "name": "Ultimate Cheeseburger",
+          "kcal": 840,
+          "p": 47.0,
+          "c": 31.0,
+          "f": 59.0
+        },
+        {
+          "id": "jack-in-the-box-14",
+          "serving": "1 menu serving",
+          "name": "Jack's Munchie Meals, Ultimate Cheeseburger",
+          "kcal": 840,
+          "p": 47.0,
+          "c": 31.0,
+          "f": 59.0
+        },
+        {
+          "id": "jack-in-the-box-15",
+          "serving": "1 menu serving",
+          "name": "Sourdough Breakfast Sandwich",
+          "kcal": 810,
+          "p": 40.0,
+          "c": 50.0,
+          "f": 51.0
+        },
+        {
+          "id": "jack-in-the-box-16",
+          "serving": "1 menu serving",
+          "name": "Grande Sausage Burrito (No Salsa)",
+          "kcal": 1040,
+          "p": 39.0,
+          "c": 66.0,
+          "f": 69.0
+        },
+        {
+          "id": "jack-in-the-box-17",
+          "serving": "1 menu serving",
+          "name": "Grande Sausage Burrito (with Salsa)",
+          "kcal": 1040,
+          "p": 39.0,
+          "c": 68.0,
+          "f": 69.0
+        },
+        {
+          "id": "jack-in-the-box-18",
+          "serving": "1 menu serving",
+          "name": "Meat Lovers Breakfast Burrito (with Salsa)",
+          "kcal": 580,
+          "p": 36.0,
+          "c": 36.0,
+          "f": 34.0
+        },
+        {
+          "id": "jack-in-the-box-19",
+          "serving": "1 menu serving",
+          "name": "Loaded Breakfast Sandwich",
+          "kcal": 690,
+          "p": 35.0,
+          "c": 36.0,
+          "f": 46.0
+        },
+        {
+          "id": "jack-in-the-box-20",
+          "serving": "1 menu serving",
+          "name": "Homestyle Ranch Chicken Club",
+          "kcal": 790,
+          "p": 35.0,
+          "c": 69.0,
+          "f": 42.0
+        }
+      ]
+    },
+    {
+      "id": "raising-canes",
+      "name": "Raising Cane's",
+      "source": "https://www.nutritionix.com/raising-canes/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Raising Cane's menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "raising-canes-1",
+          "serving": "1 menu serving",
+          "name": "Chicken Sandwich",
+          "kcal": 830,
+          "p": 47.0,
+          "c": 69.0,
+          "f": 41.0
+        },
+        {
+          "id": "raising-canes-2",
+          "serving": "1 menu serving",
+          "name": "Chicken Finger",
+          "kcal": 130,
+          "p": 13.0,
+          "c": 5.0,
+          "f": 7.0
+        },
+        {
+          "id": "raising-canes-3",
+          "serving": "1 menu serving",
+          "name": "Milk 1% Box",
+          "kcal": 110,
+          "p": 8.0,
+          "c": 13.0,
+          "f": 2.5
+        },
+        {
+          "id": "raising-canes-4",
+          "serving": "1 menu serving",
+          "name": "Crinkle-Cut Fries",
+          "kcal": 400,
+          "p": 5.0,
+          "c": 50.0,
+          "f": 20.0
+        },
+        {
+          "id": "raising-canes-5",
+          "serving": "1 menu serving",
+          "name": "Texas Toast",
+          "kcal": 150,
+          "p": 4.0,
+          "c": 23.0,
+          "f": 4.5
+        },
+        {
+          "id": "raising-canes-6",
+          "serving": "1 menu serving",
+          "name": "Coleslaw",
+          "kcal": 100,
+          "p": 1.0,
+          "c": 10.0,
+          "f": 6.0
+        },
+        {
+          "id": "raising-canes-7",
+          "serving": "1 menu serving",
+          "name": "Diet Mountain Dew, Large",
+          "kcal": 10,
+          "p": 0.0,
+          "c": 1.0,
+          "f": 0.0
+        },
+        {
+          "id": "raising-canes-8",
+          "serving": "1 menu serving",
+          "name": "Diet Mountain Dew, Regular",
+          "kcal": 10,
+          "p": 0.0,
+          "c": 1.0,
+          "f": 0.0
+        },
+        {
+          "id": "raising-canes-9",
+          "serving": "1 menu serving",
+          "name": "Apple Juice Drink Pouch",
+          "kcal": 35,
+          "p": 0.0,
+          "c": 9.0,
+          "f": 0.0
+        },
+        {
+          "id": "raising-canes-10",
+          "serving": "1 menu serving",
+          "name": "Half Sweet/Half Unsweet, Kid's",
+          "kcal": 60,
+          "p": 0.0,
+          "c": 16.0,
+          "f": 0.0
+        },
+        {
+          "id": "raising-canes-11",
+          "serving": "1 menu serving",
+          "name": "Gatorade Fruit Punch, Kid’s",
+          "kcal": 80,
+          "p": 0.0,
+          "c": 22.0,
+          "f": 0.0
+        },
+        {
+          "id": "raising-canes-12",
+          "serving": "1 menu serving",
+          "name": "Half Unsweet/Half Lemonade, Kid's",
+          "kcal": 80,
+          "p": 0.0,
+          "c": 20.0,
+          "f": 0.0
+        },
+        {
+          "id": "raising-canes-13",
+          "serving": "1 menu serving",
+          "name": "Powerade Mtn Berry Blast, Kid's",
+          "kcal": 90,
+          "p": 0.0,
+          "c": 23.0,
+          "f": 0.0
+        },
+        {
+          "id": "raising-canes-14",
+          "serving": "1 menu serving",
+          "name": "Half Sweet/Half Unsweet, Regular",
+          "kcal": 120,
+          "p": 0.0,
+          "c": 30.0,
+          "f": 0.0
+        },
+        {
+          "id": "raising-canes-15",
+          "serving": "1 menu serving",
+          "name": "Sweet Tea, Kid's",
+          "kcal": 130,
+          "p": 0.0,
+          "c": 33.0,
+          "f": 0.0
+        },
+        {
+          "id": "raising-canes-16",
+          "serving": "1 menu serving",
+          "name": "Dr Pepper, Kid's",
+          "kcal": 140,
+          "p": 0.0,
+          "c": 39.0,
+          "f": 0.0
+        },
+        {
+          "id": "raising-canes-17",
+          "serving": "1 menu serving",
+          "name": "Half Sweet/Half Lemonade, Kid's",
+          "kcal": 140,
+          "p": 0.0,
+          "c": 37.0,
+          "f": 0.0
+        },
+        {
+          "id": "raising-canes-18",
+          "serving": "1 menu serving",
+          "name": "Mug Root Beer, Kid’s",
+          "kcal": 140,
+          "p": 0.0,
+          "c": 38.0,
+          "f": 0.0
+        },
+        {
+          "id": "raising-canes-19",
+          "serving": "1 menu serving",
+          "name": "Pibb Xtra, Kid's",
+          "kcal": 140,
+          "p": 0.0,
+          "c": 38.0,
+          "f": 0.0
+        },
+        {
+          "id": "raising-canes-20",
+          "serving": "1 menu serving",
+          "name": "Sprite, Kid's",
+          "kcal": 140,
+          "p": 0.0,
+          "c": 38.0,
+          "f": 0.0
+        }
+      ]
+    },
+    {
+      "id": "wingstop",
+      "name": "Wingstop",
+      "source": "https://www.nutritionix.com/wingstop/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Wingstop menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "wingstop-1",
+          "serving": "1 menu serving",
+          "name": "Chicken Sandwich, Spicy Korean Q",
+          "kcal": 720,
+          "p": 34.0,
+          "c": 90.0,
+          "f": 24.0
+        },
+        {
+          "id": "wingstop-2",
+          "serving": "1 menu serving",
+          "name": "Chicken Sandwich, Hickory Smoked BBQ",
+          "kcal": 730,
+          "p": 34.0,
+          "c": 96.0,
+          "f": 24.0
+        },
+        {
+          "id": "wingstop-3",
+          "serving": "1 menu serving",
+          "name": "Chicken Sandwich, Garlic Parmesan",
+          "kcal": 890,
+          "p": 34.0,
+          "c": 71.0,
+          "f": 52.0
+        },
+        {
+          "id": "wingstop-4",
+          "serving": "1 menu serving",
+          "name": "Chicken Sandwich, Cajun",
+          "kcal": 640,
+          "p": 33.0,
+          "c": 70.0,
+          "f": 25.0
+        },
+        {
+          "id": "wingstop-5",
+          "serving": "1 menu serving",
+          "name": "Chicken Sandwich, Atomic",
+          "kcal": 650,
+          "p": 33.0,
+          "c": 74.0,
+          "f": 24.0
+        },
+        {
+          "id": "wingstop-6",
+          "serving": "1 menu serving",
+          "name": "Chicken Sandwich, Hawaiian",
+          "kcal": 710,
+          "p": 33.0,
+          "c": 90.0,
+          "f": 24.0
+        },
+        {
+          "id": "wingstop-7",
+          "serving": "1 menu serving",
+          "name": "Chicken Sandwich, Plain",
+          "kcal": 610,
+          "p": 32.0,
+          "c": 66.0,
+          "f": 24.0
+        },
+        {
+          "id": "wingstop-8",
+          "serving": "1 menu serving",
+          "name": "Chicken Sandwich, Original Hot",
+          "kcal": 630,
+          "p": 32.0,
+          "c": 68.0,
+          "f": 25.0
+        },
+        {
+          "id": "wingstop-9",
+          "serving": "1 menu serving",
+          "name": "Chicken Sandwich, Mango Habanero",
+          "kcal": 740,
+          "p": 32.0,
+          "c": 94.0,
+          "f": 24.0
+        },
+        {
+          "id": "wingstop-10",
+          "serving": "1 menu serving",
+          "name": "Chicken Sandwich, Louisiana Rub",
+          "kcal": 790,
+          "p": 32.0,
+          "c": 67.0,
+          "f": 43.0
+        },
+        {
+          "id": "wingstop-11",
+          "serving": "1 menu serving",
+          "name": "Chicken Sandwich, Lemon Pepper",
+          "kcal": 850,
+          "p": 32.0,
+          "c": 67.0,
+          "f": 50.0
+        },
+        {
+          "id": "wingstop-12",
+          "serving": "1 menu serving",
+          "name": "Chicken Sandwich, Mild",
+          "kcal": 870,
+          "p": 32.0,
+          "c": 67.0,
+          "f": 52.0
+        },
+        {
+          "id": "wingstop-13",
+          "serving": "1 menu serving",
+          "name": "Classic (Bone-In) Wings, Atomic",
+          "kcal": 90,
+          "p": 10.0,
+          "c": 1.0,
+          "f": 5.0
+        },
+        {
+          "id": "wingstop-14",
+          "serving": "1 menu serving",
+          "name": "Classic (Bone-In) Wings, Cajun",
+          "kcal": 90,
+          "p": 10.0,
+          "c": 0.0,
+          "f": 5.0
+        },
+        {
+          "id": "wingstop-15",
+          "serving": "1 menu serving",
+          "name": "Classic (Bone-In) Wings, Original Hot",
+          "kcal": 90,
+          "p": 10.0,
+          "c": 0.0,
+          "f": 5.0
+        },
+        {
+          "id": "wingstop-16",
+          "serving": "1 menu serving",
+          "name": "Classic (Bone-In) Wings, Plain",
+          "kcal": 90,
+          "p": 10.0,
+          "c": 0.0,
+          "f": 5.0
+        },
+        {
+          "id": "wingstop-17",
+          "serving": "1 menu serving",
+          "name": "Classic (Bone-In) Wings, Hawaiian",
+          "kcal": 100,
+          "p": 10.0,
+          "c": 3.0,
+          "f": 5.0
+        },
+        {
+          "id": "wingstop-18",
+          "serving": "1 menu serving",
+          "name": "Classic (Bone-In) Wings, Hickory Smoked BBQ",
+          "kcal": 100,
+          "p": 10.0,
+          "c": 4.0,
+          "f": 5.0
+        },
+        {
+          "id": "wingstop-19",
+          "serving": "1 menu serving",
+          "name": "Classic (Bone-In) Wings, Mango Habanero",
+          "kcal": 100,
+          "p": 10.0,
+          "c": 4.0,
+          "f": 5.0
+        },
+        {
+          "id": "wingstop-20",
+          "serving": "1 menu serving",
+          "name": "Classic (Bone-In) Wings, Old Bay",
+          "kcal": 100,
+          "p": 10.0,
+          "c": 0.0,
+          "f": 7.0
+        }
+      ]
+    },
+    {
+      "id": "del-taco",
+      "name": "Del Taco",
+      "source": "https://www.nutritionix.com/del-taco/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Del Taco menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "del-taco-1",
+          "serving": "1 menu serving",
+          "name": "Epic Carne Asada Steak Cali Bacon Burrito",
+          "kcal": 1050,
+          "p": 51.0,
+          "c": 73.0,
+          "f": 60.0
+        },
+        {
+          "id": "del-taco-2",
+          "serving": "1 menu serving",
+          "name": "Epic Carne Asada Steak Loaded Queso Burrito",
+          "kcal": 890,
+          "p": 47.0,
+          "c": 75.0,
+          "f": 44.0
+        },
+        {
+          "id": "del-taco-3",
+          "serving": "1 menu serving",
+          "name": "Epic Grilled Chicken Cali Bacon Burrito",
+          "kcal": 1020,
+          "p": 46.0,
+          "c": 72.0,
+          "f": 60.0
+        },
+        {
+          "id": "del-taco-4",
+          "serving": "1 menu serving",
+          "name": "Epic Grilled Chicken Loaded Queso Burrito",
+          "kcal": 860,
+          "p": 43.0,
+          "c": 73.0,
+          "f": 45.0
+        },
+        {
+          "id": "del-taco-5",
+          "serving": "1 menu serving",
+          "name": "Queso Loaded Nachos (Carne Asada Steak)",
+          "kcal": 970,
+          "p": 43.0,
+          "c": 99.0,
+          "f": 47.0
+        },
+        {
+          "id": "del-taco-6",
+          "serving": "1 menu serving",
+          "name": "Epic Carne Asada Steak Fresh Guacamole Burrito",
+          "kcal": 750,
+          "p": 41.0,
+          "c": 89.0,
+          "f": 25.0
+        },
+        {
+          "id": "del-taco-7",
+          "serving": "1 menu serving",
+          "name": "Queso Loaded Nachos (Grilled Chicken)",
+          "kcal": 950,
+          "p": 40.0,
+          "c": 98.0,
+          "f": 47.0
+        },
+        {
+          "id": "del-taco-8",
+          "serving": "1 menu serving",
+          "name": "Epic Grilled Chicken Fresh Guacamole Burrito",
+          "kcal": 720,
+          "p": 37.0,
+          "c": 87.0,
+          "f": 25.0
+        },
+        {
+          "id": "del-taco-9",
+          "serving": "1 menu serving",
+          "name": "Breakfast Burrito (Bacon)",
+          "kcal": 520,
+          "p": 30.0,
+          "c": 36.0,
+          "f": 26.0
+        },
+        {
+          "id": "del-taco-10",
+          "serving": "1 menu serving",
+          "name": "Double Del Cheeseburger",
+          "kcal": 690,
+          "p": 30.0,
+          "c": 35.0,
+          "f": 47.0
+        },
+        {
+          "id": "del-taco-11",
+          "serving": "1 menu serving",
+          "name": "Chicken Cheddar Quesadilla",
+          "kcal": 540,
+          "p": 29.0,
+          "c": 36.0,
+          "f": 30.0
+        },
+        {
+          "id": "del-taco-12",
+          "serving": "1 menu serving",
+          "name": "Breakfast Burrito (Carne Asada Steak)",
+          "kcal": 450,
+          "p": 25.0,
+          "c": 38.0,
+          "f": 19.0
+        },
+        {
+          "id": "del-taco-13",
+          "serving": "1 menu serving",
+          "name": "Del Beef Burrito",
+          "kcal": 470,
+          "p": 24.0,
+          "c": 39.0,
+          "f": 22.0
+        },
+        {
+          "id": "del-taco-14",
+          "serving": "1 menu serving",
+          "name": "Grilled Chicken Burrito",
+          "kcal": 560,
+          "p": 24.0,
+          "c": 40.0,
+          "f": 34.0
+        },
+        {
+          "id": "del-taco-15",
+          "serving": "1 menu serving",
+          "name": "Cheddar Quesadilla",
+          "kcal": 480,
+          "p": 22.0,
+          "c": 35.0,
+          "f": 27.0
+        },
+        {
+          "id": "del-taco-16",
+          "serving": "1 menu serving",
+          "name": "Carne Asada Steak Fries",
+          "kcal": 760,
+          "p": 21.0,
+          "c": 45.0,
+          "f": 56.0
+        },
+        {
+          "id": "del-taco-17",
+          "serving": "1 menu serving",
+          "name": "Bean & Cheese Burrito (Green)",
+          "kcal": 440,
+          "p": 19.0,
+          "c": 69.0,
+          "f": 10.0
+        },
+        {
+          "id": "del-taco-18",
+          "serving": "1 menu serving",
+          "name": "Bean & Cheese Burrito (Red)",
+          "kcal": 460,
+          "p": 19.0,
+          "c": 68.0,
+          "f": 10.0
+        },
+        {
+          "id": "del-taco-19",
+          "serving": "1 menu serving",
+          "name": "The Del Taco",
+          "kcal": 300,
+          "p": 16.0,
+          "c": 14.0,
+          "f": 20.0
+        },
+        {
+          "id": "del-taco-20",
+          "serving": "1 menu serving",
+          "name": "Breakfast Burrito (Egg & Cheese)",
+          "kcal": 380,
+          "p": 16.0,
+          "c": 35.0,
+          "f": 16.0
+        }
+      ]
+    },
+    {
+      "id": "carls-jr",
+      "name": "Carl's Jr.",
+      "source": "https://www.nutritionix.com/carls-jr/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Carl's Jr. menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "carls-jr-1",
+          "serving": "1 menu serving",
+          "name": "Hand-Breaded Bacon Swiss Chicken Sandwich",
+          "kcal": 790,
+          "p": 41.0,
+          "c": 62.0,
+          "f": 42.0
+        },
+        {
+          "id": "carls-jr-2",
+          "serving": "1 menu serving",
+          "name": "Charbroiled Santa Fe Chicken Sandwich",
+          "kcal": 670,
+          "p": 36.0,
+          "c": 54.0,
+          "f": 35.0
+        },
+        {
+          "id": "carls-jr-3",
+          "serving": "1 menu serving",
+          "name": "Charbroiled BBQ Chicken Sandwich",
+          "kcal": 430,
+          "p": 33.0,
+          "c": 57.0,
+          "f": 8.0
+        },
+        {
+          "id": "carls-jr-4",
+          "serving": "1 menu serving",
+          "name": "Hand- Breaded Chicken Sandwich",
+          "kcal": 640,
+          "p": 30.0,
+          "c": 59.0,
+          "f": 32.0
+        },
+        {
+          "id": "carls-jr-5",
+          "serving": "1 menu serving",
+          "name": "Spicy Chicken Sandwich",
+          "kcal": 490,
+          "p": 14.0,
+          "c": 43.0,
+          "f": 29.0
+        },
+        {
+          "id": "carls-jr-6",
+          "serving": "1 menu serving",
+          "name": "Western Bacon Cheeseburger, Double",
+          "kcal": 1040,
+          "p": 58.0,
+          "c": 78.0,
+          "f": 56.0
+        },
+        {
+          "id": "carls-jr-7",
+          "serving": "1 menu serving",
+          "name": "Western Bacon Cheeseburger, Angus",
+          "kcal": 880,
+          "p": 46.0,
+          "c": 76.0,
+          "f": 45.0
+        },
+        {
+          "id": "carls-jr-8",
+          "serving": "1 menu serving",
+          "name": "Charbroiled Chicken Club Sandwich",
+          "kcal": 660,
+          "p": 44.0,
+          "c": 54.0,
+          "f": 30.0
+        },
+        {
+          "id": "carls-jr-9",
+          "serving": "1 menu serving",
+          "name": "The Breakfast Burger",
+          "kcal": 790,
+          "p": 42.0,
+          "c": 67.0,
+          "f": 40.0
+        },
+        {
+          "id": "carls-jr-10",
+          "serving": "1 menu serving",
+          "name": "Hand-Breaded Chicken Tenders, 5 Pieces",
+          "kcal": 440,
+          "p": 41.0,
+          "c": 21.0,
+          "f": 21.0
+        },
+        {
+          "id": "carls-jr-11",
+          "serving": "1 menu serving",
+          "name": "Loaded Breakfast Burrito",
+          "kcal": 830,
+          "p": 39.0,
+          "c": 49.0,
+          "f": 53.0
+        },
+        {
+          "id": "carls-jr-12",
+          "serving": "1 menu serving",
+          "name": "Western Bacon Cheeseburger, Single",
+          "kcal": 780,
+          "p": 38.0,
+          "c": 77.0,
+          "f": 36.0
+        },
+        {
+          "id": "carls-jr-13",
+          "serving": "1 menu serving",
+          "name": "Big Country Breakfast Burrito",
+          "kcal": 860,
+          "p": 37.0,
+          "c": 54.0,
+          "f": 55.0
+        },
+        {
+          "id": "carls-jr-14",
+          "serving": "1 menu serving",
+          "name": "Steak & Egg Burrito",
+          "kcal": 530,
+          "p": 33.0,
+          "c": 41.0,
+          "f": 26.0
+        },
+        {
+          "id": "carls-jr-15",
+          "serving": "1 menu serving",
+          "name": "Bacon, Egg, & Cheese Burrito",
+          "kcal": 530,
+          "p": 32.0,
+          "c": 36.0,
+          "f": 27.0
+        },
+        {
+          "id": "carls-jr-16",
+          "serving": "1 menu serving",
+          "name": "Grilled Cheese Breakfast Sandwich (Bacon)",
+          "kcal": 540,
+          "p": 28.0,
+          "c": 43.0,
+          "f": 29.0
+        },
+        {
+          "id": "carls-jr-17",
+          "serving": "1 menu serving",
+          "name": "Big Cheeseburger",
+          "kcal": 540,
+          "p": 28.0,
+          "c": 56.0,
+          "f": 22.0
+        },
+        {
+          "id": "carls-jr-18",
+          "serving": "1 menu serving",
+          "name": "Grilled Cheese Breakfast Sandwich (Sausage)",
+          "kcal": 640,
+          "p": 27.0,
+          "c": 43.0,
+          "f": 41.0
+        },
+        {
+          "id": "carls-jr-19",
+          "serving": "1 menu serving",
+          "name": "Hand-Breaded Chicken Tenders, 3 Pieces",
+          "kcal": 260,
+          "p": 25.0,
+          "c": 13.0,
+          "f": 13.0
+        },
+        {
+          "id": "carls-jr-20",
+          "serving": "1 menu serving",
+          "name": "Double Cheeseburger",
+          "kcal": 370,
+          "p": 19.0,
+          "c": 34.0,
+          "f": 21.0
+        }
+      ]
+    },
+    {
+      "id": "cafe-rio",
+      "name": "Cafe Rio",
+      "source": "https://www.nutritionix.com/cafe-rio/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Cafe Rio menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "cafe-rio-1",
+          "serving": "1 menu serving",
+          "name": "Baja Citrus Shrimp",
+          "kcal": 260,
+          "p": 17.0,
+          "c": 38.0,
+          "f": 4.0
+        },
+        {
+          "id": "cafe-rio-2",
+          "serving": "1 menu serving",
+          "name": "Fire-Grilled Chicken",
+          "kcal": 80,
+          "p": 14.0,
+          "c": 0.0,
+          "f": 2.0
+        },
+        {
+          "id": "cafe-rio-3",
+          "serving": "1 menu serving",
+          "name": "Fire-Grilled Steak",
+          "kcal": 120,
+          "p": 14.0,
+          "c": 1.0,
+          "f": 6.0
+        },
+        {
+          "id": "cafe-rio-4",
+          "serving": "1 menu serving",
+          "name": "Coconut Shrimp",
+          "kcal": 230,
+          "p": 10.0,
+          "c": 32.0,
+          "f": 7.0
+        },
+        {
+          "id": "cafe-rio-5",
+          "serving": "1 menu serving",
+          "name": "Shredded Chicken Breast",
+          "kcal": 80,
+          "p": 8.0,
+          "c": 1.0,
+          "f": 4.5
+        },
+        {
+          "id": "cafe-rio-6",
+          "serving": "1 menu serving",
+          "name": "Tortilla Soup with Tortilla Strips",
+          "kcal": 380,
+          "p": 24.0,
+          "c": 30.0,
+          "f": 18.0
+        },
+        {
+          "id": "cafe-rio-7",
+          "serving": "1 menu serving",
+          "name": "Fresh Lime Pie",
+          "kcal": 870,
+          "p": 20.0,
+          "c": 137.0,
+          "f": 29.0
+        },
+        {
+          "id": "cafe-rio-8",
+          "serving": "1 menu serving",
+          "name": "Shredded Jack Cheese",
+          "kcal": 210,
+          "p": 14.0,
+          "c": 0.0,
+          "f": 17.0
+        },
+        {
+          "id": "cafe-rio-9",
+          "serving": "1 menu serving",
+          "name": "Cheddar Jack Blend",
+          "kcal": 220,
+          "p": 13.0,
+          "c": 1.0,
+          "f": 18.0
+        },
+        {
+          "id": "cafe-rio-10",
+          "serving": "1 menu serving",
+          "name": "Pollo Asado",
+          "kcal": 110,
+          "p": 12.0,
+          "c": 2.0,
+          "f": 4.5
+        },
+        {
+          "id": "cafe-rio-11",
+          "serving": "1 menu serving",
+          "name": "Carne Asada",
+          "kcal": 120,
+          "p": 12.0,
+          "c": 1.0,
+          "f": 6.0
+        },
+        {
+          "id": "cafe-rio-12",
+          "serving": "1 menu serving",
+          "name": "Black Beans",
+          "kcal": 180,
+          "p": 10.0,
+          "c": 28.0,
+          "f": 1.0
+        },
+        {
+          "id": "cafe-rio-13",
+          "serving": "1 menu serving",
+          "name": "Pinto Beans",
+          "kcal": 190,
+          "p": 10.0,
+          "c": 31.0,
+          "f": 1.5
+        },
+        {
+          "id": "cafe-rio-14",
+          "serving": "1 menu serving",
+          "name": "12 inch Wheat Tortilla",
+          "kcal": 390,
+          "p": 10.0,
+          "c": 58.0,
+          "f": 14.0
+        },
+        {
+          "id": "cafe-rio-15",
+          "serving": "1 menu serving",
+          "name": "12 inch Flour Tortilla",
+          "kcal": 420,
+          "p": 9.0,
+          "c": 63.0,
+          "f": 14.0
+        },
+        {
+          "id": "cafe-rio-16",
+          "serving": "1 menu serving",
+          "name": "Chile Roast Beef",
+          "kcal": 90,
+          "p": 7.0,
+          "c": 1.0,
+          "f": 6.0
+        },
+        {
+          "id": "cafe-rio-17",
+          "serving": "1 menu serving",
+          "name": "Tres Leches",
+          "kcal": 240,
+          "p": 6.0,
+          "c": 47.0,
+          "f": 3.5
+        },
+        {
+          "id": "cafe-rio-18",
+          "serving": "1 menu serving",
+          "name": "Queso",
+          "kcal": 130,
+          "p": 5.0,
+          "c": 6.0,
+          "f": 9.0
+        },
+        {
+          "id": "cafe-rio-19",
+          "serving": "1 menu serving",
+          "name": "6 inch Wheat Tortilla",
+          "kcal": 190,
+          "p": 5.0,
+          "c": 29.0,
+          "f": 7.0
+        },
+        {
+          "id": "cafe-rio-20",
+          "serving": "1 menu serving",
+          "name": "Sweet Pork Barbacoa",
+          "kcal": 70,
+          "p": 4.0,
+          "c": 10.0,
+          "f": 2.0
+        }
+      ]
+    },
+    {
+      "id": "cafe-zupas",
+      "name": "Cafe Zupas",
+      "source": "https://www.nutritionix.com/cafe-zupas/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Cafe Zupas menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "cafe-zupas-1",
+          "serving": "1 menu serving",
+          "name": "Sandwich, Veggie Crispy Chick'n, White",
+          "kcal": 830,
+          "p": 56.0,
+          "c": 74.0,
+          "f": 47.0
+        },
+        {
+          "id": "cafe-zupas-2",
+          "serving": "1 menu serving",
+          "name": "Power Bowl",
+          "kcal": 550,
+          "p": 37.0,
+          "c": 17.0,
+          "f": 37.0
+        },
+        {
+          "id": "cafe-zupas-3",
+          "serving": "1 menu serving",
+          "name": "Salad, California Cobb with Fresh Herb Vinaigrette, Large",
+          "kcal": 520,
+          "p": 32.0,
+          "c": 15.0,
+          "f": 37.0
+        },
+        {
+          "id": "cafe-zupas-4",
+          "serving": "1 menu serving",
+          "name": "Mediterranean Bowl",
+          "kcal": 710,
+          "p": 32.0,
+          "c": 64.0,
+          "f": 38.0
+        },
+        {
+          "id": "cafe-zupas-5",
+          "serving": "1 menu serving",
+          "name": "Sandwich, Spicy Chicken, White",
+          "kcal": 670,
+          "p": 30.0,
+          "c": 77.0,
+          "f": 25.0
+        },
+        {
+          "id": "cafe-zupas-6",
+          "serving": "1 menu serving",
+          "name": "Sandwich, House Chicken, White",
+          "kcal": 700,
+          "p": 30.0,
+          "c": 81.0,
+          "f": 26.0
+        },
+        {
+          "id": "cafe-zupas-7",
+          "serving": "1 menu serving",
+          "name": "Sandwich, Spicy Chicken, Wheat",
+          "kcal": 610,
+          "p": 29.0,
+          "c": 69.0,
+          "f": 23.0
+        },
+        {
+          "id": "cafe-zupas-8",
+          "serving": "1 menu serving",
+          "name": "Sandwich, House Chicken, Wheat",
+          "kcal": 640,
+          "p": 29.0,
+          "c": 73.0,
+          "f": 24.0
+        },
+        {
+          "id": "cafe-zupas-9",
+          "serving": "1 menu serving",
+          "name": "Southwest Avocado Bowl",
+          "kcal": 650,
+          "p": 29.0,
+          "c": 64.0,
+          "f": 31.0
+        },
+        {
+          "id": "cafe-zupas-10",
+          "serving": "1 menu serving",
+          "name": "Nourish Bowl",
+          "kcal": 640,
+          "p": 28.0,
+          "c": 63.0,
+          "f": 32.0
+        },
+        {
+          "id": "cafe-zupas-11",
+          "serving": "1 menu serving",
+          "name": "Sandwich, Brisket Grilled Cheese, White",
+          "kcal": 720,
+          "p": 28.0,
+          "c": 53.0,
+          "f": 42.0
+        },
+        {
+          "id": "cafe-zupas-12",
+          "serving": "1 menu serving",
+          "name": "Sandwich, Brisket Grilled Cheese, Wheat",
+          "kcal": 660,
+          "p": 27.0,
+          "c": 45.0,
+          "f": 40.0
+        },
+        {
+          "id": "cafe-zupas-13",
+          "serving": "1 menu serving",
+          "name": "Sandwich, Pesto Chicken, White",
+          "kcal": 730,
+          "p": 27.0,
+          "c": 54.0,
+          "f": 42.0
+        },
+        {
+          "id": "cafe-zupas-14",
+          "serving": "1 menu serving",
+          "name": "Sandwich, Turkey Bacon Avocado, White",
+          "kcal": 640,
+          "p": 26.0,
+          "c": 59.0,
+          "f": 31.0
+        },
+        {
+          "id": "cafe-zupas-15",
+          "serving": "1 menu serving",
+          "name": "Sandwich, Turkey Avocado Club, White",
+          "kcal": 650,
+          "p": 26.0,
+          "c": 60.0,
+          "f": 32.0
+        },
+        {
+          "id": "cafe-zupas-16",
+          "serving": "1 menu serving",
+          "name": "Sandwich, Pesto Chicken, Wheat",
+          "kcal": 670,
+          "p": 26.0,
+          "c": 46.0,
+          "f": 40.0
+        },
+        {
+          "id": "cafe-zupas-17",
+          "serving": "1 menu serving",
+          "name": "Sandwich, Turkey Bacon Avocado, Wheat",
+          "kcal": 580,
+          "p": 25.0,
+          "c": 51.0,
+          "f": 29.0
+        },
+        {
+          "id": "cafe-zupas-18",
+          "serving": "1 menu serving",
+          "name": "Sandwich, Turkey Avocado Club, Wheat",
+          "kcal": 590,
+          "p": 25.0,
+          "c": 52.0,
+          "f": 30.0
+        },
+        {
+          "id": "cafe-zupas-19",
+          "serving": "1 menu serving",
+          "name": "Sandwich, Veggie Crispy Chick'n, Wheat",
+          "kcal": 770,
+          "p": 25.0,
+          "c": 66.0,
+          "f": 45.0
+        },
+        {
+          "id": "cafe-zupas-20",
+          "serving": "1 menu serving",
+          "name": "Sandwich, Ham & Smoked Gouda, White",
+          "kcal": 690,
+          "p": 24.0,
+          "c": 55.0,
+          "f": 39.0
+        }
+      ]
+    },
+    {
+      "id": "swig",
+      "name": "Swig",
+      "source": "https://www.nutritionix.com/swig/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Swig menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "swig-1",
+          "serving": "1 menu serving",
+          "name": "Dragon Dew Soda, 12 fl oz",
+          "kcal": 200,
+          "p": 1.0,
+          "c": 50.0,
+          "f": 1.0
+        },
+        {
+          "id": "swig-2",
+          "serving": "1 menu serving",
+          "name": "Dragon Dew Soda, 16 fl oz",
+          "kcal": 250,
+          "p": 1.0,
+          "c": 62.0,
+          "f": 1.0
+        },
+        {
+          "id": "swig-3",
+          "serving": "1 menu serving",
+          "name": "Happy Camper Soda, 32 fl oz",
+          "kcal": 330,
+          "p": 1.0,
+          "c": 82.0,
+          "f": 2.5
+        },
+        {
+          "id": "swig-4",
+          "serving": "1 menu serving",
+          "name": "Heartbreaker Soda, 32 fl oz",
+          "kcal": 340,
+          "p": 1.0,
+          "c": 86.0,
+          "f": 2.5
+        },
+        {
+          "id": "swig-5",
+          "serving": "1 menu serving",
+          "name": "Life's a Peach Soda, 32 fl oz",
+          "kcal": 340,
+          "p": 1.0,
+          "c": 87.0,
+          "f": 2.5
+        },
+        {
+          "id": "swig-6",
+          "serving": "1 menu serving",
+          "name": "Naughty & Nice Soda, 32 fl oz",
+          "kcal": 340,
+          "p": 1.0,
+          "c": 86.0,
+          "f": 2.5
+        },
+        {
+          "id": "swig-7",
+          "serving": "1 menu serving",
+          "name": "Smooth Criminal Soda, 32 fl oz",
+          "kcal": 340,
+          "p": 1.0,
+          "c": 86.0,
+          "f": 2.5
+        },
+        {
+          "id": "swig-8",
+          "serving": "1 menu serving",
+          "name": "Dragon Dew Soda, 24 fl oz",
+          "kcal": 370,
+          "p": 1.0,
+          "c": 92.0,
+          "f": 1.5
+        },
+        {
+          "id": "swig-9",
+          "serving": "1 menu serving",
+          "name": "Orange You Glad Soda, 32 fl oz",
+          "kcal": 370,
+          "p": 1.0,
+          "c": 91.0,
+          "f": 2.5
+        },
+        {
+          "id": "swig-10",
+          "serving": "1 menu serving",
+          "name": "Happy Camper Soda, 44 fl oz",
+          "kcal": 460,
+          "p": 1.0,
+          "c": 114.0,
+          "f": 3.5
+        },
+        {
+          "id": "swig-11",
+          "serving": "1 menu serving",
+          "name": "Heartbreaker Soda, 44 fl oz",
+          "kcal": 470,
+          "p": 1.0,
+          "c": 120.0,
+          "f": 3.5
+        },
+        {
+          "id": "swig-12",
+          "serving": "1 menu serving",
+          "name": "Naughty & Nice Soda, 44 fl oz",
+          "kcal": 470,
+          "p": 1.0,
+          "c": 119.0,
+          "f": 3.5
+        },
+        {
+          "id": "swig-13",
+          "serving": "1 menu serving",
+          "name": "Smooth Criminal Soda, 44 fl oz",
+          "kcal": 470,
+          "p": 1.0,
+          "c": 120.0,
+          "f": 3.5
+        },
+        {
+          "id": "swig-14",
+          "serving": "1 menu serving",
+          "name": "Life's a Peach Soda, 44 fl oz",
+          "kcal": 480,
+          "p": 1.0,
+          "c": 120.0,
+          "f": 3.5
+        },
+        {
+          "id": "swig-15",
+          "serving": "1 menu serving",
+          "name": "Dragon Dew Soda, 32 fl oz",
+          "kcal": 500,
+          "p": 1.0,
+          "c": 124.0,
+          "f": 2.5
+        },
+        {
+          "id": "swig-16",
+          "serving": "1 menu serving",
+          "name": "Orange You Glad Soda, 44 fl oz",
+          "kcal": 510,
+          "p": 1.0,
+          "c": 127.0,
+          "f": 3.5
+        },
+        {
+          "id": "swig-17",
+          "serving": "1 menu serving",
+          "name": "Jolly Elf Soda, 44 fl oz",
+          "kcal": 590,
+          "p": 1.0,
+          "c": 154.0,
+          "f": 0.0
+        },
+        {
+          "id": "swig-18",
+          "serving": "1 menu serving",
+          "name": "Dragon Dew Soda, 44 fl oz",
+          "kcal": 680,
+          "p": 1.0,
+          "c": 169.0,
+          "f": 3.0
+        },
+        {
+          "id": "swig-19",
+          "serving": "1 menu serving",
+          "name": "Big Al Soda, 12 fl oz",
+          "kcal": 15,
+          "p": 0.0,
+          "c": 4.0,
+          "f": 0.0
+        },
+        {
+          "id": "swig-20",
+          "serving": "1 menu serving",
+          "name": "Big Al Soda, 16 fl oz",
+          "kcal": 15,
+          "p": 0.0,
+          "c": 4.0,
+          "f": 0.0
+        }
+      ]
+    },
+    {
+      "id": "kneaders",
+      "name": "Kneaders",
+      "source": "https://www.nutritionix.com/kneaders/menu/premium",
+      "sourceDate": "2026-11-19",
+      "sourceNote": "Kneaders menu nutrition table on Nutritionix, retrieved 2026-11-19.",
+      "items": [
+        {
+          "id": "kneaders-1",
+          "serving": "1 menu serving",
+          "name": "Dave's BLT Sandwich, Whole without Bread",
+          "kcal": 480,
+          "p": 27.0,
+          "c": 8.0,
+          "f": 37.0
+        },
+        {
+          "id": "kneaders-2",
+          "serving": "1 menu serving",
+          "name": "Caffe Latte",
+          "kcal": 210,
+          "p": 15.0,
+          "c": 23.0,
+          "f": 7.0
+        },
+        {
+          "id": "kneaders-3",
+          "serving": "1 menu serving",
+          "name": "Chai Tea Latte",
+          "kcal": 440,
+          "p": 15.0,
+          "c": 80.0,
+          "f": 7.0
+        },
+        {
+          "id": "kneaders-4",
+          "serving": "1 menu serving",
+          "name": "Dave's BLT Sandwich, Half without Bread",
+          "kcal": 240,
+          "p": 14.0,
+          "c": 4.0,
+          "f": 19.0
+        },
+        {
+          "id": "kneaders-5",
+          "serving": "1 menu serving",
+          "name": "Omelets, American with Egg Whites",
+          "kcal": 660,
+          "p": 47.0,
+          "c": 38.0,
+          "f": 35.0
+        },
+        {
+          "id": "kneaders-6",
+          "serving": "1 menu serving",
+          "name": "Famous Sandwiches, Chicken, Cheese & Ham Sandwich on Ciabatta",
+          "kcal": 850,
+          "p": 46.0,
+          "c": 105.0,
+          "f": 27.0
+        },
+        {
+          "id": "kneaders-7",
+          "serving": "1 menu serving",
+          "name": "Famous Sandwiches, Turkey, Ham & Beef Club Sandwich on French Country",
+          "kcal": 710,
+          "p": 45.0,
+          "c": 73.0,
+          "f": 26.0
+        },
+        {
+          "id": "kneaders-8",
+          "serving": "1 menu serving",
+          "name": "Omelets, Italian with Egg Whites",
+          "kcal": 780,
+          "p": 45.0,
+          "c": 45.0,
+          "f": 47.0
+        },
+        {
+          "id": "kneaders-9",
+          "serving": "1 menu serving",
+          "name": "Famous Sandwiches, Turkey Bacon Avocado Sandwich on Focaccia",
+          "kcal": 850,
+          "p": 44.0,
+          "c": 89.0,
+          "f": 36.0
+        },
+        {
+          "id": "kneaders-10",
+          "serving": "1 menu serving",
+          "name": "Pastrami Sandwich, Whole without Bread",
+          "kcal": 430,
+          "p": 40.0,
+          "c": 12.0,
+          "f": 25.0
+        },
+        {
+          "id": "kneaders-11",
+          "serving": "1 menu serving",
+          "name": "Chicken Tortilla Soup, 32oz",
+          "kcal": 480,
+          "p": 40.0,
+          "c": 36.0,
+          "f": 24.0
+        },
+        {
+          "id": "kneaders-12",
+          "serving": "1 menu serving",
+          "name": "Panini, Chicken Pesto on French Country",
+          "kcal": 650,
+          "p": 40.0,
+          "c": 65.0,
+          "f": 25.0
+        },
+        {
+          "id": "kneaders-13",
+          "serving": "1 menu serving",
+          "name": "Sausage, Egg & Cheese Sandwich Breakfast Sandwich",
+          "kcal": 850,
+          "p": 38.0,
+          "c": 30.0,
+          "f": 65.0
+        },
+        {
+          "id": "kneaders-14",
+          "serving": "1 menu serving",
+          "name": "Famous Sandwiches, French Dip on Baguette",
+          "kcal": 610,
+          "p": 37.0,
+          "c": 91.0,
+          "f": 11.0
+        },
+        {
+          "id": "kneaders-15",
+          "serving": "1 menu serving",
+          "name": "Sausage, Egg & Cheese Sandwich with Egg Whites Breakfast Sandwich",
+          "kcal": 750,
+          "p": 36.0,
+          "c": 30.0,
+          "f": 55.0
+        },
+        {
+          "id": "kneaders-16",
+          "serving": "1 menu serving",
+          "name": "Ham, Egg & Cheese Breakfast Sandwich",
+          "kcal": 650,
+          "p": 35.0,
+          "c": 29.0,
+          "f": 44.0
+        },
+        {
+          "id": "kneaders-17",
+          "serving": "1 menu serving",
+          "name": "Provolone & Muenster Sandwich Cheese Melt, Whole",
+          "kcal": 840,
+          "p": 35.0,
+          "c": 97.0,
+          "f": 34.0
+        },
+        {
+          "id": "kneaders-18",
+          "serving": "1 menu serving",
+          "name": "Omelets, Greek with Egg Whites",
+          "kcal": 480,
+          "p": 34.0,
+          "c": 43.0,
+          "f": 19.0
+        },
+        {
+          "id": "kneaders-19",
+          "serving": "1 menu serving",
+          "name": "Bacon, Egg & Cheese Breakfast Sandwich",
+          "kcal": 690,
+          "p": 34.0,
+          "c": 29.0,
+          "f": 49.0
+        },
+        {
+          "id": "kneaders-20",
+          "serving": "1 menu serving",
+          "name": "Ham, Egg & Cheese with Egg Whites Breakfast Sandwich",
+          "kcal": 550,
+          "p": 33.0,
+          "c": 29.0,
+          "f": 33.0
+        }
+      ]
+    }
+  ]
+}

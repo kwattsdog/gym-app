@@ -119,7 +119,8 @@ ol{padding-left:20px}
 .fdel{position:absolute;right:0;top:0;bottom:0;width:84px;border:0;background:var(--bad);color:#fff;font-weight:800}
 .fcard{position:relative;z-index:1;background:var(--card2);border-radius:12px;padding:8px 8px 8px 12px;display:flex;gap:6px;align-items:center;touch-action:pan-y}
 .fcard .nm{flex:1;text-align:left;background:none;border:0;color:inherit;font:inherit;padding:4px 0;min-height:44px}
-.fres{display:block;width:100%;text-align:left;background:var(--card2);border:0;color:inherit;border-radius:12px;padding:10px 12px;margin:6px 0;min-height:52px}
+.fres{display:block;width:100%;text-align:left;background:var(--card2);border:1px solid transparent;color:inherit;border-radius:12px;padding:10px 12px;margin:6px 0;min-height:52px}
+.fres.fit{border-color:var(--ok)}
 .fhit{display:flex;gap:6px;align-items:center}.fhit .fres{flex:1;margin:0}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
 .chip{border:1px solid var(--line);background:var(--card2);color:var(--txt);border-radius:999px;padding:8px 12px;min-height:40px;font-weight:700}
@@ -450,7 +451,7 @@ function profilesWithData(){return allPeople().filter(hasProfileData);}
 
 /* ---------- ui state ---------- */
 const today0=nowDenver();
-const ui={person:getDevice()||store.lastPerson,tab:'workout',day:today0.dow,swapOpen:null,weekOff:0,saved:null,photoView:null,gate:null,adding:false,planChoice:'Sasha',pendingProfile:null,foodDate:null,foodMode:'day',foodMeal:null,foodQ:'',foodPick:null,foodQty:1,foodUnit:'',foodEdit:null,foodSpan:7,qaFull:false};
+const ui={person:getDevice()||store.lastPerson,tab:'workout',day:today0.dow,swapOpen:null,weekOff:0,saved:null,photoView:null,gate:null,adding:false,planChoice:'Sasha',pendingProfile:null,foodDate:null,foodMode:'day',foodMeal:null,foodQ:'',foodPick:null,foodQty:1,foodUnit:'',foodEdit:null,foodSpan:7,qaFull:false,foodScope:'foods',restId:'',restSort:'fit'};
 
 /* ---------- sessions helpers ---------- */
 const sessionsOf=p=>Object.values(store.sessions).filter(s=>s&&s.person===p).sort((a,b)=>(a.date+(a.finishedAt||''))<(b.date+(b.finishedAt||''))?1:-1);
@@ -876,6 +877,48 @@ function searchLocal(q){
   const words=query.split(/\s+/).filter(Boolean);
   return pool.filter(f=>words.every(w=>(f.name+' '+(f.brand||'')).toLowerCase().indexOf(w)>=0)).slice(0,20);
 }
+let RESTAURANTS=[],REST_READY=false;
+function restToFood(rest,it){
+  const food={id:'rest:'+rest.id+':'+it.id,name:it.name,brand:rest.name,restaurantId:rest.id,source:'restaurant',per100:null,perUnit:{kcal:it.kcal,p:it.p,c:it.c,f:it.f},servings:[{unit:'serving',grams:null,label:it.serving||'1 serving'}]};
+  FOOD_BY_ID[food.id]=food;
+  return food;
+}
+function loadRestaurants(){
+  if(REST_READY)return Promise.resolve(RESTAURANTS);
+  return fetch('restaurants.json').then(r=>{if(!r.ok)throw new Error('menu');return r.json();}).then(data=>{
+    RESTAURANTS=data.restaurants||[];
+    RESTAURANTS.forEach(rest=>(rest.items||[]).forEach(it=>restToFood(rest,it)));
+    REST_READY=true;
+    return RESTAURANTS;
+  }).catch(()=>{REST_READY=true;RESTAURANTS=[];return [];});
+}
+function customRestFoods(restName){
+  const want=String(restName||'').trim().toLowerCase();
+  return (foodLib(ui.person).custom||[]).filter(f=>f&&(f.source==='restaurant'||f.restaurantId)&&(String(f.brand||'').toLowerCase()===want));
+}
+function allRestFoods(){
+  const out=[];
+  (RESTAURANTS||[]).forEach(rest=>(rest.items||[]).forEach(it=>{
+    out.push(FOOD_BY_ID['rest:'+rest.id+':'+it.id]||restToFood(rest,it));
+  }));
+  (foodLib(ui.person).custom||[]).forEach(f=>{if(f&&(f.source==='restaurant'||f.restaurantId))out.push(f);});
+  return out;
+}
+function searchRestFoods(q){
+  const words=String(q||'').trim().toLowerCase().split(/\s+/).filter(Boolean);
+  if(!words.length)return [];
+  return allRestFoods().filter(f=>words.every(w=>(f.name+' '+(f.brand||'')).toLowerCase().indexOf(w)>=0)).slice(0,20);
+}
+function fitsToday(food){
+  const t=foodTotals(ui.person,nowDenver().date),g=targetsFor(ui.person);
+  const left=g.kcal-t.kcal;
+  const m=computeMacros(food,1,defaultUnit(food)==='g'?'serving':defaultUnit(food));
+  return left>0&&m.kcal<=left+0.5;
+}
+function proteinDensity(food){
+  const m=computeMacros(food,1,'serving');
+  return (m.p||0)/Math.max(m.kcal||1,1);
+}
 function offToFood(p){
   if(!p)return null;
   const n=p.nutriments||{};
@@ -959,23 +1002,41 @@ function foodHistoryCharts(p){
 function hitButton(f){
   const unit=defaultUnit(f),m=computeMacros(f,unit==='g'?100:1,unit==='g'?'g':unit);
   const star=isFav(ui.person,f.id)?'★':'☆';
-  return '<div class="fhit"><button class="fres" data-act="foodpick" data-id="'+esc(f.id)+'"><b>'+esc(f.name)+'</b>'+(f.brand?' <span class="tiny muted">'+esc(f.brand)+'</span>':'')+'<br><span class="tiny muted">'+esc(macroLine(m))+(unit==='g'?' / 100 g':' / '+(unitLabel(f,unit)))+'</span></button><button class="star" data-act="foodstar" data-id="'+esc(f.id)+'" aria-label="Favorite">'+star+'</button></div>';
+  const fit=fitsToday(f);
+  return '<div class="fhit"><button class="fres'+(fit?' fit':'')+'" data-act="foodpick" data-id="'+esc(f.id)+'"><b>'+esc(f.name)+'</b>'+(f.brand?' <span class="tiny muted">'+esc(f.brand)+'</span>':'')+(fit?' <span class="tiny good">Fits today</span>':'')+'<br><span class="tiny muted">'+esc(macroLine(m))+(unit==='g'?' / 100 g':' / '+(unitLabel(f,unit)))+'</span></button><button class="star" data-act="foodstar" data-id="'+esc(f.id)+'" aria-label="Favorite">'+star+'</button></div>';
 }
-function renderHits(local,off,status){
+function renderHits(local,off,status,rests){
+  rests=rests||[];
   let h='';
   if(local.length)h+='<p class="tiny muted">On this phone</p>'+local.map(hitButton).join('');
-  if(off.length)h+='<p class="tiny muted">Open Food Facts</p>'+off.map(hitButton).join('');
-  if(!local.length&&!off.length)h+='<p class="muted">No matches yet.</p>';
+  if(rests.length)h+='<p class="tiny muted">Restaurant menus</p>'+rests.map(hitButton).join('');
+  if(off.length)h+='<p class="tiny muted">Community data from Open Food Facts</p>'+off.map(hitButton).join('');
+  if(!local.length&&!off.length&&!rests.length)h+='<p class="muted">No matches yet.</p>';
   if(status==='offline')h+='<p class="note">Couldn\u2019t reach Open Food Facts. Foods saved on this phone and quick add still work.</p>';
   else if(status==='searching'&&ui.foodQ&&ui.foodQ.trim().length>=2)h+='<p class="tiny muted">Searching packaged foods…</p>';
   return h;
 }
 let foodTimer=null,foodAbort=null;
 function scheduleFoodSearch(){clearTimeout(foodTimer);foodTimer=setTimeout(()=>runFoodSearch(ui.foodQ||''),250);}
+async function runRestOff(q){
+  const box=$('#restOff');if(!box)return;
+  box.innerHTML='<p class="tiny muted">Searching Open Food Facts…</p>';
+  try{
+    const res=await fetch('https://world.openfoodfacts.org/cgi/search.pl?search_terms='+encodeURIComponent(String(q).trim())+'&search_simple=1&action=process&json=1&page_size=12&fields=code,product_name,brands,nutriments,serving_size,serving_quantity,generic_name');
+    if(!res.ok)throw new Error('off');
+    const data=await res.json();
+    const off=(data.products||[]).map(offToFood).filter(Boolean).slice(0,12);
+    if(!$('#restOff')||ui.restQ!==q&&String(ui.restQ||'')!==String(q))return;
+    $('#restOff').innerHTML='<p class="tiny muted">Community data from Open Food Facts. Not the restaurant’s official menu.</p>'+(off.length?off.map(hitButton).join(''):'<p class="muted">No community matches.</p>');
+  }catch(e){
+    if($('#restOff'))$('#restOff').innerHTML='<p class="note">Couldn’t reach Open Food Facts. Saved restaurant menus still work offline.</p>';
+  }
+}
 async function runFoodSearch(q){
   const box=$('#foodResults');if(!box)return;
   const local=searchLocal(q);
-  local.forEach(f=>{FOOD_BY_ID[f.id]=f;});
+  const rests=searchRestFoods(q);
+  local.concat(rests).forEach(f=>{FOOD_BY_ID[f.id]=f;});
   if(!String(q||'').trim()){
     const L=foodLib(ui.person);
     box.innerHTML=(L.fav.length?'<p class="tiny muted">Favorites</p>'+L.fav.slice(0,12).map(f=>{FOOD_BY_ID[f.id]=f;return hitButton(f);}).join(''):'')+
@@ -983,9 +1044,9 @@ async function runFoodSearch(q){
       (!L.fav.length&&!L.recent.length?'<p class="muted">Search a food, scan a barcode, or quick add.</p>':'');
     return;
   }
-  box.innerHTML=renderHits(local,[],'searching');
+  box.innerHTML=renderHits(local,[],'searching',rests);
   if(foodAbort)foodAbort.abort();
-  if(String(q).trim().length<2){box.innerHTML=renderHits(local,[], '');return;}
+  if(String(q).trim().length<2){box.innerHTML=renderHits(local,[], '',rests);return;}
   const ac=new AbortController();foodAbort=ac;
   try{
     const url='https://world.openfoodfacts.org/cgi/search.pl?search_terms='+encodeURIComponent(String(q).trim())+'&search_simple=1&action=process&json=1&page_size=20&fields=code,product_name,brands,nutriments,serving_size,serving_quantity,generic_name';
@@ -994,10 +1055,10 @@ async function runFoodSearch(q){
     const data=await res.json();
     if(ui.foodQ!==q||!$('#foodResults'))return;
     const off=(data.products||[]).map(offToFood).filter(Boolean).filter(f=>!local.some(l=>l.id===f.id)).slice(0,20);
-    $('#foodResults').innerHTML=renderHits(local,off,'');
+    $('#foodResults').innerHTML=renderHits(local,off,'',rests);
   }catch(e){
     if(e&&e.name==='AbortError')return;
-    if($('#foodResults')&&ui.foodQ===q)$('#foodResults').innerHTML=renderHits(local,[],'offline');
+    if($('#foodResults')&&ui.foodQ===q)$('#foodResults').innerHTML=renderHits(local,[],'offline',rests);
   }
 }
 function foodPreviewHTML(){
@@ -1011,6 +1072,7 @@ function viewFood(){
   if(ui.foodMode==='scan')return viewFoodScan();
   if(ui.foodMode==='quick')return viewFoodQuick();
   if(ui.foodMode==='manual')return viewFoodManual();
+  if(ui.foodMode==='restcustom')return viewRestCustom();
   if(ui.foodMode==='targets')return viewFoodTargets();
   const p=ui.person,iso=foodDate(),today=nowDenver().date,day=ensureDay(p,iso);
   const atToday=iso===today;
@@ -1033,11 +1095,55 @@ function viewFood(){
   return h;
 }
 function viewFoodAdd(){
-  return '<div class="dayhead"><h1>Add food</h1><p class="muted">'+esc((MEALS.find(m=>m[0]===(ui.foodMeal||mealNow()))||MEALS[0])[1])+' · '+fmtDate(foodDate())+'</p></div>'+
+  const scope=ui.foodScope==='restaurants'?'restaurants':'foods';
+  let h='<div class="dayhead"><h1>Add food</h1><p class="muted">'+esc((MEALS.find(m=>m[0]===(ui.foodMeal||mealNow()))||MEALS[0])[1])+' · '+fmtDate(foodDate())+'</p></div>'+
     '<button class="btn mini" data-act="foodback">Back</button>'+
-    '<label>Search<input id="foodQ" autocomplete="off" placeholder="Chicken, oats, yogurt…" value="'+esc(ui.foodQ||'')+'"></label>'+
+    '<div class="chips"><button class="chip'+(scope==='foods'?' on':'')+'" data-act="foodscope" data-scope="foods">Foods</button><button class="chip'+(scope==='restaurants'?' on':'')+'" data-act="foodscope" data-scope="restaurants">Restaurants</button></div>';
+  if(scope==='restaurants')return h+viewRestaurants();
+  return h+'<label>Search<input id="foodQ" autocomplete="off" placeholder="Chicken, oats, yogurt, chick-fil-a sandwich…" value="'+esc(ui.foodQ||'')+'"></label>'+
     '<div class="acts"><button class="btn" data-act="foodscan">Scan barcode</button><button class="btn" data-act="foodquick">Quick add</button><button class="btn" data-act="foodmanual">Custom food</button></div>'+
     '<div id="foodResults"></div>';
+}
+function viewRestaurants(){
+  if(!REST_READY)return '<p class="muted">Loading restaurant menus saved on this phone…</p>';
+  if(ui.restId)return viewRestMenu();
+  const q=String(ui.restQ||'').trim().toLowerCase();
+  const list=(RESTAURANTS||[]).filter(r=>!q||r.name.toLowerCase().indexOf(q)>=0);
+  let h='<label>Find a restaurant<input id="restQ" autocomplete="off" placeholder="Chick-fil-A, Cafe Rio…" value="'+esc(ui.restQ||'')+'"></label>';
+  h+='<div class="acts"><button class="btn" data-act="restcustom">Add restaurant meal</button></div>';
+  h+='<div id="restList">'+list.map(r=>'<button class="fres" data-act="restopen" data-id="'+esc(r.id)+'"><b>'+esc(r.name)+'</b><br><span class="tiny muted">'+r.items.length+' saved items</span></button>').join('')+'</div><div id="restOff"></div>';
+  return h;
+}
+function viewRestMenu(){
+  const rest=(RESTAURANTS||[]).find(r=>r.id===ui.restId);
+  if(!rest)return '<p class="muted">Menu not found.</p>';
+  const q=String(ui.restMenuQ||'').trim().toLowerCase();
+  const words=q.split(/\s+/).filter(Boolean);
+  let foods=(rest.items||[]).map(it=>FOOD_BY_ID['rest:'+rest.id+':'+it.id]||restToFood(rest,it));
+  customRestFoods(rest.name).forEach(f=>{FOOD_BY_ID[f.id]=f;foods.push(f);});
+  if(words.length)foods=foods.filter(f=>words.every(w=>(f.name+' '+(f.brand||'')).toLowerCase().indexOf(w)>=0));
+  const sort=ui.restSort||'fit';
+  foods.sort((a,b)=>{
+    if(sort==='name')return a.name.localeCompare(b.name);
+    if(sort==='density')return proteinDensity(b)-proteinDensity(a);
+    return (fitsToday(b)-fitsToday(a))||(proteinDensity(b)-proteinDensity(a));
+  });
+  let h='<button class="btn mini" data-act="restback">All restaurants</button><h2>'+esc(rest.name)+'</h2>';
+  h+='<p class="tiny muted">'+esc(rest.sourceNote||'')+'</p>';
+  h+='<label>Search this menu<input id="restMenuQ" autocomplete="off" placeholder="grilled chicken" value="'+esc(ui.restMenuQ||'')+'"></label>';
+  h+='<div class="chips"><button class="chip'+(sort==='fit'?' on':'')+'" data-act="restsort" data-sort="fit">Fits my day</button><button class="chip'+(sort==='density'?' on':'')+'" data-act="restsort" data-sort="density">Protein per calorie</button><button class="chip'+(sort==='name'?' on':'')+'" data-act="restsort" data-sort="name">Name</button></div>';
+  h+='<button class="btn" data-act="restcustom" data-brand="'+esc(rest.name)+'">Add restaurant meal</button>';
+  h+=foods.length?foods.map(hitButton).join(''):'<p class="muted">No items match.</p>';
+  h+='<div id="restOff"></div>';
+  return h;
+}
+function viewRestCustom(){
+  return '<div class="dayhead"><h1>Add restaurant meal</h1><p class="muted">Saved on this phone for '+esc(ui.person)+' and reused under that restaurant.</p></div><button class="btn mini" data-act="foodback">Back</button>'+
+    '<section class="card"><label>Restaurant<input id="rcRest" value="'+esc(ui.rcRest||'')+'" placeholder="Cafe Rio"></label><label>Item<input id="rcItem" value="'+esc(ui.rcItem||'')+'" placeholder="Grilled chicken bowl"></label>'+
+    '<div class="two"><label>Calories<input id="rcCal" inputmode="decimal" value="'+esc(ui.rcCal||'')+'"></label><label>Protein (g)<input id="rcP" inputmode="decimal" value="'+esc(ui.rcP||'')+'"></label></div>'+
+    '<div class="two"><label>Carbs (g, optional)<input id="rcC" inputmode="decimal" value="'+esc(ui.rcC||'')+'"></label><label>Fat (g, optional)<input id="rcF" inputmode="decimal" value="'+esc(ui.rcF||'')+'"></label></div>'+
+    '<p class="tiny muted">Meal</p><div class="chips">'+MEALS.map(m=>'<button class="chip'+(m[0]===ui.foodMeal?' on':'')+'" data-act="foodmeal" data-meal="'+m[0]+'">'+m[1]+'</button>').join('')+'</div>'+
+    '<button class="btn primary big" data-act="restsave">Save and log</button></section>';
 }
 function viewFoodPick(){
   const f=ui.foodPick;if(!f)return viewFoodAdd();
@@ -1688,7 +1794,10 @@ function render(keepScroll){
   if(keepScroll)window.scrollTo(0,y);else window.scrollTo(0,0);
   if(ui.tab==='progress')loadPhotos();
   if(ui.tab==='workout')document.querySelectorAll('.plate-hint').forEach(el=>{const inp=document.querySelector('.set[data-key="'+el.dataset.key+'"] input[data-f="w"]');if(inp)updateHint(inp);});
-  if(ui.tab==='food'&&ui.foodMode==='add')runFoodSearch(ui.foodQ||'');
+  if(ui.tab==='food'&&ui.foodMode==='add'&&ui.foodScope==='restaurants'){
+    if(!REST_READY)loadRestaurants().then(()=>{if(ui.tab==='food'&&ui.foodScope==='restaurants')render(true);});
+    else if(!ui.restId){const q=String(ui.restQ||'').trim();const hit=(RESTAURANTS||[]).some(r=>r.name.toLowerCase().indexOf(q.toLowerCase())>=0);if(q.length>=3&&!hit)runRestOff(q);}
+  }else if(ui.tab==='food'&&ui.foodMode==='add')runFoodSearch(ui.foodQ||'');
   if(ui.tab==='food'&&ui.foodMode==='scan')startScan().catch(()=>{});
   if(locked)maybeRemind(locked);
   if(ui.tab==='more'&&navigator.storage&&navigator.storage.estimate)navigator.storage.estimate().then(e=>{const el=$('#quota');if(el&&e&&e.usage!=null)el.textContent='Browser storage in use: about '+Math.round(e.usage/1024)+' KB'+(e.quota?' of '+Math.round(e.quota/1024/1024)+' MB':'')+'.';}).catch(()=>{});
@@ -1955,6 +2064,9 @@ document.addEventListener('change',e=>{
 document.addEventListener('input',e=>{
   const t=e.target,d=t.dataset||{};
   if(t.id==='foodQ'){ui.foodQ=t.value;scheduleFoodSearch();return;}
+  if(t.id==='restQ'){ui.restQ=t.value;const q=t.value.trim().toLowerCase();const list=(RESTAURANTS||[]).filter(r=>!q||r.name.toLowerCase().indexOf(q)>=0);const box=$('#restList');if(box)box.innerHTML=list.map(r=>'<button class="fres" data-act="restopen" data-id="'+esc(r.id)+'"><b>'+esc(r.name)+'</b><br><span class="tiny muted">'+r.items.length+' saved items</span></button>').join('');if(!list.length&&q.length>=3)runRestOff(t.value);else{const off=$('#restOff');if(off)off.innerHTML='';}return;}
+  if(t.id==='restMenuQ'){ui.restMenuQ=t.value;const pos=t.selectionStart;render(true);const again=$('#restMenuQ');if(again){again.focus();try{again.setSelectionRange(pos,pos);}catch(err){}}return;}
+  if(t.id==='rcRest')ui.rcRest=t.value;else if(t.id==='rcItem')ui.rcItem=t.value;else if(t.id==='rcCal')ui.rcCal=t.value;else if(t.id==='rcP')ui.rcP=t.value;else if(t.id==='rcC')ui.rcC=t.value;else if(t.id==='rcF')ui.rcF=t.value;
   if(t.id==='foodQty'){ui.foodQty=t.value;const prev=$('#foodPrev');if(prev)prev.innerHTML=foodPreviewHTML();return;}
   if(t.id==='qaName')ui.qaName=t.value;
   else if(t.id==='qaCal')ui.qaCal=t.value;
@@ -2036,7 +2148,28 @@ function act(a,b){
     case 'foodday':{const next=addDays(foodDate(),+b.dataset.n);if(next>nowDenver().date)break;ui.foodDate=next===nowDenver().date?null:next;ui.foodMode='day';render();break;}
     case 'foodtoday':ui.foodDate=null;ui.foodMode='day';render();break;
     case 'foodadd':ui.foodMeal=b.dataset.meal||ui.foodMeal||mealNow();ui.foodMode='add';ui.foodQ='';ui.foodEdit=null;render();break;
-    case 'foodback':ui.foodMode=ui.foodMode==='pick'&&!ui.foodEdit?'add':'day';if(ui.foodMode==='day')ui.foodPick=null;stopScan();render(true);break;
+    case 'foodback':
+      if(ui.foodMode==='restcustom'){ui.foodMode='add';ui.foodScope='restaurants';render(true);break;}
+      if(ui.foodMode==='pick'&&ui.foodScope==='restaurants'){ui.foodMode='add';ui.foodPick=null;render(true);break;}
+      if(ui.foodMode==='add'&&ui.restId){ui.restId='';render(true);break;}
+      ui.foodMode=ui.foodMode==='pick'&&!ui.foodEdit?'add':'day';if(ui.foodMode==='day')ui.foodPick=null;stopScan();render(true);break;
+    case 'foodscope':ui.foodScope=b.dataset.scope==='restaurants'?'restaurants':'foods';if(ui.foodScope==='foods')ui.restId='';render();break;
+    case 'restopen':ui.restId=b.dataset.id;ui.restMenuQ='';ui.restSort='fit';render();break;
+    case 'restback':ui.restId='';render(true);break;
+    case 'restsort':ui.restSort=b.dataset.sort||'fit';render(true);break;
+    case 'restcustom':ui.foodMode='restcustom';if(b.dataset.brand)ui.rcRest=b.dataset.brand;render();break;
+    case 'restsave':{
+      const rest=($('#rcRest')&&$('#rcRest').value||ui.rcRest||'').trim();
+      const item=($('#rcItem')&&$('#rcItem').value||'').trim();
+      const cal=num($('#rcCal')?$('#rcCal').value:ui.rcCal),prot=num($('#rcP')?$('#rcP').value:ui.rcP);
+      const carbs=num($('#rcC')?$('#rcC').value:''),fat=num($('#rcF')?$('#rcF').value:'');
+      if(!rest||!item||isNaN(cal)||cal<0||isNaN(prot)||prot<0){toast('Enter the restaurant, item, calories, and protein');break;}
+      const id='custom:rest:'+slugFood(rest+'-'+item);
+      const food={id:id,name:item,brand:rest,restaurantId:slugFood(rest),source:'restaurant',per100:null,perUnit:{kcal:cal,p:prot,c:isNaN(carbs)?0:carbs,f:isNaN(fat)?0:fat},servings:[{unit:'serving',grams:null,label:'1 serving'}]};
+      const L=foodLib(P);L.custom=L.custom.filter(f=>f.id!==id);L.custom.unshift(food);FOOD_BY_ID[id]=food;
+      const meal=ui.foodMeal||mealNow();
+      ensureDay(P,foodDate())[meal].push(entryFrom(food,1,'serving',meal));
+      rememberFood(P,food);ui.foodMode='day';ui.rcRest=ui.rcItem=ui.rcCal=ui.rcP=ui.rcC=ui.rcF='';save();render();toast('Logged '+item);break;}
     case 'foodpick':{const f=FOOD_BY_ID[b.dataset.id];if(f)openPick(f);break;}
     case 'foodunit':ui.foodUnit=b.dataset.unit;render(true);break;
     case 'foodmeal':ui.foodMeal=b.dataset.meal;render(true);break;
@@ -2379,6 +2512,7 @@ function doImport(txt,replace){
 /* ---------- boot ---------- */
 $('#nav').addEventListener('click',e=>{const b=e.target.closest('button[data-tab]');if(b){ui.tab=b.dataset.tab;render();}});
 window.__app={get store(){return store;},ui,render,act,doImport,exportObj,finish,weekStats,plateHint,SWAP_CAT,SWAP_LIB,getDevice,allPeople,peopleIn,LOCAL_FOODS,foodTotals,searchLocal,encodeScore,decodeScore,demoUrl,MEAL_IDEAS,weightOutlook,progressionHint,reportText};
+loadRestaurants();
 render();
 if('serviceWorker' in navigator&&location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
 })();

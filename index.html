@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Home Gym Tracker</title>
+<title>K-Dogs GYM App</title>
 <meta name="theme-color" content="#0b1220">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Gym">
+<meta name="apple-mobile-web-app-title" content="K-Dogs GYM">
 <meta name="robots" content="noindex">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -128,6 +128,11 @@ ol{padding-left:20px}
 #toast.show{transform:translate(-50%,0)}
 .confetti{position:fixed;inset:0;pointer-events:none;z-index:70;overflow:hidden}.confetti span{position:absolute;top:-40px;animation:fall 2s linear forwards}
 @keyframes fall{to{transform:translateY(110vh) rotate(360deg);opacity:.8}}
+.brand{margin:0;font-weight:800;font-size:15px;letter-spacing:.03em}
+.badge{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 10px;margin:4px 4px 0 0;font-size:13px;color:var(--mut)}
+.badge.on{border-color:var(--ok);color:var(--ok);background:#0f2a1c}
+.scoregrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.scoregrid .win{border-color:var(--ok)}
 @media (prefers-reduced-motion:reduce){.bar div,#toast{transition:none}}
 </style>
 </head>
@@ -789,7 +794,7 @@ if(migrateFood(store))save();
 function foodLib(p){
   if(!store.foodLib||typeof store.foodLib!=='object')store.foodLib={};
   if(!store.foodLib[p]||typeof store.foodLib[p]!=='object')store.foodLib[p]={fav:[],custom:[],recent:[]};
-  const L=store.foodLib[p];['fav','custom','recent'].forEach(k=>{if(!Array.isArray(L[k]))L[k]=[];});
+  const L=store.foodLib[p];['fav','custom','recent','ideaFav'].forEach(k=>{if(!Array.isArray(L[k]))L[k]=[];});
   return L;
 }
 function targetsFor(p){
@@ -1011,6 +1016,7 @@ function viewFood(){
   h+='<div class="wk"><button class="btn mini" data-act="foodday" data-n="-1" aria-label="Previous day">‹</button><div style="text-align:center"><b>'+(atToday?'Today':fmtDate(iso))+'</b><br><span class="tiny muted">'+fmtDate(iso)+'</span></div><button class="btn mini" data-act="foodday" data-n="1" '+(atToday?'disabled':'')+' aria-label="Next day">›</button></div>';
   if(!atToday)h+='<p style="text-align:center"><button class="btn mini" data-act="foodtoday">Jump to today</button></p>';
   h+='<section class="card">'+totalsBlock(p,iso)+'<button class="btn mini" data-act="foodtargets">Edit targets</button></section>';
+  h+=ideaCard(p);
   MEALS.forEach(m=>{
     const items=day[m[0]]||[];
     h+='<div class="wk"><h2 class="sec">'+m[1]+'</h2><div class="acts"><button class="btn mini" data-act="foodcopy" data-meal="'+m[0]+'">Copy yesterday</button><button class="btn mini primary" data-act="foodadd" data-meal="'+m[0]+'">Add</button></div></div>';
@@ -1167,6 +1173,319 @@ document.addEventListener('pointerup',e=>{
   else s.row.style.transform='';
 });
 
+/* ---------- meal ideas, demos, streaks, health ---------- */
+const MEAL_IDEAS=[
+{id:'b1',meal:'breakfast',name:'Greek yogurt bowl',kcal:280,p:32,c:28,f:4,ing:'1.5 cups nonfat Greek yogurt, a cup of berries, 1 tsp honey',steps:'Spoon the yogurt into a bowl, add the berries, and drizzle the honey.'},
+{id:'b2',meal:'breakfast',name:'Egg-white omelette',kcal:220,p:28,c:6,f:8,ing:'1 whole egg, 4 whites, a handful of spinach, 1 oz cheese',steps:'Scramble in a nonstick pan. Add spinach, then cheese. Fold and plate.'},
+{id:'b3',meal:'breakfast',name:'Protein oats',kcal:380,p:32,c:48,f:8,ing:'1/2 cup dry oats, 1 scoop whey, 1 cup milk, 1/2 banana',steps:'Microwave the oats and milk. Stir in the whey off the heat and top with banana.'},
+{id:'b4',meal:'breakfast',name:'Cottage cheese and fruit',kcal:260,p:28,c:22,f:5,ing:'1 cup low-fat cottage cheese, 1 cup pineapple or berries',steps:'Put the cottage cheese in a bowl and add the fruit. Eat cold.'},
+{id:'b5',meal:'breakfast',name:'Smoked salmon toast',kcal:340,p:26,c:28,f:12,ing:'1 slice sourdough, 3 oz smoked salmon, a spoon of yogurt',steps:'Toast the bread. Spread the yogurt and lay the salmon on top.'},
+{id:'b6',meal:'breakfast',name:'Tofu scramble',kcal:290,p:24,c:12,f:16,ing:'6 oz firm tofu, peppers, onion, 1 tsp olive oil',steps:'Crumble the tofu into a pan with the oil and vegetables. Cook until hot.'},
+{id:'b7',meal:'breakfast',name:'Protein smoothie',kcal:320,p:35,c:30,f:6,ing:'1 scoop whey, 1 cup milk, 1 banana, ice',steps:'Blend until smooth. Drink it within an hour of mixing.'},
+{id:'b8',meal:'breakfast',name:'Skyr and granola',kcal:340,p:28,c:40,f:8,ing:'1 cup plain skyr, 1/3 cup granola, berries',steps:'Top the skyr with granola and berries. Keep the granola modest.'},
+{id:'l1',meal:'lunch',name:'Chicken rice bowl',kcal:520,p:48,c:50,f:10,ing:'6 oz chicken breast, 1 cup cooked rice, broccoli',steps:'Season and cook the chicken. Serve over the rice with the broccoli.'},
+{id:'l2',meal:'lunch',name:'Tuna plate',kcal:380,p:42,c:18,f:14,ing:'1 can tuna in water, mixed greens, 1 tbsp olive oil, crackers',steps:'Drain the tuna. Toss the greens with oil and put the tuna on top.'},
+{id:'l3',meal:'lunch',name:'Turkey wrap',kcal:450,p:38,c:40,f:14,ing:'1 tortilla, 4 oz deli turkey, a slice of cheese, lettuce',steps:'Layer the turkey, cheese, and lettuce. Roll tight and cut in half.'},
+{id:'l4',meal:'lunch',name:'Salmon and potatoes',kcal:560,p:42,c:40,f:20,ing:'5 oz salmon, 1 medium potato, a handful of greens',steps:'Bake the potato. Cook the salmon in a pan. Serve with the greens.'},
+{id:'l5',meal:'lunch',name:'Lentil chicken soup',kcal:420,p:36,c:40,f:10,ing:'4 oz chicken, 1 cup cooked lentils, broth, carrots',steps:'Simmer the chicken, lentils, and carrots in broth for 15 minutes.'},
+{id:'l6',meal:'lunch',name:'Steak salad',kcal:540,p:46,c:12,f:32,ing:'5 oz sirloin, a big salad, 1 tsp oil',steps:'Cook the steak to your liking. Slice it over the salad.'},
+{id:'l7',meal:'lunch',name:'Shrimp stir fry',kcal:430,p:40,c:35,f:12,ing:'6 oz shrimp, frozen stir-fry vegetables, 1/2 cup rice',steps:'Sear the shrimp. Add the vegetables. Serve over the rice.'},
+{id:'l8',meal:'lunch',name:'Tofu rice bowl',kcal:480,p:30,c:55,f:14,ing:'6 oz tofu, 1 cup rice, soy sauce, broccoli',steps:'Pan-fry the tofu. Serve with rice and broccoli.'},
+{id:'d1',meal:'dinner',name:'Chicken and broccoli',kcal:450,p:50,c:20,f:14,ing:'7 oz chicken breast, 2 cups broccoli, 1 tsp oil',steps:'Bake or pan-cook the chicken. Steam the broccoli. Plate together.'},
+{id:'d2',meal:'dinner',name:'Baked salmon and asparagus',kcal:480,p:42,c:12,f:28,ing:'6 oz salmon, a bunch of asparagus, lemon',steps:'Bake at 400°F for about 12 minutes. Squeeze lemon over the top.'},
+{id:'d3',meal:'dinner',name:'Turkey meatballs and pasta',kcal:560,p:42,c:55,f:16,ing:'5 oz ground turkey, 1 cup cooked pasta, tomato sauce',steps:'Brown the meatballs. Simmer in sauce. Serve over the pasta.'},
+{id:'d4',meal:'dinner',name:'Lean beef and sweet potato',kcal:540,p:44,c:40,f:18,ing:'5 oz lean beef, 1 medium sweet potato, green beans',steps:'Cook the beef. Microwave the potato. Steam the beans.'},
+{id:'d5',meal:'dinner',name:'Shrimp tacos',kcal:460,p:36,c:42,f:14,ing:'5 oz shrimp, 2 corn tortillas, cabbage, salsa',steps:'Cook the shrimp. Warm the tortillas. Add cabbage and salsa.'},
+{id:'d6',meal:'dinner',name:'Chicken stir fry',kcal:470,p:45,c:35,f:12,ing:'6 oz chicken, mixed vegetables, 1/2 cup rice',steps:'Stir-fry the chicken, then the vegetables. Serve over rice.'},
+{id:'d7',meal:'dinner',name:'White fish and rice',kcal:440,p:42,c:45,f:6,ing:'6 oz cod or tilapia, 1 cup rice, lemon, greens',steps:'Bake the fish about 12 minutes. Serve with rice and lemon.'},
+{id:'d8',meal:'dinner',name:'Pork chop and greens',kcal:500,p:42,c:18,f:26,ing:'5 oz pork chop, a big portion of greens, 1 tsp oil',steps:'Cook the chop until no longer pink. Wilt the greens in the pan.'},
+{id:'s1',meal:'snacks',name:'Protein shake',kcal:180,p:30,c:8,f:3,ing:'1 scoop whey, 1 cup water or milk',steps:'Shake or blend and drink.'},
+{id:'s2',meal:'snacks',name:'Cottage cheese cup',kcal:160,p:24,c:8,f:3,ing:'1 cup low-fat cottage cheese',steps:'Eat it cold, plain or with a few berries.'},
+{id:'s3',meal:'snacks',name:'Greek yogurt cup',kcal:150,p:20,c:10,f:2,ing:'1 cup nonfat Greek yogurt',steps:'Eat it straight from the tub.'},
+{id:'s4',meal:'snacks',name:'Jerky and an apple',kcal:220,p:22,c:24,f:3,ing:'1 oz beef jerky, 1 apple',steps:'No cooking. Pair the jerky with the apple.'},
+{id:'s5',meal:'snacks',name:'Edamame',kcal:190,p:18,c:14,f:8,ing:'1 cup shelled edamame',steps:'Microwave from frozen and sprinkle with salt.'},
+{id:'s6',meal:'snacks',name:'Tuna packet',kcal:140,p:30,c:0,f:1,ing:'1 pouch of tuna in water',steps:'Open and eat. Add mustard if you want.'},
+{id:'s7',meal:'snacks',name:'Turkey roll-ups',kcal:180,p:22,c:2,f:9,ing:'3 oz deli turkey, 1 cheese stick',steps:'Wrap the turkey around pieces of the cheese.'},
+{id:'s8',meal:'snacks',name:'Protein bar',kcal:220,p:20,c:22,f:7,ing:'1 protein bar',steps:'Keep one in the gym bag.'},
+{id:'s9',meal:'snacks',name:'Three boiled eggs',kcal:210,p:18,c:2,f:15,ing:'3 eggs',steps:'Boil 10 minutes, cool, and peel.'},
+{id:'s10',meal:'snacks',name:'Protein pudding',kcal:180,p:22,c:14,f:4,ing:'1 cup fairlife or skyr, 1/2 scoop chocolate whey',steps:'Stir the whey into the yogurt until smooth. Chill 10 minutes.'}
+];
+const YT=id=>'https://www.youtube.com/watch?v='+id;
+const DEMO_RULES=[
+[/smith/i,'Hsovvpd3mN8'],
+[/side plank/i,'K2VljzCC16g'],
+[/cable|pulldown|pushdown|face pull|pallof/i,'uWrzAVBWd3A'],
+[/plank/i,'kL_NJAkCQBg'],
+[/push-up|push up/i,'IODxDxX7oi4'],
+[/pull-up|pull up/i,'eGo4IYlbE5g'],
+[/arnold/i,'6Z15_WdXmVw'],
+[/overhead|shoulder press/i,'qEwKCR5JCog'],
+[/incline/i,'8iPEnn-ltC8'],
+[/floor press|flat press|chest press|bench press|squeeze press|dumbbell press/i,'VmB1G1K7v94'],
+[/rear-delt|rear delt|reverse fly|fly/i,'EA7u4Q_8HQ0'],
+[/lateral/i,'3VcKaXpzqRo'],
+[/hammer/i,'zC3nLlEvin4'],
+[/curl/i,'ykJmrZ5v0Oo'],
+[/shrug/i,'cJRVVxmytaM'],
+[/farmer|suitcase|carry/i,'Fkzk_RqlYig'],
+[/romanian|\brdl\b|deadlift/i,'JCXUYuzwNrM'],
+[/hip thrust/i,'SEdqd1n0cvg'],
+[/glute bridge|\bbridge\b/i,'OUgsJ8-Vi0E'],
+[/lunge/i,'QOVaHwm-Q6U'],
+[/split squat|bulgarian/i,'2C-uNgKwPLE'],
+[/step-up|step up/i,'dQqApCGd5Ss'],
+[/goblet|squat/i,'MeIiIdhvXT4'],
+[/leg curl/i,'1Tq3QdYUuHs'],
+[/leg extension|knee extension/i,'YyvSfVjQeL0'],
+[/wall sit|wall-sit/i,'y-wV4Venusw'],
+[/calf/i,'gwLzBJYoWlI'],
+[/dead bug/i,'4XLEnwUr1d8'],
+[/bird dog/i,'wiFNA3sqjCA'],
+[/crunch/i,'Xyd_fa5zoEU'],
+[/row/i,'pYcpY20QaE8']
+];
+function demoUrl(name){
+  const n=String(name||'');
+  for(let i=0;i<DEMO_RULES.length;i++){if(DEMO_RULES[i][0].test(n))return YT(DEMO_RULES[i][1]);}
+  return 'https://www.youtube.com/results?search_query='+encodeURIComponent(n+' proper form');
+}
+function demoBtn(name){
+  return '<a class="btn mini" data-demo="1" href="'+esc(demoUrl(name))+'" target="_blank" rel="noopener">Watch demo</a>';
+}
+function ideaMeal(){return ui.ideaMeal||mealNow();}
+function mealIdeasFor(p){
+  const today=nowDenver().date,t=foodTotals(p,today),g=targetsFor(p);
+  const leftCal=g.kcal-t.kcal,leftP=g.p-t.p,meal=ideaMeal();
+  const fav=foodLib(p).ideaFav||[];
+  const list=MEAL_IDEAS.filter(m=>m.meal===meal).map(m=>Object.assign({},m,{
+    density:m.p/Math.max(m.kcal,1),
+    fit:m.kcal<=Math.max(leftCal,80)?1:0,
+    fav:fav.indexOf(m.id)>=0
+  }));
+  list.sort((a,b)=>(b.fav-a.fav)||(b.fit-a.fit)||(b.density-a.density)||(b.p-a.p));
+  return {leftCal:leftCal,leftP:leftP,meal:meal,items:list.slice(0,5)};
+}
+function ideaCard(p){
+  if(foodDate()!==nowDenver().date)return '<section class="card"><h2>What should I eat?</h2><p class="muted">Ideas use the calories left today.</p><button class="btn mini" data-act="foodtoday">Jump to today</button></section>';
+  const pack=mealIdeasFor(p);
+  const mealName=(MEALS.find(m=>m[0]===pack.meal)||MEALS[0])[1];
+  let h='<section class="card" id="mealIdeas"><h2>What should I eat?</h2><p class="muted">'+Math.round(pack.leftCal)+' cal and '+roundFood(pack.leftP)+' g protein left today. Showing '+mealName.toLowerCase()+' ideas that fit, highest protein first.</p>';
+  h+='<div class="chips">'+MEALS.map(m=>'<button class="chip'+(m[0]===pack.meal?' on':'')+'" data-act="ideameal" data-meal="'+m[0]+'">'+m[1]+'</button>').join('')+'</div>';
+  pack.items.forEach(m=>{
+    h+='<div class="li"><div><b>'+esc(m.name)+'</b><br><span class="tiny muted">'+m.kcal+' cal · '+m.p+' g protein · '+m.c+' g carbs · '+m.f+' g fat</span><br><span class="tiny">'+esc(m.ing)+'</span></div>'+
+      '<button class="star" data-act="favidea" data-id="'+m.id+'" aria-label="Favorite idea">'+(m.fav?'★':'☆')+'</button></div>'+
+      '<p class="tiny muted">'+esc(m.steps)+'</p><button class="btn mini primary" data-act="logidea" data-id="'+m.id+'">Log this</button>';
+  });
+  return h+'</section>';
+}
+function datesWith(p,pred){
+  const set={};
+  const add=iso=>{if(iso)set[iso]=1;};
+  if(pred==='workout'||pred==='any')sessionsOf(p).forEach(s=>add(s.date));
+  if(pred==='protein'||pred==='any'){
+    Object.keys(store.foodDays||{}).forEach(k=>{
+      if(k.indexOf(p+'|')!==0)return;
+      const iso=k.slice(p.length+1);
+      if(pred==='any'&&dayHasFood(store.foodDays[k]))add(iso);
+      if(pred==='protein'){const t=foodTotals(p,iso);if(t.n&&t.p+1e-9>=targetsFor(p).p)add(iso);}
+    });
+  }
+  return set;
+}
+function streakEnding(p,kind){
+  const hit=kind==='workout'?datesWith(p,'workout'):kind==='protein'?datesWith(p,'protein'):datesWith(p,'any');
+  let cur=nowDenver().date;
+  const todayDow=dowOf(cur);
+  const todayOk=!!hit[cur]||(kind==='workout'&&todayDow==='Sun');
+  if(!todayOk)cur=addDays(cur,-1);
+  let n=0;
+  for(let i=0;i<500;i++){
+    const dow=dowOf(cur);
+    if(kind==='workout'&&dow==='Sun'){cur=addDays(cur,-1);continue;}
+    if(hit[cur]){n++;cur=addDays(cur,-1);continue;}
+    break;
+  }
+  return n;
+}
+function stepsOn(p,iso){
+  const d=store.daily&&store.daily[dk(p,iso)];
+  const n=d?num(d.steps):NaN;
+  return !isNaN(n)&&n>=0?n:NaN;
+}
+function weekScore(p,ws){
+  const ss=sessionsOf(p).filter(s=>s.date>=ws&&s.date<=addDays(ws,6));
+  let proteinDays=0,steps=0,stepDays=0;
+  for(let i=0;i<7;i++){
+    const iso=addDays(ws,i),t=foodTotals(p,iso);
+    if(t.n&&t.p+1e-9>=targetsFor(p).p)proteinDays++;
+    const st=stepsOn(p,iso);
+    if(!isNaN(st)){steps+=st;stepDays++;}
+  }
+  return {workouts:ss.length,proteinDays:proteinDays,steps:Math.round(steps),stepDays:stepDays};
+}
+const CHALLENGES=[
+{id:'workouts',name:'Most workouts',blurb:'Who finishes more workouts this week.'},
+{id:'protein',name:'Protein goal days',blurb:'Who hits their protein goal on more days.'},
+{id:'steps',name:'Total steps',blurb:'Who walks more steps this week.'}
+];
+function weekChallenge(ws){
+  const n=Math.round(dUTC(ws).getTime()/86400000);
+  return CHALLENGES[((n%3)+3)%3];
+}
+function b64url(s){return btoa(unescape(encodeURIComponent(s))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}
+function b64urlDecode(s){let t=String(s).replace(/-/g,'+').replace(/_/g,'/');while(t.length%4)t+='=';return decodeURIComponent(escape(atob(t)));}
+function encodeScore(p,ws){
+  const s=weekScore(p,ws),ch=weekChallenge(ws);
+  return 'KDOGS1.'+b64url(['1',p,ws,s.workouts,s.proteinDays,s.steps,ch.id].join('|'));
+}
+function decodeScore(text){
+  const m=String(text||'').trim().match(/KDOGS1\.([A-Za-z0-9_-]+)/);
+  if(!m)return null;
+  let payload='';
+  try{payload=b64urlDecode(m[1]);}catch(e){return null;}
+  const parts=payload.split('|');
+  if(parts.length<7||parts[0]!=='1'||!/^\d{4}-\d{2}-\d{2}$/.test(parts[2]))return null;
+  const ch=CHALLENGES.find(c=>c.id===parts[6]);
+  if(!ch)return null;
+  return {name:parts[1],week:parts[2],workouts:+parts[3]||0,proteinDays:+parts[4]||0,steps:+parts[5]||0,challenge:ch.id};
+}
+function partnerBag(p){
+  if(!store.partnerScores||typeof store.partnerScores!=='object')store.partnerScores={};
+  if(!store.partnerScores[p]||typeof store.partnerScores[p]!=='object')store.partnerScores[p]={};
+  return store.partnerScores[p];
+}
+function metricOf(score,id){return id==='protein'?score.proteinDays:id==='steps'?score.steps:score.workouts;}
+function streakCard(p){
+  const w=streakEnding(p,'workout'),pr=streakEnding(p,'protein'),lg=streakEnding(p,'any');
+  return '<section class="card" id="streaks"><h2>Streaks</h2><div class="stats"><div><b>'+w+'</b><span>Workout days</span></div><div><b>'+pr+'</b><span>Protein goal</span></div><div><b>'+lg+'</b><span>Logging</span></div></div><p class="tiny muted">A workout streak skips Sunday, so a rest day does not break it. Protein and logging count every day. Today still counts once you log it.</p></section>';
+}
+function badgeCard(p){
+  const sessions=sessionsOf(p),n=sessions.length,hasPr=sessions.some(s=>(s.prs||[]).length);
+  const wi=(store.weighIns[p]||[]).slice().sort((a,b)=>a.date<b.date?-1:1);
+  let lost=0;
+  if(wi.length>=2)lost=wi[0].lbs-wi[wi.length-1].lbs;
+  const start=num((store.goals[p]||{}).start);
+  if(!isNaN(start)&&wi.length)lost=Math.max(lost,start-wi[wi.length-1].lbs);
+  let proteinDays=0,anyFood=false;
+  Object.keys(store.foodDays||{}).forEach(k=>{
+    if(k.indexOf(p+'|')!==0)return;
+    if(dayHasFood(store.foodDays[k]))anyFood=true;
+    const iso=k.slice(p.length+1),t=foodTotals(p,iso);
+    if(t.n&&t.p+1e-9>=targetsFor(p).p)proteinDays++;
+  });
+  const items=[
+    ['First workout',n>=1],['10 workouts',n>=10],['25 workouts',n>=25],
+    ['First PR',hasPr],['5 lb lost',lost>=5],['10 lb lost',lost>=10],
+    ['7-day workout streak',streakEnding(p,'workout')>=7],
+    ['7 protein-goal days',proteinDays>=7],['First meal logged',anyFood]
+  ];
+  return '<section class="card" id="badges"><h2>Badges</h2>'+items.map(it=>'<span class="badge'+(it[1]?' on':'')+'">'+it[0]+'</span>').join('')+'</section>';
+}
+function challengeCard(p){
+  const ws=weekStart(nowDenver().date),ch=weekChallenge(ws),mine=weekScore(p,ws),code=encodeScore(p,ws);
+  const bag=partnerBag(p),other=bag[ws];
+  const mineM=metricOf(mine,ch.id),otherM=other?metricOf(other,ch.id):NaN;
+  let verdict='Paste your partner\u2019s weekly score to compare. This stores only that score, not their workouts or food.';
+  if(other){
+    if(mineM===otherM)verdict='Tie this week on '+ch.name.toLowerCase()+'.';
+    else if(mineM>otherM)verdict=esc(p)+' is ahead on '+ch.name.toLowerCase()+'.';
+    else verdict=esc(other.name)+' is ahead on '+ch.name.toLowerCase()+'.';
+  }
+  let h='<section class="card" id="challenge"><h2>Couples challenge</h2><p><b>'+esc(ch.name)+'</b></p><p class="muted">'+esc(ch.blurb)+' Week of '+fmtShort(ws)+'.</p>';
+  h+='<div class="scoregrid"><div class="card'+(other&&mineM>=otherM?' win':'')+'"><b>'+esc(p)+'</b><p>'+mine.workouts+' workouts</p><p>'+mine.proteinDays+' protein days</p><p>'+mine.steps.toLocaleString()+' steps</p></div>';
+  h+=other?'<div class="card'+(otherM>mineM?' win':'')+'"><b>'+esc(other.name)+'</b><p>'+other.workouts+' workouts</p><p>'+other.proteinDays+' protein days</p><p>'+other.steps.toLocaleString()+' steps</p></div>':'<div class="card"><b>Partner</b><p class="muted">No score yet</p></div>';
+  h+='</div><p id="challengeResult">'+verdict+'</p>';
+  h+='<label>Your weekly score code<textarea id="myScore" readonly rows="2">'+esc(code)+'</textarea></label>';
+  h+='<div class="acts"><button class="btn primary" data-act="sharescore">Share or copy</button></div>';
+  h+='<label>Partner\u2019s score code<textarea id="partnerScore" rows="2" placeholder="Paste KDOGS1.… here"></textarea></label>';
+  h+='<button class="btn" data-act="pastescore">Compare scores</button></section>';
+  return h;
+}
+const HEALTH_GUIDE=[
+'K-Dogs GYM App — Apple Health shortcut',
+'',
+'The website cannot read Apple Health by itself. This shortcut builds a link and opens the app.',
+'',
+'1. Open the Shortcuts app and tap the + button.',
+'2. Name the shortcut K-Dogs GYM Health.',
+'3. Add Find Health Samples.',
+'   Type: Weight.',
+'   Sort by Start Date, Latest.',
+'   Turn Limit on and set it to 1.',
+'4. Add another Find Health Samples.',
+'   Type: Steps.',
+'   Start Date is Today.',
+'   If the action returns a list, add Calculate Statistics and choose Sum.',
+'5. Add Format Date.',
+'   Date: Current Date.',
+'   Date Format: Custom, yyyy-MM-dd.',
+'6. Add Text. Build this address, inserting the shortcut results:',
+'   https://kwattsdog.github.io/gym-app/?import=health&weight=WEIGHT&steps=STEPS&date=DATE',
+'   WEIGHT is the weight sample value in pounds. If Health is set to kilograms, multiply by 2.20462 first.',
+'   STEPS is today\u2019s step sum.',
+'   DATE is the formatted date.',
+'7. Add Open URLs and pass that Text.',
+'8. Tap the shortcut once to allow Health access. The app should show a saved confirmation.',
+'',
+'Daily automation',
+'1. In Shortcuts, open Automation and tap +.',
+'2. Choose Time of Day. Pick a time after you usually weigh in, such as 8:00 PM. Repeat daily.',
+'3. Choose the shortcut K-Dogs GYM Health.',
+'4. Turn on Run Immediately if your iPhone offers it.',
+'5. iOS may still ask you to tap Run the first few times. Open URL automations are sometimes confirmed with a notification. That is an Apple limit, not the app.',
+'',
+'The link only writes that day\u2019s weight and steps on the phone that opens it. A weight already saved for the same date is left as-is.'
+].join('\n');
+function healthGuideCard(){
+  return '<section class="card" id="healthGuide"><h2>Connect Apple Health</h2><p class="muted">Safari cannot read Health by itself. A shortcut opens this app with today\u2019s weight and steps.</p><ol>'+
+    '<li>Open <b>Shortcuts</b> and tap <b>+</b>. Name it <b>K-Dogs GYM Health</b>.</li>'+
+    '<li>Add <b>Find Health Samples</b>. Type <b>Weight</b>, sort by <b>Start Date</b>, <b>Latest</b>, Limit <b>1</b>.</li>'+
+    '<li>Add <b>Find Health Samples</b>. Type <b>Steps</b>, start date <b>Today</b>. If you get a list, add <b>Calculate Statistics</b> and choose <b>Sum</b>.</li>'+
+    '<li>Add <b>Format Date</b> for <b>Current Date</b>, custom format <b>yyyy-MM-dd</b>.</li>'+
+    '<li>Add <b>Text</b> and build<br><span class="tiny">https://kwattsdog.github.io/gym-app/?import=health&amp;weight=WEIGHT&amp;steps=STEPS&amp;date=DATE</span><br>Use the weight value in pounds (kg × 2.20462 if needed), the step sum, and the formatted date.</li>'+
+    '<li>Add <b>Open URLs</b> and pass that text. Run it once and allow Health access.</li>'+
+    '<li>For a daily run: Automation → <b>+</b> → <b>Time of Day</b> → every day → this shortcut → <b>Run Immediately</b> if it is offered. iOS may still ask you to tap Run.</li>'+
+    '</ol><div class="acts"><button class="btn" data-act="healthfile">Download the steps</button><button class="btn" data-act="healthprint">Print the steps</button></div></section>';
+}
+function stashHealth(){
+  try{
+    const q=new URLSearchParams(location.search);
+    if(q.get('import')!=='health')return;
+    const pending={weight:q.get('weight'),steps:q.get('steps'),date:q.get('date')||''};
+    sessionStorage.setItem('hd1s-health-pending',JSON.stringify(pending));
+    history.replaceState(null,'',location.pathname+location.hash);
+  }catch(e){}
+}
+function applyHealth(){
+  if(!getDevice())return;
+  let raw=null;
+  try{raw=sessionStorage.getItem('hd1s-health-pending');}catch(e){return;}
+  if(!raw)return;
+  try{sessionStorage.removeItem('hd1s-health-pending');}catch(e){}
+  let h={};try{h=JSON.parse(raw)||{};}catch(e){return;}
+  const p=getDevice();
+  ensurePerson(p);
+  const date=/^\d{4}-\d{2}-\d{2}$/.test(h.date)?h.date:nowDenver().date;
+  const msgs=[];
+  const w=num(h.weight);
+  if(!isNaN(w)&&w>0){
+    const list=store.weighIns[p]||[];
+    if(list.some(x=>x.date===date))msgs.push('Weight for '+fmtShort(date)+' was already saved');
+    else{list.push({date:date,lbs:w});store.weighIns[p]=list;msgs.push(w+' lb saved for '+fmtShort(date));}
+  }
+  const steps=parseInt(h.steps,10);
+  if(!isNaN(steps)&&steps>=0){
+    const k=dk(p,date);
+    store.daily[k]=store.daily[k]||{};
+    store.daily[k].steps=steps;
+    msgs.push(steps.toLocaleString()+' steps saved');
+  }
+  if(!msgs.length)msgs.push('Nothing to import from Health');
+  save();
+  setTimeout(()=>toast(msgs.join(' · '),4200),60);
+}
+stashHealth();
+
 /* ---------- views ---------- */
 function render(keepScroll){
   const y=window.scrollY;
@@ -1180,6 +1499,7 @@ function render(keepScroll){
   if(!locked){$('#app').innerHTML=viewWho();return;}
   ensurePerson(locked);
   ui.person=locked;
+  applyHealth();
   $('#app').innerHTML=viewHeader()+({workout:viewWorkout,food:viewFood,daily:viewDaily,progress:viewProgress,history:viewHistory,more:viewMore}[ui.tab]||viewWorkout)();
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===ui.tab));
   if(keepScroll)window.scrollTo(0,y);else window.scrollTo(0,0);
@@ -1191,11 +1511,11 @@ function render(keepScroll){
 function memWarn(){return memoryOnly?'<div class="warn">Your browser is blocking storage (private mode?). Nothing will be saved. Open the app in normal Safari.</div>':'';}
 function viewHeader(){
   const p=getDevice();
-  return (p?'<header class="top"><p class="pad muted tiny phone-label">This phone · '+esc(p)+'</p></header>':'')+memWarn();
+  return '<header class="top"><p class="brand">K-Dogs GYM App</p>'+(p?'<p class="pad muted tiny phone-label">This phone · '+esc(p)+'</p>':'')+'</header>'+memWarn();
 }
 function viewWho(){
   const names=allPeople(),withData=profilesWithData(),pre=withData.length===1?withData[0]:'';
-  let h='<div class="dayhead"><h1>Who\'s using this phone?</h1><p class="muted">Pick one person. This phone will show only their workouts, history, and progress.</p></div>'+memWarn();
+  let h='<header class="top"><p class="brand">K-Dogs GYM App</p></header><div class="dayhead"><h1>Who\'s using this phone?</h1><p class="muted">Pick one person. This phone will show only their workouts, history, and progress.</p></div>'+memWarn();
   if(pre)h+='<div class="note">This phone already has data for '+esc(pre)+'.</div>';
   h+='<div class="picker" role="list">'+names.map(p=>'<button class="'+(p===pre?'on':'')+'" data-act="lock" data-p="'+esc(p)+'"'+(p===pre?' data-preselected="1"':'')+'>'+esc(p)+'</button>').join('')+
     '<button class="add" data-act="addperson">Add person</button></div>';
@@ -1228,6 +1548,7 @@ function viewWorkout(){
   const stale=!store.lastBackup&&mineCount>=3||(store.lastBackup&&(Date.parse(now.date)-Date.parse(store.lastBackup.slice(0,10)))/864e5>21&&mineCount>0);
   if(stale)h+='<div class="note">Tip: make a backup (More tab) so a lost phone doesn\u2019t lose your history.</div>';
   h+=foodDashCard();
+  h+=streakCard(person);
   const kind=DAY_KIND[day];
   if(!plan.exercises.length){
     h+='<section class="card rest"><h2>😴 Rest day</h2><p>'+esc(plan.warmup)+'</p><p>'+esc(plan.finisher)+'</p></section>';
@@ -1249,7 +1570,7 @@ function viewWorkout(){
 function exCard(person,ex,d){
   const x=exData(ex,d),sets=d.sets[x.key],last=lastFor(person,x.key);
   const e2={name:x.name,station:ex.station,swapped:x.swapOf!=null};
-  let h='<section class="card ex" data-ex="'+ex.id+'" data-key="'+esc(x.key)+'"><div class="exh"><h3>'+esc(x.name)+'</h3></div>';
+  let h='<section class="card ex" data-ex="'+ex.id+'" data-key="'+esc(x.key)+'"><div class="exh"><h3>'+esc(x.name)+'</h3>'+demoBtn(x.name)+'</div>';
   if(x.swapOf)h+='<div class="tiny muted">Swapped in for: '+esc(x.swapOf)+'</div>';
   h+='<div class="meta"><b>'+ex.sets+' × '+esc(ex.reps)+'</b> · rest '+ex.rest+' sec'+(ex.timed?' · timed hold':'')+'</div>';
   if(last){
@@ -1268,7 +1589,7 @@ function exCard(person,ex,d){
     const alts=SWAP_LIB[SWAP_CAT[ex.id]]||[];
     h+='<div class="swap"><p class="tiny muted">Joint-friendly options. Your weights are tracked separately for each version.</p>'+
       '<button class="alt'+(d.swaps[ex.id]==null?' on':'')+'" data-act="pick" data-ex="'+ex.id+'" data-i="-1"><b>Original:</b> '+esc(ex.name)+'</button>'+
-      alts.map((a,i)=>'<button class="alt'+(d.swaps[ex.id]===i?' on':'')+'" data-act="pick" data-ex="'+ex.id+'" data-i="'+i+'"><b>'+esc(a.n)+'</b><br><span class="tiny muted">'+esc(a.t)+'</span></button>').join('')+'</div>';
+      alts.map((a,i)=>'<div class="alt'+(d.swaps[ex.id]===i?' on':'')+'"><button class="alt" data-act="pick" data-ex="'+ex.id+'" data-i="'+i+'"><b>'+esc(a.n)+'</b><br><span class="tiny muted">'+esc(a.t)+'</span></button>'+demoBtn(a.n)+'</div>').join('')+'</div>';
   }
   if(store.settings.showDetails){
     h+='<div class="det"><p><b>Station:</b> '+esc(ex.station)+'</p><p><b>Form:</b> '+esc(ex.cue)+'</p>'+(x.tip?'<p><b>Swap tip:</b> '+esc(x.tip)+'</p>':'')+'</div>';
@@ -1304,6 +1625,7 @@ function viewDaily(){
    '<section class="card"><h2>Water</h2><div class="water"><button class="btn big" data-act="water" data-n="-1">−</button><div class="wnum"><b>'+w+'</b> / '+goal+'<br><span class="tiny muted">glasses (8 oz)</span></div><button class="btn primary big" data-act="water" data-n="1">+</button></div><div class="drops">'+drops+'</div></section>'+
    '<section class="card"><h2>Sleep last night</h2>'+scale('sleep',['Awful','Poor','OK','Good','Great'])+'</section>'+
    '<section class="card"><h2>Energy today</h2>'+scale('energy',['Drained','Low','OK','Good','Great'])+'</section>'+
+   '<section class="card"><h2>Steps</h2><p class="muted">Today, from Apple Health or typed here.</p><label>Steps<input id="stepsIn" inputmode="numeric" data-f="steps" data-daily="1" value="'+esc(dd.steps!=null?dd.steps:'')+'" placeholder="e.g. 8000"></label></section>'+
    '<section class="card"><h2>Food</h2><p class="muted">Meals, barcodes, and protein are on the Food tab. Water stays here.</p><button class="btn" data-act="tab" data-tab="food">Open food log</button></section>';
 }
 
@@ -1359,13 +1681,13 @@ function weekStats(p,ws){
   const vol=ss.reduce((a,s)=>a+(s.volume||0),0),sets=ss.reduce((a,s)=>a+(s.setCount||0),0),rp=ss.filter(s=>s.rpe).map(s=>s.rpe);
   const days=[];for(let i=0;i<7;i++){const d=store.daily[dk(p,addDays(ws,i))];if(d)days.push(d);}
   const avg=f=>{const v=days.map(d=>num(d[f])).filter(x=>!isNaN(x)&&x>0);return v.length?v.reduce((a,b)=>a+b,0)/v.length:NaN;};
-  const cals=[],prots=[];
-  for(let i=0;i<7;i++){const ft=foodTotals(p,addDays(ws,i));if(ft.n){cals.push(ft.kcal);prots.push(ft.p);}}
+  const cals=[],prots=[],stepVals=[];
+  for(let i=0;i<7;i++){const iso=addDays(ws,i),ft=foodTotals(p,iso);if(ft.n){cals.push(ft.kcal);prots.push(ft.p);}const st=stepsOn(p,iso);if(!isNaN(st))stepVals.push(st);}
   const mean=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:NaN;
   const wi=store.weighIns[p].slice().sort((a,b)=>a.date<b.date?-1:1);
   const inWk=wi.filter(x=>x.date>=ws&&x.date<=we),before=wi.filter(x=>x.date<ws);
   let wc=NaN;if(inWk.length&&(before.length||inWk.length>1)){const ref=before.length?before[before.length-1].lbs:inWk[0].lbs;wc=inWk[inWk.length-1].lbs-ref;}
-  return {n:ss.length,vol,sets,rpe:rp.length?rp.reduce((a,b)=>a+b,0)/rp.length:NaN,cal:mean(cals),protein:mean(prots),water:avg('water'),sleep:avg('sleep'),energy:avg('energy'),wc,prs:ss.reduce((a,s)=>a+((s.prs||[]).length),0)};
+  return {n:ss.length,vol,sets,rpe:rp.length?rp.reduce((a,b)=>a+b,0)/rp.length:NaN,cal:mean(cals),protein:mean(prots),steps:mean(stepVals),water:avg('water'),sleep:avg('sleep'),energy:avg('energy'),wc,prs:ss.reduce((a,s)=>a+((s.prs||[]).length),0)};
 }
 function viewHistory(){
   const p=ui.person,now=nowDenver().date,ws=addDays(weekStart(now),ui.weekOff*7),st=weekStats(p,ws);
@@ -1373,8 +1695,8 @@ function viewHistory(){
   let h='<div class="dayhead"><h1>History</h1><p class="muted">'+p+'</p></div>';
   h+='<section class="card"><div class="wk"><button class="btn mini" data-act="wk" data-n="-1">‹</button><b>'+(ui.weekOff===0?'This week':'Week of '+fmtShort(ws))+'</b><button class="btn mini" data-act="wk" data-n="1"'+(ui.weekOff>=0?' disabled':'')+'>›</button></div>'+
    '<p class="tiny muted">'+fmtShort(ws)+' – '+fmtShort(addDays(ws,6))+'</p><div class="stats big"><div><b>'+st.n+'/6</b><span>Workouts</span></div><div><b>'+Math.round(st.vol).toLocaleString()+'</b><span>Volume (lb)</span></div><div><b>'+st.sets+'</b><span>Sets</span></div><div><b>'+f(st.rpe)+'</b><span>Avg effort</span></div>'+
-   '<div><b>'+(isNaN(st.wc)?'—':(st.wc>0?'+':'')+round1(st.wc))+'</b><span>Weight change</span></div><div><b>'+f(st.cal,0)+'</b><span>Avg calories</span></div><div><b>'+f(st.protein)+'</b><span>Avg protein (g)</span></div><div><b>'+f(st.water)+'</b><span>Avg water</span></div><div><b>'+f(st.sleep)+' / '+f(st.energy)+'</b><span>Sleep / energy</span></div></div>'+
-   (st.prs?'<p>🏆 '+st.prs+' new record'+(st.prs>1?'s':'')+' this week</p>':'')+'</section>'+foodHistoryCharts(p);
+   '<div><b>'+(isNaN(st.wc)?'—':(st.wc>0?'+':'')+round1(st.wc))+'</b><span>Weight change</span></div><div><b>'+f(st.cal,0)+'</b><span>Avg calories</span></div><div><b>'+f(st.protein)+'</b><span>Avg protein (g)</span></div><div><b>'+(isNaN(st.steps)?'—':Math.round(st.steps).toLocaleString())+'</b><span>Avg steps</span></div><div><b>'+f(st.water)+'</b><span>Avg water</span></div><div><b>'+f(st.sleep)+' / '+f(st.energy)+'</b><span>Sleep / energy</span></div></div>'+
+   (st.prs?'<p>🏆 '+st.prs+' new record'+(st.prs>1?'s':'')+' this week</p>':'')+'</section>'+streakCard(p)+badgeCard(p)+challengeCard(p)+foodHistoryCharts(p);
   const ss=sessionsOf(p);
   h+='<h2 class="sec">Workouts ('+ss.length+')</h2>';
   if(!ss.length)h+='<p class="muted pad">No finished workouts yet. Log your sets and tap Finish workout.</p>';
@@ -1403,7 +1725,8 @@ function viewMore(){
    '<label class="chkrow sm"><input type="checkbox" data-act="details" '+(s.showDetails?'checked':'')+'><span>Show station and form tips on exercises</span></label>'+
    '<div class="two"><label>Water goal (glasses)<input inputmode="numeric" data-set="waterGoal" value="'+esc(s.waterGoal)+'"></label><label>Smith bar weight (lb)<input inputmode="decimal" data-set="bar" value="'+esc(s.bar)+'"></label></div>'+
    '<label>Plates you own (lb, comma separated)<input data-set="plates" value="'+esc(s.plates.join(', '))+'"></label><p class="tiny muted">Used for the Smith plate hints. Edit to match your plates.</p></section>'+
-  '<section class="card"><h2>Add to Home Screen (iPhone)</h2><ol><li>Open this page in <b>Safari</b>.</li><li>Tap the Share button (square with an arrow).</li><li>Tap <b>Add to Home Screen</b>, then <b>Add</b>.</li><li>From now on, open the app from your Home Screen icon only. Data saved in Safari is separate from the Home Screen app, so start fresh there (or import a backup).</li></ol></section>'+
+  '<section class="card"><h2>Add to Home Screen (iPhone)</h2><ol><li>Open this page in <b>Safari</b>.</li><li>Tap the Share button (square with an arrow).</li><li>Tap <b>Add to Home Screen</b>, then <b>Add</b>.</li><li>From now on, open the app from your Home Screen icon only. Data saved in Safari is separate from the Home Screen app, so start fresh there (or import a backup).</li></ol><p class="tiny muted">The icon label is K-Dogs GYM. An icon added before this rename keeps the old name until you remove it and add it again.</p></section>'+
+  healthGuideCard()+
   '<section class="card"><h2>Your gym: Blazzed HD1-S</h2>'+GYM_TIPS.map(t=>'<p>'+esc(t)+'</p>').join('')+GYM_SPECS.map(x=>'<div class="spec"><b>'+esc(x[0])+'</b><br><span class="muted">'+esc(x[1])+'</span></div>').join('')+
    '<div class="note">Sharp pain is a stop sign. Swap to an easier variation or skip the lift. If you have joint, heart, or other medical issues, check with your doctor before ramping up.</div></section>'+
   '<section class="card"><h2>Videos and links</h2>'+VIDEOS.map(v=>'<a class="link" href="'+esc(v.u)+'" target="_blank" rel="noopener"><b>'+esc(v.t)+'</b><br><span class="tiny muted">'+esc(v.s)+'</span></a>').join('')+'</section>';
@@ -1592,6 +1915,35 @@ function act(a,b){
       if(!store.foodTargets||typeof store.foodTargets!=='object')store.foodTargets={};
       store.foodTargets[P]={kcal:kcal,p:p,c:c,f:f};ui.foodMode='day';save();render();toast('Targets saved');break;}
     case 'foodspan':ui.foodSpan=+b.dataset.n===30?30:7;render(true);break;
+    case 'ideameal':ui.ideaMeal=b.dataset.meal;render(true);break;
+    case 'logidea':{
+      const idea=MEAL_IDEAS.find(m=>m.id===b.dataset.id);if(!idea)break;
+      const food={id:'idea:'+idea.id,name:idea.name,brand:'',source:'idea',per100:null,perUnit:{kcal:idea.kcal,p:idea.p,c:idea.c,f:idea.f},servings:[{unit:'serving',grams:null,label:'serving'}]};
+      ensureDay(P,foodDate())[idea.meal].push(entryFrom(food,1,'serving',idea.meal));
+      save();render(true);toast('Logged '+idea.name);break;}
+    case 'favidea':{
+      const L=foodLib(P),id=b.dataset.id;
+      L.ideaFav=L.ideaFav.indexOf(id)>=0?L.ideaFav.filter(x=>x!==id):L.ideaFav.concat([id]);
+      save();render(true);break;}
+    case 'sharescore':{
+      const code=$('#myScore')?$('#myScore').value:encodeScore(P,weekStart(nowDenver().date));
+      const fail=()=>{const el=$('#myScore');if(el){el.focus();el.select();}toast('Score code is ready to copy');};
+      if(navigator.share){navigator.share({title:'K-Dogs GYM weekly score',text:code}).then(()=>toast('Score shared')).catch(e=>{if(e&&e.name==='AbortError')return;fail();});}
+      else if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(code).then(()=>toast('Score copied')).catch(fail);
+      else fail();
+      break;}
+    case 'pastescore':{
+      const sc=decodeScore($('#partnerScore')?$('#partnerScore').value:'');
+      if(!sc){toast('That is not a weekly score code');break;}
+      partnerBag(P)[sc.week]=sc;save();render(true);toast('Compared with '+sc.name);break;}
+    case 'healthfile':{
+      const file=new Blob([HEALTH_GUIDE],{type:'text/plain'});
+      const a=document.createElement('a');a.href=URL.createObjectURL(file);a.download='k-dogs-gym-apple-health.txt';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},800);break;}
+    case 'healthprint':{
+      const w=window.open('','kdogs-health');
+      if(!w){toast('Allow pop-ups to print, or download the steps');break;}
+      w.document.write('<!doctype html><title>K-Dogs GYM App — Apple Health</title><body style="font:16px/1.45 -apple-system,sans-serif;max-width:640px;margin:24px auto;padding:0 16px"><pre style="white-space:pre-wrap;font:inherit">'+HEALTH_GUIDE.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))+'</pre></body>');
+      w.document.close();w.focus();setTimeout(()=>w.print(),250);break;}
     case 'day':ui.day=b.dataset.d;ui.swapOpen=null;render();break;
     case 'tab':ui.tab=b.dataset.tab;render();break;
     case 'tog':{
@@ -1672,7 +2024,7 @@ function exportObj(){
   const o={v:store.v||1,app:'hd1s-workout-tracker',exportedAt:new Date().toISOString(),lastPerson:p,
     goals:{},weighIns:{},measures:{},daily:{},sessions:{},drafts:{},
     settings:JSON.parse(JSON.stringify(store.settings||blank().settings)),lastBackup:store.lastBackup||null,
-    extraPeople:[],planFor:{},foodDays:{},foodLib:{},foodTargets:{}};
+    extraPeople:[],planFor:{},foodDays:{},foodLib:{},foodTargets:{},partnerScores:{}};
   o.goals[p]=JSON.parse(JSON.stringify(store.goals[p]||{start:'',goal:''}));
   o.weighIns[p]=JSON.parse(JSON.stringify(store.weighIns[p]||[]));
   o.measures[p]=JSON.parse(JSON.stringify(store.measures[p]||[]));
@@ -1682,6 +2034,7 @@ function exportObj(){
   Object.keys(store.foodDays||{}).forEach(k=>{if(k.indexOf(p+'|')===0)o.foodDays[k]=JSON.parse(JSON.stringify(store.foodDays[k]));});
   if(store.foodLib&&store.foodLib[p])o.foodLib[p]=JSON.parse(JSON.stringify(store.foodLib[p]));
   if(store.foodTargets&&store.foodTargets[p])o.foodTargets[p]=JSON.parse(JSON.stringify(store.foodTargets[p]));
+  if(store.partnerScores&&store.partnerScores[p])o.partnerScores[p]=JSON.parse(JSON.stringify(store.partnerScores[p]));
   if((store.extraPeople||[]).indexOf(p)>=0){o.extraPeople=[p];if(store.planFor&&store.planFor[p])o.planFor[p]=store.planFor[p];}
   return o;
 }
@@ -1707,6 +2060,7 @@ function clearPerson(p){
   Object.keys(store.foodDays||{}).forEach(k=>{if(k.indexOf(p+'|')===0)delete store.foodDays[k];});
   if(store.foodLib)delete store.foodLib[p];
   if(store.foodTargets)delete store.foodTargets[p];
+  if(store.partnerScores)delete store.partnerScores[p];
 }
 function remapPerson(inc,from,to){
   const sessions={},daily={},drafts={};
@@ -1720,7 +2074,7 @@ function remapPerson(inc,from,to){
   Object.keys(inc.drafts||{}).forEach(k=>{if(k.indexOf(from+'|')===0)drafts[to+'|'+k.slice(from.length+1)]=JSON.parse(JSON.stringify(inc.drafts[k]));});
   const foodDays={};
   Object.keys(inc.foodDays||{}).forEach(k=>{if(k.indexOf(from+'|')===0)foodDays[to+'|'+k.slice(from.length+1)]=JSON.parse(JSON.stringify(inc.foodDays[k]));});
-  return {sessions,daily,drafts,foodDays,foodLib:inc.foodLib&&inc.foodLib[from]?{[to]:JSON.parse(JSON.stringify(inc.foodLib[from]))}:{},foodTargets:inc.foodTargets&&inc.foodTargets[from]?{[to]:JSON.parse(JSON.stringify(inc.foodTargets[from]))}:{},
+  return {sessions,daily,drafts,foodDays,foodLib:inc.foodLib&&inc.foodLib[from]?{[to]:JSON.parse(JSON.stringify(inc.foodLib[from]))}:{},foodTargets:inc.foodTargets&&inc.foodTargets[from]?{[to]:JSON.parse(JSON.stringify(inc.foodTargets[from]))}:{},partnerScores:inc.partnerScores&&inc.partnerScores[from]?{[to]:JSON.parse(JSON.stringify(inc.partnerScores[from]))}:{},
     goals:JSON.parse(JSON.stringify(inc.goals[from]||{start:'',goal:''})),
     weighIns:JSON.parse(JSON.stringify(inc.weighIns[from]||[])),
     measures:JSON.parse(JSON.stringify(inc.measures[from]||[]))};
@@ -1753,12 +2107,13 @@ function mergePerson(p,data){
     ['fav','custom','recent'].forEach(key=>{(inc[key]||[]).forEach(f=>{if(f&&f.id&&!L[key].some(x=>x.id===f.id))L[key].push(f);});});
   }
   if(data.foodTargets&&data.foodTargets[p])store.foodTargets[p]=Object.assign({},store.foodTargets[p]||{},data.foodTargets[p]);
+  if(data.partnerScores&&data.partnerScores[p])partnerBag(p)&&Object.assign(partnerBag(p),data.partnerScores[p]);
 }
 async function doExport(){
-  const txt=JSON.stringify(exportObj(),null,1),name='gym-backup-'+String(currentPerson()).replace(/\s+/g,'-')+'-'+nowDenver().date+'.json';
+  const txt=JSON.stringify(exportObj(),null,1),name='k-dogs-gym-backup-'+String(currentPerson()).replace(/\s+/g,'-')+'-'+nowDenver().date+'.json';
   const file=new File([txt],name,{type:'application/json'});
   try{
-    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Gym backup'});store.lastBackup=new Date().toISOString();save();render(true);toast('Backup shared');return;}
+    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'K-Dogs GYM App backup'});store.lastBackup=new Date().toISOString();save();render(true);toast('Backup shared');return;}
   }catch(e){if(e&&e.name==='AbortError')return;}
   const a=document.createElement('a');a.href=URL.createObjectURL(file);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000);
   store.lastBackup=new Date().toISOString();save();render(true);toast('Backup downloaded');
@@ -1773,13 +2128,14 @@ function doImport(txt,replace){
   const incoming=peopleIn(inc);
   let data;
   if(incoming.indexOf(me)>=0){
-    data={sessions:{},daily:{},drafts:{},foodDays:{},foodLib:{},foodTargets:{},goals:inc.goals[me]||{start:'',goal:''},weighIns:inc.weighIns[me]||[],measures:inc.measures[me]||[]};
+    data={sessions:{},daily:{},drafts:{},foodDays:{},foodLib:{},foodTargets:{},partnerScores:{},goals:inc.goals[me]||{start:'',goal:''},weighIns:inc.weighIns[me]||[],measures:inc.measures[me]||[]};
     Object.keys(inc.sessions||{}).forEach(k=>{const s=inc.sessions[k];if(s&&s.person===me)data.sessions[k]=s;});
     Object.keys(inc.daily||{}).forEach(k=>{if(k.indexOf(me+'|')===0)data.daily[k]=inc.daily[k];});
     Object.keys(inc.drafts||{}).forEach(k=>{if(k.indexOf(me+'|')===0)data.drafts[k]=inc.drafts[k];});
     Object.keys(inc.foodDays||{}).forEach(k=>{if(k.indexOf(me+'|')===0)data.foodDays[k]=inc.foodDays[k];});
     if(inc.foodLib&&inc.foodLib[me])data.foodLib[me]=inc.foodLib[me];
     if(inc.foodTargets&&inc.foodTargets[me])data.foodTargets[me]=inc.foodTargets[me];
+    if(inc.partnerScores&&inc.partnerScores[me])data.partnerScores[me]=inc.partnerScores[me];
   }else if(incoming.length===1){
     const from=incoming[0];
     if(!confirm('This backup is for '+from+', not '+me+'. Import it into '+me+' on this phone?'))return;
@@ -1800,7 +2156,7 @@ function doImport(txt,replace){
 
 /* ---------- boot ---------- */
 $('#nav').addEventListener('click',e=>{const b=e.target.closest('button[data-tab]');if(b){ui.tab=b.dataset.tab;render();}});
-window.__app={get store(){return store;},ui,render,act,doImport,exportObj,finish,weekStats,plateHint,SWAP_CAT,SWAP_LIB,getDevice,allPeople,peopleIn,LOCAL_FOODS,foodTotals,searchLocal};
+window.__app={get store(){return store;},ui,render,act,doImport,exportObj,finish,weekStats,plateHint,SWAP_CAT,SWAP_LIB,getDevice,allPeople,peopleIn,LOCAL_FOODS,foodTotals,searchLocal,encodeScore,decodeScore,demoUrl,MEAL_IDEAS};
 render();
 if('serviceWorker' in navigator&&location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
 })();

@@ -25,6 +25,13 @@ p{margin:6px 0}a{color:var(--acc)}
 .who{display:flex;background:var(--card);border-radius:14px;padding:4px;gap:4px}
 .who button{flex:1;border:0;border-radius:11px;background:none;color:var(--mut);font-size:18px;font-weight:700;padding:12px;min-height:48px}
 .who button.on{background:var(--acc);color:#fff}
+#nav[hidden]{display:none}
+body.picking{padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+.picker{display:flex;flex-direction:column;gap:10px;margin:12px 0}
+.picker button{min-height:64px;border-radius:16px;border:1px solid var(--line);background:var(--card);color:var(--txt);font-size:22px;font-weight:800}
+.picker button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.picker button.add{background:transparent;color:var(--acc);font-size:18px;font-weight:700}
+.phone-label{margin:0}
 .days{display:flex;gap:6px;overflow-x:auto;padding:6px 0;margin:0 -2px}
 .days button{position:relative;flex:1;min-width:44px;border:1px solid var(--line);background:var(--card);color:var(--txt);border-radius:12px;min-height:48px;font-size:15px;font-weight:600}
 .days button.today{border-color:var(--acc)}.days button.on{background:var(--acc);border-color:var(--acc)}
@@ -316,19 +323,41 @@ function blank(){return {v:1,lastPerson:'Kevin',
   goals:{Kevin:{start:'219',goal:'180'},Sasha:{start:'',goal:''}},
   weighIns:{Kevin:[],Sasha:[]},measures:{Kevin:[],Sasha:[]},
   daily:{},sessions:{},drafts:{},
-  settings:{plates:[45,35,25,10,5,2.5],bar:40,waterGoal:8,showDetails:true},lastBackup:null};}
+  settings:{plates:[45,35,25,10,5,2.5],bar:40,waterGoal:8,showDetails:true},lastBackup:null,
+  extraPeople:[],planFor:{}};}
+function collectExtra(p){
+  const names=[],add=n=>{
+    if(typeof n!=='string')return;
+    n=n.trim();
+    if(!n||n.indexOf('|')>=0||PEOPLE.indexOf(n)>=0||names.indexOf(n)>=0)return;
+    names.push(n);
+  };
+  if(!p||typeof p!=='object')return names;
+  if(Array.isArray(p.extraPeople))p.extraPeople.forEach(add);
+  if(p.sessions&&typeof p.sessions==='object'&&!Array.isArray(p.sessions))Object.keys(p.sessions).forEach(k=>{const s=p.sessions[k];if(s&&typeof s==='object')add(s.person);});
+  if(p.goals&&typeof p.goals==='object')Object.keys(p.goals).forEach(add);
+  ['weighIns','measures'].forEach(k=>{if(p[k]&&typeof p[k]==='object')Object.keys(p[k]).forEach(add);});
+  if(p.daily&&typeof p.daily==='object')Object.keys(p.daily).forEach(k=>add(String(k).split('|')[0]));
+  if(p.drafts&&typeof p.drafts==='object')Object.keys(p.drafts).forEach(k=>add(String(k).split('|')[0]));
+  return names;
+}
 function normalize(p){
   const b=blank();if(!p||typeof p!=='object')return b;
   const o=Object.assign(b,p);
+  o.extraPeople=collectExtra(p);
+  o.planFor={};
+  const src=p.planFor&&typeof p.planFor==='object'?p.planFor:{};
+  o.extraPeople.forEach(n=>{if(src[n]==='Kevin'||src[n]==='Sasha')o.planFor[n]=src[n];});
   o.goals=Object.assign(blank().goals,p.goals||{});
-  PEOPLE.forEach(n=>{o.goals[n]=Object.assign({start:'',goal:''},o.goals[n]);
+  const names=PEOPLE.concat(o.extraPeople);
+  names.forEach(n=>{o.goals[n]=Object.assign({start:'',goal:''},o.goals[n]);
     ['weighIns','measures'].forEach(k=>{o[k]=Object.assign({Kevin:[],Sasha:[]},p[k]||{});if(!Array.isArray(o[k][n]))o[k][n]=[];});});
   o.daily=p.daily&&typeof p.daily==='object'?p.daily:{};
   o.sessions=p.sessions&&typeof p.sessions==='object'&&!Array.isArray(p.sessions)?p.sessions:{};
   o.drafts=p.drafts&&typeof p.drafts==='object'?p.drafts:{};
   o.settings=Object.assign(blank().settings,p.settings||{});
   if(!Array.isArray(o.settings.plates)||!o.settings.plates.length)o.settings.plates=blank().settings.plates;
-  if(PEOPLE.indexOf(o.lastPerson)<0)o.lastPerson='Kevin';
+  if(names.indexOf(o.lastPerson)<0)o.lastPerson=names[0];
   return o;
 }
 let memoryOnly=false;
@@ -337,12 +366,86 @@ let store=load();
 function save(){try{localStorage.setItem(KEY,JSON.stringify(store));}catch(e){memoryOnly=true;}}
 try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();}catch(e){}
 
+/* ---------- this phone's profile ---------- */
+const DEVICE_KEY='deviceProfile';
+const PIN_KEY='hd1s-profile-pins';
+function getDevice(){try{return localStorage.getItem(DEVICE_KEY)||'';}catch(e){return '';}}
+function allPeople(){
+  const extra=(store.extraPeople||[]).filter(n=>typeof n==='string'&&n&&PEOPLE.indexOf(n)<0);
+  const seen={},out=[];
+  PEOPLE.concat(extra).forEach(n=>{if(!seen[n]){seen[n]=1;out.push(n);}});
+  return out;
+}
+function loadPins(){try{const o=JSON.parse(localStorage.getItem(PIN_KEY)||'{}');return o&&typeof o==='object'?o:{};}catch(e){return {};}}
+function savePins(o){try{localStorage.setItem(PIN_KEY,JSON.stringify(o));}catch(e){memoryOnly=true;}}
+function randSalt(){
+  const a=new Uint8Array(16);
+  if(crypto&&crypto.getRandomValues)crypto.getRandomValues(a);
+  else for(let i=0;i<a.length;i++)a[i]=Math.floor(Math.random()*256);
+  return [...a].map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+function hashPin(pin,salt){
+  const bytes=new TextEncoder().encode(String(salt)+':'+String(pin));
+  if(crypto&&crypto.subtle&&crypto.subtle.digest){
+    return crypto.subtle.digest('SHA-256',bytes).then(buf=>[...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join(''));
+  }
+  let h=2166136261;bytes.forEach(b=>{h^=b;h=Math.imul(h,16777619);});
+  return Promise.resolve('fnv'+(h>>>0).toString(16));
+}
+function pinMatches(name,pin){
+  const rec=loadPins()[name];
+  if(!rec||!rec.hash)return Promise.resolve(false);
+  return hashPin(pin,rec.salt).then(h=>h===rec.hash);
+}
+function ensurePerson(name){
+  if(!name)return;
+  if(!store.goals[name]||typeof store.goals[name]!=='object')store.goals[name]={start:'',goal:''};
+  if(!Array.isArray(store.weighIns[name]))store.weighIns[name]=[];
+  if(!Array.isArray(store.measures[name]))store.measures[name]=[];
+  if(PEOPLE.indexOf(name)<0){
+    if(!Array.isArray(store.extraPeople))store.extraPeople=[];
+    if(store.extraPeople.indexOf(name)<0)store.extraPeople.push(name);
+    if(!store.planFor||typeof store.planFor!=='object')store.planFor={};
+  }
+}
+function lockTo(name){
+  ensurePerson(name);
+  try{localStorage.setItem(DEVICE_KEY,name);}catch(e){memoryOnly=true;}
+  ui.person=name;ui.gate=null;ui.pendingProfile=null;ui.adding=false;ui.swapOpen=null;ui.saved=null;
+  store.lastPerson=name;save();render();
+}
+function chooseProfile(name){
+  if(!name)return;
+  ensurePerson(name);
+  if(loadPins()[name]){ui.gate='lock';ui.pendingProfile=name;ui.adding=false;render();return;}
+  lockTo(name);
+}
+function profilesWithData(){return allPeople().filter(hasProfileData);}
+
 /* ---------- ui state ---------- */
 const today0=nowDenver();
-const ui={person:store.lastPerson,tab:'workout',day:today0.dow,swapOpen:null,weekOff:0,saved:null,photoView:null};
+const ui={person:getDevice()||store.lastPerson,tab:'workout',day:today0.dow,swapOpen:null,weekOff:0,saved:null,photoView:null,gate:null,adding:false,planChoice:'Sasha',pendingProfile:null};
 
 /* ---------- sessions helpers ---------- */
 const sessionsOf=p=>Object.values(store.sessions).filter(s=>s&&s.person===p).sort((a,b)=>(a.date+(a.finishedAt||''))<(b.date+(b.finishedAt||''))?1:-1);
+function draftTouched(d){
+  if(!d||typeof d!=='object')return false;
+  if(d.notes||d.warm||d.rpe)return true;
+  if(d.prNames&&d.prNames.length)return true;
+  const sets=d.sets||{};
+  return Object.keys(sets).some(k=>(sets[k]||[]).some(s=>s&&(s.d||(s.w!==''&&s.w!=null)||(s.r!==''&&s.r!=null))));
+}
+function hasProfileData(p){
+  if(sessionsOf(p).length)return true;
+  if((store.weighIns[p]||[]).length)return true;
+  if((store.measures[p]||[]).length)return true;
+  const pre=p+'|';
+  if(Object.keys(store.daily||{}).some(k=>k.indexOf(pre)===0&&store.daily[k]&&Object.keys(store.daily[k]).some(f=>store.daily[k][f]!=null&&store.daily[k][f]!==''&&store.daily[k][f]!==0)))return true;
+  if(Object.keys(store.drafts||{}).some(k=>k.indexOf(pre)===0&&draftTouched(store.drafts[k])))return true;
+  const g=store.goals[p]||{},def=(blank().goals[p])||{start:'',goal:''};
+  if((g.start||'')!==(def.start||'')||(g.goal||'')!==(def.goal||''))return true;
+  return false;
+}
 function doneSets(sets){return (sets||[]).filter(s=>s&&s.r!==''&&s.r!=null&&!isNaN(num(s.r)));}
 function lastFor(person,key){
   for(const s of sessionsOf(person)){const e=(s.exercises||[]).find(x=>x.key===key);if(e&&doneSets(e.sets).length)return doneSets(e.sets);}
@@ -366,7 +469,10 @@ function fmtSets(sets){return doneSets(sets).map(x=>(x.w!==''&&x.w!=null?x.w+'×
 
 /* ---------- drafts ---------- */
 const dk=(p,d)=>p+'|'+d;
-function planOf(p,d){return PLANS[p][d];}
+function planOf(p,d){
+  const base=PLANS[p]?p:((store.planFor&&PLANS[store.planFor[p]])?store.planFor[p]:'Sasha');
+  return PLANS[base][d];
+}
 function exData(ex,draft){const i=draft.swaps&&draft.swaps[ex.id];
   if(i==null)return {key:ex.id,name:ex.name,swapOf:null};
   const alt=(SWAP_LIB[SWAP_CAT[ex.id]]||[])[i];
@@ -439,15 +545,47 @@ document.addEventListener('visibilitychange',()=>{if(document.visibilityState===
 /* ---------- views ---------- */
 function render(keepScroll){
   const y=window.scrollY;
-  $('#app').innerHTML=viewHeader()+({workout:viewWorkout,daily:viewDaily,progress:viewProgress,history:viewHistory,more:viewMore}[ui.tab])();
+  const nav=$('#nav');
+  const locked=getDevice();
+  const showGate=ui.gate==='lock'||(ui.gate==='switch'&&!!locked);
+  document.body.classList.toggle('picking',!locked||showGate);
+  if(nav)nav.hidden=!locked||showGate;
+  if(showGate){$('#app').innerHTML=viewPin();return;}
+  if(!locked){$('#app').innerHTML=viewWho();return;}
+  ensurePerson(locked);
+  ui.person=locked;
+  $('#app').innerHTML=viewHeader()+({workout:viewWorkout,daily:viewDaily,progress:viewProgress,history:viewHistory,more:viewMore}[ui.tab]||viewWorkout)();
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===ui.tab));
   if(keepScroll)window.scrollTo(0,y);else window.scrollTo(0,0);
   if(ui.tab==='progress')loadPhotos();
   if(ui.tab==='workout')document.querySelectorAll('.plate-hint').forEach(el=>{const inp=document.querySelector('.set[data-key="'+el.dataset.key+'"] input[data-f="w"]');if(inp)updateHint(inp);});
 }
+function memWarn(){return memoryOnly?'<div class="warn">Your browser is blocking storage (private mode?). Nothing will be saved. Open the app in normal Safari.</div>':'';}
 function viewHeader(){
-  return '<header class="top"><div class="who">'+PEOPLE.map(p=>'<button class="'+(p===ui.person?'on':'')+'" data-act="person" data-p="'+p+'">'+p+'</button>').join('')+'</div></header>'+
-    (memoryOnly?'<div class="warn">Your browser is blocking storage (private mode?). Nothing will be saved. Open the app in normal Safari.</div>':'');
+  const p=getDevice();
+  return (p?'<header class="top"><p class="pad muted tiny phone-label">This phone · '+esc(p)+'</p></header>':'')+memWarn();
+}
+function viewWho(){
+  const names=allPeople(),withData=profilesWithData(),pre=withData.length===1?withData[0]:'';
+  let h='<div class="dayhead"><h1>Who\'s using this phone?</h1><p class="muted">Pick one person. This phone will show only their workouts, history, and progress.</p></div>'+memWarn();
+  if(pre)h+='<div class="note">This phone already has data for '+esc(pre)+'.</div>';
+  h+='<div class="picker" role="list">'+names.map(p=>'<button class="'+(p===pre?'on':'')+'" data-act="lock" data-p="'+esc(p)+'"'+(p===pre?' data-preselected="1"':'')+'>'+esc(p)+'</button>').join('')+
+    '<button class="add" data-act="addperson">Add person</button></div>';
+  if(ui.adding){
+    h+='<section class="card"><h2>Add person</h2><label>Name<input id="newPerson" maxlength="24" autocomplete="off" placeholder="Name"></label>'+
+      '<p class="tiny muted">Choose whose workout plan they should follow.</p><div class="acts">'+
+      '<button class="btn'+(ui.planChoice==='Kevin'?' primary':'')+'" data-act="planchoice" data-plan="Kevin">Kevin\'s plan</button>'+
+      '<button class="btn'+(ui.planChoice==='Sasha'?' primary':'')+'" data-act="planchoice" data-plan="Sasha">Sasha\'s plan</button></div>'+
+      '<button class="btn primary big" data-act="createperson">Save and use this phone</button></section>';
+  }
+  return h;
+}
+function viewPin(){
+  const locking=ui.gate==='lock',who=locking?ui.pendingProfile:getDevice();
+  return '<div class="dayhead"><h1>'+(locking?'Enter PIN':'Switch profile')+'</h1><p class="muted">Enter '+esc(who)+'\'s 4-digit PIN'+(locking?' to use this phone.':' to switch profiles on this phone.')+'</p></div>'+
+    '<section class="card"><label>4-digit PIN<input id="pinTry" type="password" inputmode="numeric" maxlength="4" autocomplete="off"></label>'+
+    '<div class="acts"><button class="btn primary" data-act="submitpin">Continue</button><button class="btn" data-act="cancelpin">Cancel</button></div>'+
+    '<p class="tiny muted">This PIN only keeps a shared phone from switching profiles by accident. It is not real security.</p></section>';
 }
 
 function viewWorkout(){
@@ -458,7 +596,8 @@ function viewWorkout(){
   h+='<div class="dayhead"><h1>'+DAYNAMES[day]+(day===now.dow?' · Today':'')+'</h1><p class="focus">'+esc(plan.focus)+'</p><p class="muted">'+esc(plan.minutes)+'</p></div>';
   if(day!==now.dow&&plan.exercises.length)h+='<div class="note">You are viewing '+DAYNAMES[day]+'. Anything you log saves under today\u2019s date ('+fmtShort(now.date)+').</div>';
   if(ui.saved&&ui.saved.person===person)h+=savedCard(ui.saved);
-  const stale=!store.lastBackup&&Object.keys(store.sessions).length>=3||(store.lastBackup&&(Date.parse(now.date)-Date.parse(store.lastBackup.slice(0,10)))/864e5>21&&Object.keys(store.sessions).length>0);
+  const mineCount=sessionsOf(person).length;
+  const stale=!store.lastBackup&&mineCount>=3||(store.lastBackup&&(Date.parse(now.date)-Date.parse(store.lastBackup.slice(0,10)))/864e5>21&&mineCount>0);
   if(stale)h+='<div class="note">Tip: make a backup (More tab) so a lost phone doesn\u2019t lose your history.</div>';
   const kind=DAY_KIND[day];
   if(!plan.exercises.length){
@@ -617,14 +756,19 @@ function viewHistory(){
 
 /* ---- more ---- */
 function viewMore(){
-  const s=store.settings;
+  const s=store.settings,p=ui.person,pin=loadPins()[p];
   return '<div class="dayhead"><h1>More</h1></div>'+
-  '<section class="card"><h2>Backup and move data</h2><p class="muted">Everything lives on this phone. Export a file to back it up or move it to another phone (Messages, AirDrop, Files). Importing merges, so nothing gets overwritten.</p>'+
+  '<section class="card"><h2>Backup and move data</h2><p class="muted">Everything lives on this phone. Export saves only '+esc(p)+'\u2019s workouts, check-ins, and progress. Import merges into '+esc(p)+' and leaves anyone else\u2019s saved data on this phone alone.</p>'+
    '<button class="btn primary" data-act="export">Export backup</button> <label class="btn filebtn">Import backup<input id="impIn" type="file" accept=".json,application/json" hidden></label>'+
    '<p class="tiny muted">Last backup: '+(store.lastBackup?esc(store.lastBackup.slice(0,10)):'never')+'</p>'+
    '<details><summary class="tiny">Copy / paste instead of a file</summary><button class="btn mini" data-act="copyjson">Copy backup text</button><textarea id="pasteJson" rows="3" placeholder="Paste backup text here"></textarea><button class="btn mini" data-act="pasteimport">Import pasted text</button></details>'+
-   '<p class="tiny muted"><a href="#" data-act="replaceimport">Replace everything with a backup file…</a></p></section>'+
-  '<section class="card"><h2>Settings</h2><label class="chkrow sm"><input type="checkbox" data-act="details" '+(s.showDetails?'checked':'')+'><span>Show station and form tips on exercises</span></label>'+
+   '<p class="tiny muted"><a href="#" data-act="replaceimport">Replace this profile with a backup file…</a></p></section>'+
+  '<section class="card"><h2>Settings</h2><p>This phone shows only <b>'+esc(p)+'</b>.</p>'+
+   '<label>Profile PIN (optional)<input id="pinNew" type="password" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="4 digits"></label>'+
+   '<div class="acts"><button class="btn primary" data-act="savepin">Save PIN</button>'+(pin?'<button class="btn" data-act="clearpin">Remove PIN</button>':'')+'</div>'+
+   '<p class="tiny muted">'+(pin?'A PIN is set for '+esc(p)+'. You will need it to switch profiles.':'No PIN set. Switching asks you to confirm.')+' This only slows down switching on a shared phone. It is not real security.</p>'+
+   '<button class="btn" data-act="switchprofile">Switch profile on this phone</button>'+
+   '<label class="chkrow sm"><input type="checkbox" data-act="details" '+(s.showDetails?'checked':'')+'><span>Show station and form tips on exercises</span></label>'+
    '<div class="two"><label>Water goal (glasses)<input inputmode="numeric" data-set="waterGoal" value="'+esc(s.waterGoal)+'"></label><label>Smith bar weight (lb)<input inputmode="decimal" data-set="bar" value="'+esc(s.bar)+'"></label></div>'+
    '<label>Plates you own (lb, comma separated)<input data-set="plates" value="'+esc(s.plates.join(', '))+'"></label><p class="tiny muted">Used for the Smith plate hints. Edit to match your plates.</p></section>'+
   '<section class="card"><h2>Add to Home Screen (iPhone)</h2><ol><li>Open this page in <b>Safari</b>.</li><li>Tap the Share button (square with an arrow).</li><li>Tap <b>Add to Home Screen</b>, then <b>Add</b>.</li><li>From now on, open the app from your Home Screen icon only. Data saved in Safari is separate from the Home Screen app, so start fresh there (or import a backup).</li></ol></section>'+
@@ -686,7 +830,49 @@ function updateHint(inp){
 function act(a,b){
   const P=ui.person;
   switch(a){
-    case 'person':ui.person=b.dataset.p;store.lastPerson=ui.person;ui.swapOpen=null;ui.saved=null;save();render();break;
+    case 'person':if(!getDevice())chooseProfile(b.dataset.p);break;
+    case 'lock':chooseProfile(b.dataset.p);break;
+    case 'addperson':ui.adding=!ui.adding;render(true);break;
+    case 'planchoice':ui.planChoice=b.dataset.plan==='Kevin'?'Kevin':'Sasha';document.querySelectorAll('[data-act="planchoice"]').forEach(btn=>btn.classList.toggle('primary',btn.dataset.plan===ui.planChoice));break;
+    case 'createperson':{
+      const raw=$('#newPerson')?$('#newPerson').value:'';
+      const name=String(raw||'').trim();
+      if(!name||name.length>24||name.indexOf('|')>=0){toast('Enter a name without the | character');break;}
+      if(allPeople().some(n=>n.toLowerCase()===name.toLowerCase())){toast('That person is already here');break;}
+      const plan=ui.planChoice==='Kevin'?'Kevin':'Sasha';
+      if(!Array.isArray(store.extraPeople))store.extraPeople=[];
+      store.extraPeople.push(name);
+      store.planFor=store.planFor||{};
+      store.planFor[name]=plan;
+      ensurePerson(name);save();chooseProfile(name);break;}
+    case 'savepin':{
+      const v=($('#pinNew')&&$('#pinNew').value||'').trim();
+      if(!/^\d{4}$/.test(v)){toast('Use a 4-digit PIN');break;}
+      const salt=randSalt(),who=getDevice();
+      hashPin(v,salt).then(hash=>{const pins=loadPins();pins[who]={salt,hash};savePins(pins);toast('PIN saved');render(true);}).catch(()=>toast('Could not save that PIN'));
+      break;}
+    case 'clearpin':{
+      const v=($('#pinNew')&&$('#pinNew').value||'').trim(),who=getDevice();
+      if(!/^\d{4}$/.test(v)){toast('Enter the current 4-digit PIN to remove it');break;}
+      pinMatches(who,v).then(ok=>{if(!ok){toast('Wrong PIN');return;}const pins=loadPins();delete pins[who];savePins(pins);toast('PIN removed');render(true);}).catch(()=>toast('Could not check that PIN'));
+      break;}
+    case 'switchprofile':{
+      const me=getDevice();if(!me){render();break;}
+      if(loadPins()[me]){ui.gate='switch';ui.pendingProfile=null;render();break;}
+      if(confirm('Switch profile on this phone?')){try{localStorage.removeItem(DEVICE_KEY);}catch(e){}ui.gate=null;ui.pendingProfile=null;render();}
+      break;}
+    case 'submitpin':{
+      const pin=($('#pinTry')&&$('#pinTry').value||'').trim();
+      if(!/^\d{4}$/.test(pin)){toast('Enter the 4-digit PIN');break;}
+      const locking=ui.gate==='lock',who=locking?ui.pendingProfile:getDevice();
+      pinMatches(who,pin).then(ok=>{
+        if(!ok){toast('Wrong PIN');const el=$('#pinTry');if(el)el.value='';return;}
+        if(locking){lockTo(who);return;}
+        try{localStorage.removeItem(DEVICE_KEY);}catch(e){}
+        ui.gate=null;ui.pendingProfile=null;render();
+      }).catch(()=>toast('Could not check that PIN'));
+      break;}
+    case 'cancelpin':ui.gate=null;ui.pendingProfile=null;render();break;
     case 'day':ui.day=b.dataset.d;ui.swapOpen=null;render();break;
     case 'tab':ui.tab=b.dataset.tab;render();break;
     case 'tog':{
@@ -761,9 +947,72 @@ function finish(){
 }
 
 /* ---------- export / import ---------- */
-function exportObj(){const o=JSON.parse(JSON.stringify(store));o.app='hd1s-workout-tracker';o.exportedAt=new Date().toISOString();return o;}
+function currentPerson(){return getDevice()||ui.person;}
+function exportObj(){
+  const p=currentPerson();
+  const o={v:store.v||1,app:'hd1s-workout-tracker',exportedAt:new Date().toISOString(),lastPerson:p,
+    goals:{},weighIns:{},measures:{},daily:{},sessions:{},drafts:{},
+    settings:JSON.parse(JSON.stringify(store.settings||blank().settings)),lastBackup:store.lastBackup||null,
+    extraPeople:[],planFor:{}};
+  o.goals[p]=JSON.parse(JSON.stringify(store.goals[p]||{start:'',goal:''}));
+  o.weighIns[p]=JSON.parse(JSON.stringify(store.weighIns[p]||[]));
+  o.measures[p]=JSON.parse(JSON.stringify(store.measures[p]||[]));
+  Object.keys(store.sessions||{}).forEach(k=>{const s=store.sessions[k];if(s&&s.person===p)o.sessions[k]=JSON.parse(JSON.stringify(s));});
+  Object.keys(store.daily||{}).forEach(k=>{if(k.indexOf(p+'|')===0)o.daily[k]=JSON.parse(JSON.stringify(store.daily[k]));});
+  Object.keys(store.drafts||{}).forEach(k=>{if(k.indexOf(p+'|')===0)o.drafts[k]=JSON.parse(JSON.stringify(store.drafts[k]));});
+  if((store.extraPeople||[]).indexOf(p)>=0){o.extraPeople=[p];if(store.planFor&&store.planFor[p])o.planFor[p]=store.planFor[p];}
+  return o;
+}
+function peopleIn(inc){
+  const set=[],add=n=>{if(n&&set.indexOf(n)<0)set.push(n);};
+  Object.keys(inc.sessions||{}).forEach(k=>{const s=inc.sessions[k];if(s&&s.person)add(s.person);});
+  Object.keys(inc.weighIns||{}).forEach(n=>{if((inc.weighIns[n]||[]).length)add(n);});
+  Object.keys(inc.measures||{}).forEach(n=>{if((inc.measures[n]||[]).length)add(n);});
+  Object.keys(inc.daily||{}).forEach(k=>{const n=String(k).split('|')[0],d=inc.daily[k];if(n&&d&&Object.keys(d).some(f=>d[f]!=null&&d[f]!==''&&d[f]!==0))add(n);});
+  Object.keys(inc.goals||{}).forEach(n=>{
+    const g=inc.goals[n]||{},def=(blank().goals[n])||{start:'',goal:''};
+    if((g.start||'')!==(def.start||'')||(g.goal||'')!==(def.goal||''))add(n);
+  });
+  Object.keys(inc.drafts||{}).forEach(k=>{const n=String(k).split('|')[0];if(n&&draftTouched(inc.drafts[k]))add(n);});
+  return set;
+}
+function clearPerson(p){
+  Object.keys(store.sessions||{}).forEach(k=>{if(store.sessions[k]&&store.sessions[k].person===p)delete store.sessions[k];});
+  Object.keys(store.daily||{}).forEach(k=>{if(k.indexOf(p+'|')===0)delete store.daily[k];});
+  Object.keys(store.drafts||{}).forEach(k=>{if(k.indexOf(p+'|')===0)delete store.drafts[k];});
+  store.weighIns[p]=[];store.measures[p]=[];store.goals[p]={start:'',goal:''};
+}
+function remapPerson(inc,from,to){
+  const sessions={},daily={},drafts={};
+  Object.keys(inc.sessions||{}).forEach(k=>{
+    const s=inc.sessions[k];if(!s||s.person!==from)return;
+    const copy=JSON.parse(JSON.stringify(s));copy.person=to;
+    const id=copy.date?to+'|'+copy.date+'|'+(copy.day||''):String(k).replace(/^[^|]+/,to);
+    copy.id=id;sessions[id]=copy;
+  });
+  Object.keys(inc.daily||{}).forEach(k=>{if(k.indexOf(from+'|')===0)daily[to+'|'+k.slice(from.length+1)]=JSON.parse(JSON.stringify(inc.daily[k]));});
+  Object.keys(inc.drafts||{}).forEach(k=>{if(k.indexOf(from+'|')===0)drafts[to+'|'+k.slice(from.length+1)]=JSON.parse(JSON.stringify(inc.drafts[k]));});
+  return {sessions,daily,drafts,
+    goals:JSON.parse(JSON.stringify(inc.goals[from]||{start:'',goal:''})),
+    weighIns:JSON.parse(JSON.stringify(inc.weighIns[from]||[])),
+    measures:JSON.parse(JSON.stringify(inc.measures[from]||[]))};
+}
+function mergePerson(p,data){
+  ensurePerson(p);
+  Object.keys(data.sessions||{}).forEach(k=>{
+    const b=data.sessions[k];if(!b||b.person!==p)return;
+    const a=store.sessions[k];
+    if(!a||String(b.finishedAt||'')>String(a.finishedAt||''))store.sessions[k]=b;
+  });
+  const m=new Map();(store.weighIns[p]||[]).forEach(x=>m.set(x.date,x));(data.weighIns||[]).forEach(x=>m.set(x.date,x));store.weighIns[p]=[...m.values()];
+  const mm=new Map();(store.measures[p]||[]).forEach(x=>mm.set(x.date,x));(data.measures||[]).forEach(x=>mm.set(x.date,Object.assign({},mm.get(x.date),x)));store.measures[p]=[...mm.values()];
+  const g=data.goals||{};
+  ['start','goal'].forEach(f=>{if(!store.goals[p][f]&&g[f])store.goals[p][f]=g[f];});
+  Object.keys(data.daily||{}).forEach(k=>{if(k.indexOf(p+'|')===0)store.daily[k]=Object.assign({},data.daily[k],store.daily[k]||{});});
+  Object.keys(data.drafts||{}).forEach(k=>{if(k.indexOf(p+'|')===0&&!store.drafts[k])store.drafts[k]=data.drafts[k];});
+}
 async function doExport(){
-  const txt=JSON.stringify(exportObj(),null,1),name='gym-backup-'+nowDenver().date+'.json';
+  const txt=JSON.stringify(exportObj(),null,1),name='gym-backup-'+String(currentPerson()).replace(/\s+/g,'-')+'-'+nowDenver().date+'.json';
   const file=new File([txt],name,{type:'application/json'});
   try{
     if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Gym backup'});store.lastBackup=new Date().toISOString();save();render(true);toast('Backup shared');return;}
@@ -775,22 +1024,36 @@ function doImport(txt,replace){
   let o;try{o=JSON.parse(txt);}catch(e){toast('That doesn\u2019t look like a backup file');return;}
   if(!o||typeof o!=='object'||(!o.sessions&&!o.weighIns&&!o.daily)){toast('That doesn\u2019t look like a backup file');return;}
   const inc=normalize(o);
-  if(replace){if(!confirm('Replace ALL data on this phone with the backup?'))return;store=inc;store.drafts={};}
-  else{
-    Object.keys(inc.sessions).forEach(k=>{const a=store.sessions[k],b=inc.sessions[k];if(!a||String(b.finishedAt||'')>String(a.finishedAt||''))store.sessions[k]=b;});
-    PEOPLE.forEach(p=>{
-      const m=new Map();store.weighIns[p].forEach(x=>m.set(x.date,x));inc.weighIns[p].forEach(x=>m.set(x.date,x));store.weighIns[p]=[...m.values()];
-      const mm=new Map();store.measures[p].forEach(x=>mm.set(x.date,x));inc.measures[p].forEach(x=>mm.set(x.date,Object.assign({},mm.get(x.date),x)));store.measures[p]=[...mm.values()];
-      ['start','goal'].forEach(f=>{if(!store.goals[p][f]&&inc.goals[p][f])store.goals[p][f]=inc.goals[p][f];});
-    });
-    Object.keys(inc.daily).forEach(k=>{store.daily[k]=Object.assign({},inc.daily[k],store.daily[k]||{});});
+  const me=currentPerson();
+  ensurePerson(me);
+  const incoming=peopleIn(inc);
+  let data;
+  if(incoming.indexOf(me)>=0){
+    data={sessions:{},daily:{},drafts:{},goals:inc.goals[me]||{start:'',goal:''},weighIns:inc.weighIns[me]||[],measures:inc.measures[me]||[]};
+    Object.keys(inc.sessions||{}).forEach(k=>{const s=inc.sessions[k];if(s&&s.person===me)data.sessions[k]=s;});
+    Object.keys(inc.daily||{}).forEach(k=>{if(k.indexOf(me+'|')===0)data.daily[k]=inc.daily[k];});
+    Object.keys(inc.drafts||{}).forEach(k=>{if(k.indexOf(me+'|')===0)data.drafts[k]=inc.drafts[k];});
+  }else if(incoming.length===1){
+    const from=incoming[0];
+    if(!confirm('This backup is for '+from+', not '+me+'. Import it into '+me+' on this phone?'))return;
+    data=remapPerson(inc,from,me);
+  }else{
+    toast(incoming.length?'That backup has more than one other person. Export one profile, or switch to the matching phone profile.':'That backup has no profile data');
+    return;
   }
-  save();render(true);toast('Backup imported');
+  if(replace){
+    if(!confirm('Replace '+me+'\'s data on this phone with this backup? Other people\'s saved data stays on this phone.'))return;
+    clearPerson(me);
+    if(inc.settings)store.settings=Object.assign(blank().settings,inc.settings);
+  }
+  mergePerson(me,data);
+  save();render(true);
+  toast(incoming.indexOf(me)>=0&&incoming.length>1?'Imported '+me+' only':'Backup imported');
 }
 
 /* ---------- boot ---------- */
 $('#nav').addEventListener('click',e=>{const b=e.target.closest('button[data-tab]');if(b){ui.tab=b.dataset.tab;render();}});
-window.__app={get store(){return store;},ui,render,act,doImport,exportObj,finish,weekStats,plateHint,SWAP_CAT,SWAP_LIB};
+window.__app={get store(){return store;},ui,render,act,doImport,exportObj,finish,weekStats,plateHint,SWAP_CAT,SWAP_LIB,getDevice,allPeople,peopleIn};
 render();
 if('serviceWorker' in navigator&&location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
 })();
